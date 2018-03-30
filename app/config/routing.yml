@@ -1,5 +1,5 @@
 ap_projet4_booking:
-    resource: "@APProjet4BookingBundle/Resources/config/routing.yml"
+    resource: '@APProjet4BookingBundle/Resources/config/routing.yml'
     prefix:   /
 
 app:
