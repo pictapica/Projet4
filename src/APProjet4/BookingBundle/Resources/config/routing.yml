@@ -1,7 +1,8 @@
-ap_projet4_booking_homepage:
-    path:     /
+approjet4_booking_home:
+    path:     /home
     defaults: { _controller: APProjet4BookingBundle:Booking:index }
-
-hello_the_world:
-    path:     /hello-world
-    defaults: { _controller: APProjet4BookingBundle:Booking:index }
+    
+approjet4_booking_newOrder:
+    path:    /tickets
+    defaults: {_controller: APProjet4BookingBundle:Booking:newOrder }
+    
