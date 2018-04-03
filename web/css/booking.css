@@ -1,4 +1,4 @@
-@import 'lesshat';
+
 
 section
 {
@@ -30,8 +30,6 @@ section
 .navbar-brand{
    margin-top: 2px; 
 }
-
-
 /***********************************************************************
 *  OPAQUE NAVBAR SECTION
 ***********************************************************************/
@@ -70,8 +68,9 @@ ul.dropdown-menu {
 /***********************************************************************
 *  INDEX SECTION
 ***********************************************************************/
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:600;);
-.snip1573 {
+
+
+.expo {
     background-color: #000;
     display: inline-block;
     font-family: 'Open Sans', sans-serif;
@@ -85,15 +84,15 @@ ul.dropdown-menu {
     width: 100%;
 }
 
-.snip1573 * {
+.expo * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     -webkit-transition: all 0.35s ease;
     transition: all 0.35s ease;
 }
 
-.snip1573:before,
-.snip1573:after {
+.expo:before,
+.expo:after {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -109,23 +108,23 @@ ul.dropdown-menu {
     z-index: 1;
 }
 
-.snip1573:before {
+.expo:before {
     -webkit-transform: skew(45deg) translateX(-155%);
     transform: skew(45deg) translateX(-155%);
 }
 
-.snip1573:after {
+.expo:after {
     -webkit-transform: skew(45deg) translateX(155%);
     transform: skew(45deg) translateX(155%);
 }
 
-.snip1573 img {
+.expo img {
     backface-visibility: hidden;
     max-width: 100%;
     vertical-align: top;
 }
 
-.snip1573 figcaption {
+.expo figcaption {
     top: 50%;
     left: 50%;
     position: absolute;
@@ -137,7 +136,7 @@ ul.dropdown-menu {
     box-shadow: 0 0 10px #000000;
 }
 
-.snip1573 h3 {
+.expo h3 {
     background-color: #000000;
     border: 2px solid #fff;
     color: #fff;
@@ -149,7 +148,7 @@ ul.dropdown-menu {
     text-transform: uppercase;
 }
 
-.snip1573 a {
+.expo a {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -158,25 +157,25 @@ ul.dropdown-menu {
     z-index: 3;
 }
 
-.snip1573:hover > img,
-.snip1573.hover > img {
+.expo:hover > img,
+.expo.hover > img {
     opacity: 0.5;
 }
 
-.snip1573:hover:before,
-.snip1573.hover:before {
+.expo:hover:before,
+.expo.hover:before {
     -webkit-transform: skew(45deg) translateX(-55%);
     transform: skew(45deg) translateX(-55%);
 }
 
-.snip1573:hover:after,
-.snip1573.hover:after {
+.expo:hover:after,
+.expo.hover:after {
     -webkit-transform: skew(45deg) translateX(55%);
     transform: skew(45deg) translateX(55%);
 }
 
-.snip1573:hover figcaption,
-.snip1573.hover figcaption {
+.expo:hover figcaption,
+.expo.hover figcaption {
     -webkit-transform: translate(-50%, -50%) scale(1);
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
