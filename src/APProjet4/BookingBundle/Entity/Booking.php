@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Booking
 {
+    const STATUS_START = 1;
+    const STATUS_INPROGRESS = 2;
+    const STATUS_VERIFIED = 3;
+    const STATUS_PAID = 4;
+    
     /**
      * @var int
      *

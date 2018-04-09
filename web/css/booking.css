@@ -17,6 +17,7 @@ section
 .banner h1
 {
     color:white;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .ticket{
@@ -29,6 +30,15 @@ section
 
 .navbar-brand{
    margin-top: 2px; 
+}
+
+h1{
+    color: #fff;
+    
+}
+
+a{
+    color: #fff;
 }
 
 /***********************************************************************
