@@ -3,110 +3,49 @@
 {% extends "APProjet4BookingBundle::layout.html.twig" %}
 
 
-{% block body %}
-    <div class="story-card--recirc">
-        <div class="story-card--recirc__media">
-            <figure class="">
-                <img src="../../web/images/image6.jpg" alt="sample89" />
-                <figcaption>
-                    <h3>Réserver</h3>
-                </figcaption>
+{% block APProjet4Booking_body %}
 
-                <a href="#"></a>
-            </figure>
-        </div>
-        <div class="story-card--recirc__body">
-            <a href="">
-                <h1>MUSEE DU LOUVRE</h1>
-                <span>Du 3 au 18 avril</span>
-                <br><br>
-                <button>Réserver</button>
-            </a>
-        </div>
-    </div>
-    <div class="story-card--recirc">
-        <div class="story-card--recirc__media">
-            <figure class="expo">
-                <img src="../../web/images/image5.jpg" alt="sample89" />
-                <figcaption>
-                    <h3>Réserver</h3>
-                </figcaption>
+    {% for event in listEvents %}
 
-                <a href="#"></a>
-            </figure>
-        </div>
-        <div class="story-card--recirc__body">
-            <a href="">
-                <h1>SPHINX</h1>
-                <span>Du 3 mars au 25 juin</span>
-                <br><br>
-                <button>Réserver</button>
-            </a>
-        </div>
-    </div>
-    <div class="story-card--recirc">
-        <div class="story-card--recirc__media">
-            <figure class="expo">
-                <img src="../../web/images/image2.jpg" alt="sample89" />
-                <figcaption>
-                    <h3>Réserver</h3>
-                </figcaption>
+        <div class="container"> 
+            <div class="row">
+                <div class="story-card--recirc">
+                    <div class="story-card--recirc__media">
+                        <div class="col-lg-12 col-md-12 col-xs-6 ">
+                            <figure class="expo">
+                                {% if event.image is not null %}
+                                    <img src="{{ event.image.url }}" alt="{{ event.image.alt }}">
+                                {% endif %}
+                                <figcaption>
+                                    <h3>Réserver</h3>
+                                </figcaption>
 
-                <a href="#"></a>
-            </figure>
+                                <a href="#"></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="story-card--recirc__body">
+                        <div class="col-lg-12 col-md-12 col-xs-6 ">
+                            <a href="">
+                                <h1>{{event.title|upper}}</h1>
+                                <span>{{event.content|upper}}</span>
+                                <br><br>
+                                <button class="btn draw-border">Réserver</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="story-card--recirc__body">
-            <a href="">
-                <h1>DELACROIX</h1>
-                <span>Du 28 avril au 15 juillet</span>
-                <br><br>
-                <button>Réserver</button>
-            </a>
-        </div>
-    </div>
-    <div class="story-card--recirc">
-        <div class="story-card--recirc__media">
-            <figure class="expo">
-                <img src="../../web/images/image3.jpg" alt="sample89" />
-                <figcaption>
-                    <h3>Réserver</h3>
-                </figcaption>
-
-                <a href="#"></a>
-            </figure>
-        </div>
-        <div class="story-card--recirc__body">
-            <a href="">
-                <h1>L'EMPIRE DES ROSES</h1>
-                <span>Du 3 mars au 25 juin</span>
-                <br><br>
-                <button>Réserver</button>
-            </a>
-        </div>
-    </div>
-    <div class="story-card--recirc">
-        <div class="story-card--recirc__media">
-            <figure class="expo">
-                <img src="../../web/images/image1.jpg" alt="sample89" />
-                <figcaption>
-                    <h3>Réserver</h3>
-                </figcaption>
-
-                <a href="#"></a>
-            </figure>
-        </div>
-        <div class="story-card--recirc__body">
-            <a href="">
-                <h1>LA FRANCE AU GRAND SIECLE</h1>
-                <span>Du 3 mars au 25 juin</span>
-                <br><br>
-                <button>Réserver</button>
-            </a>
-        </div>
-    </div>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    {% endfor %}
+    {% if page >1 %}
+    <ul class="pagination">
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nbPages) %}
+            <li{% if p == page %} class="active"{% endif %}>
+                <a href="{{ path('approjet4_booking_home', {'page': p}) }}">{{ p }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}
-
-

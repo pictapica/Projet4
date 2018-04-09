@@ -6,7 +6,7 @@ section
 }
 .banner
 {
-    background:#ed0909;
+    background:#73021b;
     min-height:200px;
 }
 .banner .row
@@ -30,6 +30,7 @@ section
 .navbar-brand{
    margin-top: 2px; 
 }
+
 /***********************************************************************
 *  OPAQUE NAVBAR SECTION
 ***********************************************************************/
@@ -42,7 +43,7 @@ section
 }
 
 .opaque-navbar.opaque {
-    background-color: red;
+    background-color: #73021b;
     height: 90px;
     transition: background-color .5s ease 0s;
 }
@@ -100,7 +101,7 @@ ul.dropdown-menu {
     right: 0;
     -webkit-transition: all 0.35s ease;
     transition: all 0.35s ease;
-    background-color: #000000;
+    background-color: #003d50;
     border-left: 3px solid #fff;
     border-right: 3px solid #fff;
     content: '';
@@ -182,10 +183,8 @@ ul.dropdown-menu {
 }
 
 
-/* Demo purposes only */
-
 body {
-    background-color: #212121;
+    background-color: #001824;
     text-align: center;
 }
 
@@ -220,37 +219,8 @@ body {
   width: 340px;
   transition: opacity, 0.7s;
 }
-.story-card--recirc__media a .social {
-  transition: opacity, 0.15s;
-  z-index: 2;
-  opacity: 0;
-  position: absolute;
-  right: 60px;
-  bottom: 8px;
-  border-radius: 50%;
-  background-color: #bd081c;
-  width: 40px;
-  height: 28px;
-  text-align: center;
-  padding: 12px 0 0 0;
-  text-decoration: none;
-  font-family: sans-serif;
-  font-weight: 700;
-  color: white;
-}
-.story-card--recirc__media a .social:hover {
-  background-color: #d40b22;
-}
-.story-card--recirc__media a .social--facebook {
-  background-color: #3b5999;
-  right: 8px;
-}
-.story-card--recirc__media a .social--facebook:hover {
-  background-color: #3e68c0;
-}
-.story-card--recirc__media a:hover .social {
-  opacity: 1;
-}
+
+
 .story-card--recirc__media a:hover img {
   opacity: 0.7;
 }
@@ -265,13 +235,13 @@ body {
   text-decoration: none;
 }
 .story-card--recirc__body a:hover h1 {
-  color: #ef0909;
+  color: #fec500;
 }
 .story-card--recirc__body a:hover span {
-  color: #ef0909;
+  color: #27627f;
 }
 .story-card--recirc__body h1 {
-  color: #3d4d4d;
+  color: #27627f;
   font-weight: 500;
   letter-spacing: 0.5px;
   font-style: normal;
@@ -287,3 +257,109 @@ body {
   font-size: 13px;
   color: #7c8a8a;
 }
+/**********************************************
+*Button
+***********************************************/
+.draw-border {
+  -webkit-box-shadow: inset 0 0 0 4px #58afd1;
+          box-shadow: inset 0 0 0 4px #58afd1;
+  color: #27627f;
+  -webkit-transition: color 0.25s 0.0833333333s;
+  transition: color 0.25s 0.0833333333s;
+  position: relative;
+}
+.draw-border::before, .draw-border::after {
+  border: 0 solid transparent;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  right: 0;
+}
+.draw-border::before {
+  border-bottom-width: 4px;
+  border-left-width: 4px;
+}
+.draw-border::after {
+  border-top-width: 4px;
+  border-right-width: 4px;
+}
+.draw-border:hover {
+  color: #fec500;
+}
+.draw-border:hover::before, .draw-border:hover::after {
+  border-color: #fec500;
+  -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
+  transition: border-color 0s, width 0.25s, height 0.25s;
+  width: 100%;
+  height: 100%;
+}
+.draw-border:hover::before {
+  -webkit-transition-delay: 0s, 0s, 0.25s;
+          transition-delay: 0s, 0s, 0.25s;
+}
+.draw-border:hover::after {
+  -webkit-transition-delay: 0s, 0.25s, 0s;
+          transition-delay: 0s, 0.25s, 0s;
+}
+
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1.5;
+  font: 700 1.2rem 'Roboto Slab', sans-serif;
+  padding: 1em 2em;
+  letter-spacing: 0.05rem;
+}
+.btn:focus {
+  outline: 2px dotted #55d7dc;
+}
+
+/**********************************************
+*Pagination
+***********************************************/
+
+.pagination {
+  font-weight: bold;
+  font-size: 16px;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+}
+.pagination a {
+  padding: 8px 16px;
+  border: 1px solid #262626;
+  border-radius: 3px;
+
+  
+  
+}
+.pagination a:hover {
+
+  color: red;
+}
+.pagination a.active {
+
+  color: red
+      ;
+}
+.pagination a.active:hover {
+  cursor: default;
+}
+
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+

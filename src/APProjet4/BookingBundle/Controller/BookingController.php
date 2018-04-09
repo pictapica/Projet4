@@ -12,13 +12,58 @@ class BookingController extends Controller {
     // Une action par affichage de page, une action par changement de page
     public function indexAction() {
 
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:index.html.twig');
+        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:events.html.twig');
         return new Response($content);
     }
 
-    public function newOrderAction() {
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:newOrder.html.twig');
-        return new Response($content);
+    public function index2Action($page) {
+        
+        if ($page < 1) {
+      throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
+    }
+    // Ici je fixe le nombre d'annonces par page à 3
+    // Mais bien sûr il faudrait utiliser un paramètre, et y accéder via $this->container->getParameter('nb_per_page')
+    $nbPerPage = 5;
+    // On récupère notre objet Paginator
+    $listEvents = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('APProjet4BookingBundle:Event')
+      ->getEvents($page, $nbPerPage)
+    ;
+    // On calcule le nombre total de pages grâce au count($listAdverts) qui retourne le nombre total d'annonces
+    $nbPages = ceil(count($listEvents) / $nbPerPage);
+    // Si la page n'existe pas, on retourne une 404
+    if ($page > $nbPages) {
+      throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+    }
+    // On donne toutes les informations nécessaires à la vue
+    return $this->render('APProjet4BookingBundle:Booking:index.html.twig', array(
+      'listEvents' => $listEvents,
+      'nbPages'     => $nbPages,
+      'page'        => $page
+    ));
+    }
+    public function testAction($id) {
+        // On récupère le repository
+        $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event')
+        ;
+
+        $event = $repository->find($id);
+
+        $url = $event->getImage()->getUrl();
+        $alt = $event->getImage()->getAlt();
+
+        if (null === $event) {
+            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
+        }
+
+        return $this->render('APProjet4BookingBundle:Booking:test.html.twig', array(
+                    'event' => $event,
+                    'url' => $url,
+                    'alt' => $alt
+        ));
     }
 
 }
@@ -64,7 +109,7 @@ class BookingController extends Controller {
      /**
      *    Clic sur CONFIRMER
      * 7  Vérification et enregistrement de l'adresse e-mail
-     *    
+     *    Enregistre la commande dans le panier
      * 
      */
      /**
@@ -75,7 +120,13 @@ class BookingController extends Controller {
      */
      /**
      *    Commander d'autres billets 
-     * 9  
+     * 9  Enregistre les informations client 
+     *    
+     * 
+     */
+/**
+     *    Fina
+     * 10  
      *    
      * 
      */

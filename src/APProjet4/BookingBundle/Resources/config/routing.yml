@@ -1,12 +1,21 @@
-## Page 0 - Accueil
+approjet4_booking_default:
+    path:    /
+    defaults: { _controller: APProjet4BookingBundle:Booking:index}
+
+## Accueil
 approjet4_booking_home:
-    path:     /home
-    defaults: { _controller: APProjet4BookingBundle:Booking:index }
+    path:     /{page}
+    defaults: { _controller: APProjet4BookingBundle:Booking:index2 }
+    
+## Test affichage dynamique
+approjet4_booking_event:
+    path:    /events/{id}
+    defaults: { _controller: APProjet4BookingBundle:Booking:test }
     
 ## Page 1 - Date de visite et type de billet (Journée/Demi-journée)    
 approjet4_booking_newOrder:
     path:    /tickets
-    defaults: {_controller: APProjet4BookingBundle:Booking:newOrder }
+    defaults: { _controller: APProjet4BookingBundle:Booking:newOrder }
     
     
 
