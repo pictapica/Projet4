@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ticket")
  * @ORM\Entity(repositoryClass="APProjet4\BookingBundle\Repository\TicketRepository")
  */
-class Ticket
-{
+class Ticket {
+
     /**
      * @var int
      *
@@ -63,14 +63,18 @@ class Ticket
      */
     private $reduced;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
+     * @ORM\JoinColumn(name="booking_id", referencedColumnName="id")
+     */
+    private $booking;
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -81,8 +85,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setVisitDate($visitDate)
-    {
+    public function setVisitDate($visitDate) {
         $this->visitDate = $visitDate;
 
         return $this;
@@ -93,8 +96,7 @@ class Ticket
      *
      * @return \DateTime
      */
-    public function getVisitDate()
-    {
+    public function getVisitDate() {
         return $this->visitDate;
     }
 
@@ -105,8 +107,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setFirstname($firstname)
-    {
+    public function setFirstname($firstname) {
         $this->firstname = $firstname;
 
         return $this;
@@ -117,8 +118,7 @@ class Ticket
      *
      * @return string
      */
-    public function getFirstname()
-    {
+    public function getFirstname() {
         return $this->firstname;
     }
 
@@ -129,8 +129,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setLastname($lastname)
-    {
+    public function setLastname($lastname) {
         $this->lastname = $lastname;
 
         return $this;
@@ -141,8 +140,7 @@ class Ticket
      *
      * @return string
      */
-    public function getLastname()
-    {
+    public function getLastname() {
         return $this->lastname;
     }
 
@@ -153,8 +151,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setDateOfBirth($dateOfBirth)
-    {
+    public function setDateOfBirth($dateOfBirth) {
         $this->dateOfBirth = $dateOfBirth;
 
         return $this;
@@ -165,8 +162,7 @@ class Ticket
      *
      * @return \DateTime
      */
-    public function getDateOfBirth()
-    {
+    public function getDateOfBirth() {
         return $this->dateOfBirth;
     }
 
@@ -177,8 +173,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setCountry($country)
-    {
+    public function setCountry($country) {
         $this->country = $country;
 
         return $this;
@@ -189,8 +184,7 @@ class Ticket
      *
      * @return string
      */
-    public function getCountry()
-    {
+    public function getCountry() {
         return $this->country;
     }
 
@@ -201,8 +195,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setReduced($reduced)
-    {
+    public function setReduced($reduced) {
         $this->reduced = $reduced;
 
         return $this;
@@ -213,9 +206,32 @@ class Ticket
      *
      * @return bool
      */
-    public function getReduced()
-    {
+    public function getReduced() {
         return $this->reduced;
     }
-}
 
+
+    /**
+     * Set booking
+     *
+     * @param \APProjet4\BookingBundle\Entity\Booking $booking
+     *
+     * @return Ticket
+     */
+    public function setBooking(\APProjet4\BookingBundle\Entity\Booking $booking = null)
+    {
+        $this->booking = $booking;
+
+        return $this;
+    }
+
+    /**
+     * Get booking
+     *
+     * @return \APProjet4\BookingBundle\Entity\Booking
+     */
+    public function getBooking()
+    {
+        return $this->booking;
+    }
+}

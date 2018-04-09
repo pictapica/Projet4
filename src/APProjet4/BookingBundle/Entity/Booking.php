@@ -41,8 +41,26 @@ class Booking
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
+    
+    /**
+     * @var string
+     * @ORM\column(name="email", type="string")
+     */
+    private $email;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
+     */
+    private $tickets;
 
-
+    
+      public function __construct()
+  {
+    // Par défaut, la date de commande est la date d'aujourd'hui
+    $this->orderDate = new \Datetime();
+  }
+  
+  
     /**
      * Get id
      *
@@ -124,5 +142,62 @@ class Booking
     {
         return $this->status;
     }
-}
 
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Booking
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Add ticket
+     *
+     * @param \APProjet4\BookingBundle\Entity\Ticket $ticket
+     *
+     * @return Booking
+     */
+    public function addTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets[] = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Remove ticket
+     *
+     * @param \APProjet4\BookingBundle\Entity\Ticket $ticket
+     */
+    public function removeTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+}
