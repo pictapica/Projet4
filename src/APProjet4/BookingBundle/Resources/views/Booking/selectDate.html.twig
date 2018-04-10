@@ -1,0 +1,53 @@
+{#src/APProjet4/BookingBundle/Resources/views/Booking/selectDate.html.twig #}
+
+{% extends "APProjet4BookingBundle::layout.html.twig" %}
+
+{% block title_section %}
+    <section class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="cold-lg-12">
+                    <h1>BILLETTERIE</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block APProjet4Booking_body %}
+    <nav>
+        <ul class="progress-indicator">
+            <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
+            <li><span class="bubble"></span><a href="#0">Coordonnées</a></li>
+            <li><span class="bubble"></span><a href="#0">Paiement</a></li>
+            <li><span class="bubble"></span><a href="#0"><em>Confirmation</em></li>
+        </ul>
+    </nav>
+    <div class="container form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 ">
+                <h2>DELACROIX</h2>
+                <p style="text-align:center;">DU 28 AVRIL AU 15 JUILLET</p>
+                <hr>
+            </div></div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">Date de visite</div>
+            </div>
+            <div class="row">
+                <div class ="col-lg-6 col-md-6 col-xs-3">
+                    <div id="datepicker"></div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-xs-3">
+                    <button class="button1">Journée</button>
+                    <button>Demi-journée</button>
+                </div>
+
+            </div> 
+        </div>
+    
+
+    {% block javascript %}
+        <script>$("#datepicker").datepicker();</script>
+    {% endblock %}
+{% endblock %}
+

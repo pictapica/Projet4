@@ -10,13 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="booking")
  * @ORM\Entity(repositoryClass="APProjet4\BookingBundle\Repository\BookingRepository")
  */
-class Booking
-{
+class Booking {
+
     const STATUS_START = 1;
     const STATUS_INPROGRESS = 2;
     const STATUS_VERIFIED = 3;
     const STATUS_PAID = 4;
-    
+
     /**
      * @var int
      *
@@ -46,33 +46,30 @@ class Booking
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
-    
+
     /**
      * @var string
      * @ORM\column(name="email", type="string")
      */
     private $email;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
      */
     private $tickets;
 
-    
-      public function __construct()
-  {
-    // Par défaut, la date de commande est la date d'aujourd'hui
-    $this->orderDate = new \Datetime();
-  }
-  
-  
+    public function __construct() {
+        // Par défaut, la date de commande est la date d'aujourd'hui
+        $this->orderDate = new \Datetime();
+        $this->tickets = new ArrayCollection();
+    }
+
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -83,8 +80,7 @@ class Booking
      *
      * @return Booking
      */
-    public function setOrderDate($orderDate)
-    {
+    public function setOrderDate($orderDate) {
         $this->orderDate = $orderDate;
 
         return $this;
@@ -95,8 +91,7 @@ class Booking
      *
      * @return \DateTime
      */
-    public function getOrderDate()
-    {
+    public function getOrderDate() {
         return $this->orderDate;
     }
 
@@ -107,8 +102,7 @@ class Booking
      *
      * @return Booking
      */
-    public function setOrderCode($orderCode)
-    {
+    public function setOrderCode($orderCode) {
         $this->orderCode = $orderCode;
 
         return $this;
@@ -119,8 +113,7 @@ class Booking
      *
      * @return string
      */
-    public function getOrderCode()
-    {
+    public function getOrderCode() {
         return $this->orderCode;
     }
 
@@ -131,8 +124,7 @@ class Booking
      *
      * @return Booking
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -143,8 +135,7 @@ class Booking
      *
      * @return int
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -155,8 +146,7 @@ class Booking
      *
      * @return Booking
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -167,8 +157,7 @@ class Booking
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -179,8 +168,7 @@ class Booking
      *
      * @return Booking
      */
-    public function addTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket)
-    {
+    public function addTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket) {
         $this->tickets[] = $ticket;
 
         return $this;
@@ -191,8 +179,7 @@ class Booking
      *
      * @param \APProjet4\BookingBundle\Entity\Ticket $ticket
      */
-    public function removeTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket)
-    {
+    public function removeTicket(\APProjet4\BookingBundle\Entity\Ticket $ticket) {
         $this->tickets->removeElement($ticket);
     }
 
@@ -201,8 +188,8 @@ class Booking
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTickets()
-    {
+    public function getTickets() {
         return $this->tickets;
     }
+
 }

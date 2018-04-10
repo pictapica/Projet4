@@ -6,43 +6,34 @@ namespace APProjet4\BookingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BookingController extends Controller {
 
     // Une action par affichage de page, une action par changement de page
-    public function indexAction() {
+    public function homeAction() {
 
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:events.html.twig');
+        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
         return new Response($content);
     }
 
-    public function index2Action($page) {
-        
-        if ($page < 1) {
-      throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
+    public function indexAction() {
+
+        $repository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event')
+        ;
+
+        $listEvents = $repository->findAll();
+
+
+        // On donne toutes les informations nécessaires à la vue
+        return $this->render('APProjet4BookingBundle:Booking:index.html.twig', array(
+                    'listEvents' => $listEvents
+        ));
     }
-    // Ici je fixe le nombre d'annonces par page à 3
-    // Mais bien sûr il faudrait utiliser un paramètre, et y accéder via $this->container->getParameter('nb_per_page')
-    $nbPerPage = 5;
-    // On récupère notre objet Paginator
-    $listEvents = $this->getDoctrine()
-      ->getManager()
-      ->getRepository('APProjet4BookingBundle:Event')
-      ->getEvents($page, $nbPerPage)
-    ;
-    // On calcule le nombre total de pages grâce au count($listAdverts) qui retourne le nombre total d'annonces
-    $nbPages = ceil(count($listEvents) / $nbPerPage);
-    // Si la page n'existe pas, on retourne une 404
-    if ($page > $nbPages) {
-      throw $this->createNotFoundException("La page ".$page." n'existe pas.");
-    }
-    // On donne toutes les informations nécessaires à la vue
-    return $this->render('APProjet4BookingBundle:Booking:index.html.twig', array(
-      'listEvents' => $listEvents,
-      'nbPages'     => $nbPages,
-      'page'        => $page
-    ));
-    }
+
     public function testAction($id) {
         // On récupère le repository
         $repository = $this->getDoctrine()
@@ -66,17 +57,22 @@ class BookingController extends Controller {
         ));
     }
 
-}
-
-/**
-     *    Au clic sur l'expo de son choix -> newOrder.html.twig
+    /**
+     *    Au clic sur l'expo de son choix -> selectDate.html.twig
      *    Vérification du nombre de billets vendus dans la journée (<1000)
      * 1   si "true" :  affichage du calendrier (impossible de commander pour les jours passés, 
      *    les dimanches, les jours fériés et les jours où il y a déjà 100 billets vendus)
      * 
      */
-   
-     /**
+    public function selectDateAction() {
+
+        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:selectDate.html.twig');
+        return new Response($content);
+    }
+
+}
+
+/**
      *    Choix de la date
      * 2  Sauvegarde de la date choisie
      *    

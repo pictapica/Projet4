@@ -10,7 +10,11 @@
             {# On charge le CSS de bootstrap depuis le site directement #}
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
             <link rel="stylesheet" href="../../web/css/booking.css" type="text/css" />
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+            <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         {% endblock %}
+        
     {% endblock %}
 
     <body>
@@ -31,16 +35,17 @@
                 </div>
             </div>
         </div>
-        <section class="banner">
-            <div class="container">
-                <div class="row">
-                    <div class="cold-lg-12">
-                        <h1>EXPOSITIONS</h1>
+        {% block title_section %}
+            <section class="banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="cold-lg-12">
+                            <h1>EXPOSITIONS</h1>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        {% endblock %}
 
         <div class="container">
             <div class="row" style="height:800px;">

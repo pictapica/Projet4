@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    {% block head %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,9 +9,9 @@
         {% block stylesheets %}
             {# On charge le CSS de bootstrap depuis le site directement #}
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-            <link rel="stylesheet" href="../../../web/css/booking.css" type="text/css" />
+            <link rel="stylesheet" href="../../web/css/booking.css" type="text/css" />
         {% endblock %}
-    </head>
+    {% endblock %}
 
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
@@ -20,13 +20,13 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
                         <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="../../../web/images/louvre_w.png" alt=""></a>
+                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="../../web/images/louvre_w.png" alt=""></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navMain">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="#"><img src="../../../web/images/ticket_w.png" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
-                        <li><a href="#" class="language"><img src="../../../web/images/flag24.png" alt="english"></a></li> 
+                        <li><a href="#"><img src="../../web/images/ticket_w.png" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
+                        <li><a href="#" class="language"><img src="../../web/images/flag24.png" alt="english"</a></li> 
                     </ul>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="container">
                 <div class="row">
                     <div class="cold-lg-12">
-                        <h1>EXPOSITIONS</h1>
+                        <h1>Bienvenue sur la billetterie du Louvre</h1>
                     </div>
                 </div>
             </div>
@@ -43,40 +43,17 @@
 
 
         <div class="container">
+            <div class="row" style="height: 200px"></div>
             <div class="row">
-                <div class="story-card--recirc">
-                    <div class="story-card--recirc__media">
-                        <div class="col-lg-12 col-md-12 col-xs-6 ">
-                            <figure class="expo">
-                                <img src="{{ url }}" alt="{{ alt }}" height="250">
-                                <figcaption>
-                                    <h3>Réserver</h3>
-                                </figcaption>
-
-                                <a href="#"></a>
-                            </figure>
+                    <div class="col-lg-12">
+                        <button class="btn draw-border"><a href="http://localhost/Projet4/web/app_dev.php/events">Choisissez votre exposition</a></button>
                         </div>
-                    </div>
-                    <div class="story-card--recirc__body">
-                        <div class="col-lg-12 col-md-12 col-xs-6 ">
-                            <a href="">
-                                <h1>{{event.title|upper}}</h1>
-                                <span>{{event.content|upper}}</span>
-                                <br><br>
-                                <button class="btn draw-border">Réserver</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                        
+                    
             </div>
-
-            <hr>
-            <footer>Pictapica - Openclassrooms</footer>
-        </div>
-
+        </div>          
 
         {% block javascripts %}
-            {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script>$(window).scroll(function () {
@@ -97,5 +74,4 @@
     </body>
 
 </html>
-
-
+           
