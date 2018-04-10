@@ -12,6 +12,9 @@ approjet4_booking_selectDate:
     path:    /purchase
     defaults: { _controller: APProjet4BookingBundle:Booking:selectDate}
     
-    
+ ## Page 2 - Nombre de billets et renseignements  
+approjet4_booking_contactDetails:
+    path:    /details
+    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}   
 
 

@@ -83,14 +83,14 @@ ul.dropdown-menu {
 
 }
 footer {
-   position:fixed;
-   left:0px;
-   bottom:0px;
-   height:50px;
-   width:100%;
-   background:#000;
-   color: #fff;
-   padding-top: 10px;
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    height:50px;
+    width:100%;
+    background:#000;
+    color: #fff;
+    padding-top: 10px;
 }
 
 
@@ -384,7 +384,7 @@ body {
     font-size:80%;
     text-transform:uppercase;
     margin-top: 10px;
-        
+
 }
 .progress-indicator>li{
     list-style:none;
@@ -465,31 +465,7 @@ body {
 .progress-indicator>li a:hover .bubble{
     color:#27627f;
 }
-.progress-indicator>li.danger .bubble,
-.progress-indicator>li.danger .bubble:after,
-.progress-indicator>li.danger .bubble:before{
-    background-color:#d3140f;border-color:#440605;
-}
-.progress-indicator>li.danger .bubble{
-    color:#d3140f;
-}
-.progress-indicator>li.warning .bubble,
-.progress-indicator>li.warning .bubble:after,
-.progress-indicator>li.warning .bubble:before{
-    background-color:#edb10a;
-    border-color:#5a4304;
-}
-.progress-indicator>li.warning .bubble{
-    color:#edb10a;
-}
-.progress-indicator>li.info .bubble,
-.progress-indicator>li.info .bubble:after,
-.progress-indicator>li.info .bubble:before{
-    background-color:#5b32d6;border-color:#25135d;
-}
-.progress-indicator>li.info .bubble{
-    color:#5b32d6;
-}
+
 .progress-indicator.stacked>li{
     text-indent:-10px;
     text-align:center;
@@ -538,10 +514,10 @@ body {
 *Form
 ***************************************/
 .form {
-    
+
     background-color: #003d50;
     color : #fff;
-    
+
     display: inline-block;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -550,20 +526,99 @@ body {
     min-width: 230px;
     overflow: hidden;
     position: relative;
-    
+
     width: 100%;
 }
 
 .section_title {
     font-size: 1.2em;
-    
-    
+
+
 }
+/**************************
+*calendar
+*****************************/
+
 
 #datepicker {
     margin:20px;
-    
+
 }
-.button1 {
-    
+/*Button*/
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic);
+
+*{margin: 0px; padding: 0px}
+
+
+
+
+button{
+    color:#fff;
+    text-align: center;
+    padding: 20px;
+}
+
+a{
+    text-decoration:none;
+    color:#fff;
+}
+
+a:hover{
+    color:#fec500;
+}
+
+.main{
+    width: 100%;
+}
+
+.sub-main{
+    width: 30%;
+    margin:22px;
+    float: left;
+}
+
+
+
+.button {
+    text-align: center;
+    cursor: pointer;
+    font-size:24px;
+    margin: 30px 0 30px 0;
+    position: relative;
+    background-color: #f39c12;
+    border: none;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.button:hover{
+    background:#fff;
+    box-shadow:0px 2px 10px 5px #97B1BF;
+    color:#000;
+}
+
+.button:after {
+    content: "";
+    background: #f1c40f;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+.button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
 }

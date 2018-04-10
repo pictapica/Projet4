@@ -70,27 +70,29 @@ class BookingController extends Controller {
         return new Response($content);
     }
 
-}
-
-/**
+    /**
      *    Choix de la date
      * 2  Sauvegarde de la date choisie
-     *    
-     * 
-     */
-     /**
+
      *    Choix JOURNEE ou DEMI-JOURNEE
      * 3  Vérification de l'heure de la commande si >14h impossible de commander 
      *    des billets journée pour le jour-même 
      *    Message 
-     */
-     /**
+
      *    Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
      *    
      * 
      */
-     /**
+    
+    public function contactDetailsAction() {
+        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:contactDetails.html.twig');
+        return new Response($content);
+    }
+
+}
+
+/**
      *    Clic sur le champs e-mail
      * 5  Si aucun billet rempli : message d'erreur
      *    
