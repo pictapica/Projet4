@@ -4,9 +4,15 @@
 
 namespace APProjet4\BookingBundle\Controller;
 
+use APProjet4\BookingBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\HttpFoundation\Request;
 
 class BookingController extends Controller {
 
@@ -64,10 +70,16 @@ class BookingController extends Controller {
      *    les dimanches, les jours fériés et les jours où il y a déjà 100 billets vendus)
      * 
      */
-    public function selectDateAction() {
-
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:selectDate.html.twig');
-        return new Response($content);
+    public function selectDateAction($id) {
+        $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event');
+        $event = $repository->find($id);
+        
+        return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', array(
+                    'event' => $event,
+                    
+        ));
     }
 
     /**
@@ -84,10 +96,28 @@ class BookingController extends Controller {
      *    
      * 
      */
-    
-    public function contactDetailsAction() {
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:contactDetails.html.twig');
-        return new Response($content);
+    public function contactDetailsAction(Request $request) {
+
+
+        $ticket = new Ticket();
+
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $ticket);
+
+        $formBuilder
+                ->add('firstname', TextType::class)
+                ->add('lastname', TextType::class)
+                ->add('dateOfBirth', BirthdayType::class, array(
+                    'placeholder' => array(
+                        'day' => 'Jour', 'month' => 'Mois', 'year' => 'Année',
+            )))
+                ->add('country', CountryType::class);
+
+
+        $form = $formBuilder->getForm();
+
+        return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
+                    'form' => $form->createView(),
+        ));
     }
 
 }

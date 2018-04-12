@@ -1,0 +1,32 @@
+.datepicker table {
+  margin-left: 4.5em;
+  margin-bottom: 1.5em;
+}
+ 
+ 
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {
+  background: #73021b;
+  cursor: pointer;
+}
+
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover,
+.datepicker tfoot tr th:hover {
+  color: #000;
+  background: #fec500;
+}
+
+#mirror_field {
+    color :#fff;
+   margin-left: 290px;
+   background-color: #003d50;
+   border-color: #000;
+   text-align: center;
+   padding : 3px;
+}
+
+
+

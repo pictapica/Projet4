@@ -535,15 +535,12 @@ body {
 
 
 }
-/**************************
-*calendar
-*****************************/
-
 
 #datepicker {
     margin:20px;
 
 }
+
 /*Button*/
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic);
@@ -584,7 +581,7 @@ a:hover{
     text-align: center;
     cursor: pointer;
     font-size:24px;
-    margin: 30px 0 30px 0;
+    margin: 70px 0 0 30px;
     position: relative;
     background-color: #f39c12;
     border: none;
@@ -621,4 +618,9 @@ a:hover{
     margin: 0;
     opacity: 1;
     transition: 0s
+}
+
+.form1{
+    color: #fec500;
+    margin-right: 1.2em;
 }

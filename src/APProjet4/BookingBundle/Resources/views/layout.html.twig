@@ -11,13 +11,18 @@
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
             <link rel="stylesheet" href="../../web/css/booking.css" type="text/css" />
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+            <link rel="stylesheet" href="../../web/datepicker/css/bootstrap-datepicker3.min.css">
+            <link rel="stylesheet" href="../../web/datepicker/css/custom.css">
+            <script src="../../web/datepicker/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script src="../../web/datepicker/js/bootstrap-datepicker.min.js"></script>
         {% endblock %}
         
     {% endblock %}
 
     <body>
+        {% block navbar %}
         <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
             <div class="container">
                 <div class="navbar-header">
@@ -35,6 +40,7 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
         {% block title_section %}
             <section class="banner">
                 <div class="container">
