@@ -18,30 +18,24 @@ class BookingController extends Controller {
 
     // Une action par affichage de page, une action par changement de page
     public function homeAction() {
-
         $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
         return new Response($content);
     }
 
     public function indexAction() {
-
         $repository = $this
                 ->getDoctrine()
                 ->getManager()
-                ->getRepository('APProjet4BookingBundle:Event')
-        ;
+                ->getRepository('APProjet4BookingBundle:Event');
 
         $listEvents = $repository->findAll();
 
-
-        // On donne toutes les informations nécessaires à la vue
         return $this->render('APProjet4BookingBundle:Booking:index.html.twig', array(
                     'listEvents' => $listEvents
         ));
     }
 
     public function testAction($id) {
-        // On récupère le repository
         $repository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event')
@@ -66,7 +60,7 @@ class BookingController extends Controller {
     /**
      *    Au clic sur l'expo de son choix -> selectDate.html.twig
      *    Vérification du nombre de billets vendus dans la journée (<1000)
-     * 1   si "true" :  affichage du calendrier (impossible de commander pour les jours passés, 
+     * 1   Affichage du calendrier (impossible de commander pour les jours passés, 
      *    les dimanches, les jours fériés et les jours où il y a déjà 100 billets vendus)
      * 
      */
@@ -76,10 +70,17 @@ class BookingController extends Controller {
                 ->getRepository('APProjet4BookingBundle:Event');
         $event = $repository->find($id);
         
+        if (null === $event) {
+            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
+        }
+        
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', array(
                     'event' => $event,
                     
         ));
+       
+        
+        
     }
 
     /**
@@ -90,7 +91,7 @@ class BookingController extends Controller {
      * 3  Vérification de l'heure de la commande si >14h impossible de commander 
      *    des billets journée pour le jour-même 
      *    Message 
-
+    
      *    Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
      *    

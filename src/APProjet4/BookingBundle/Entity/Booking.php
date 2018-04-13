@@ -4,6 +4,7 @@ namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Booking
@@ -31,6 +32,7 @@ class Booking {
      * @var \DateTime
      *
      * @ORM\Column(name="orderDate", type="datetime")
+     * @Assert\DateTime()
      */
     private $orderDate;
 

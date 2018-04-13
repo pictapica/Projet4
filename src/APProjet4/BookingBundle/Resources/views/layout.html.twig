@@ -9,14 +9,14 @@
         {% block stylesheets %}
             {# On charge le CSS de bootstrap depuis le site directement #}
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-            <link rel="stylesheet" href="../../web/css/booking.css" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-            <link rel="stylesheet" href="../../web/datepicker/css/bootstrap-datepicker3.min.css">
-            <link rel="stylesheet" href="../../web/datepicker/css/custom.css">
-            <script src="../../web/datepicker/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
+            <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
+            <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
+            <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="../../web/datepicker/js/bootstrap-datepicker.min.js"></script>
+            <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
         {% endblock %}
         
     {% endblock %}
@@ -29,13 +29,13 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
                         <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                     </button>
-                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="../../web/images/louvre_w.png" alt=""></a>
+                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="{{asset('images/louvre_w.png')}}" alt=""></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navMain">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="#"><img src="../../web/images/ticket_w.png" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
-                        <li><a href="#" class="language"><img src="../../web/images/flag24.png" alt="english"</a></li> 
+                        <li><a href="#"><img src="{{asset('images/ticket_w.png')}}" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
+                        <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english"</a></li> 
                     </ul>
                 </div>
             </div>
