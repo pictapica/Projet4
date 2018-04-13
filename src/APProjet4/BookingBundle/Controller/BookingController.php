@@ -114,10 +114,10 @@ class BookingController extends Controller {
                 ->add('country', CountryType::class);
 
 
-        $form = $formBuilder->getForm();
+        $form1 = $formBuilder->getForm();
 
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
-                    'form' => $form->createView(),
+                    'form1' => $form1->createView(),
         ));
     }
 
