@@ -15,6 +15,13 @@ approjet4_booking_selectDate:
  ## Page 2 - Nombre de billets et renseignements  
 approjet4_booking_contactDetails:
     path:    /details
-    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}   
+    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
 
-
+approjet4_booking_contactDetail2:
+    path:    /details/{id}
+    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
+    
+## Page3 - Récapitulatif et Adresse Email
+approjet4_booking_email:
+    path:   /
+    defaults: {_controller: APPRojet4BookingBundle:Booking:email}

@@ -25,31 +25,31 @@
     </nav>
     <form>
 
-    <div class="container form">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <h2>{{event.title}}</h2>
-                <p style="text-align:center;">{{event.content}}</p>
-                <hr>
-            </div></div>
+        <div class="container form">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 ">
+                    <h2>{{event.title}}</h2>
+                    <p style="text-align:center;">{{event.content}}</p>
+                    <hr>
+                </div></div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6">
-                <h4>Date de votre visite : </h4>
-                <div class ="form_datetime"> 
-                    <input type="text" id="mirror_field" value="" readonly name="visitDate"/>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <h4>Date de votre visite : </h4>
+                    <div class ="form_datetime"> 
+                        <input type="text" id="mirror_field" value="" readonly name="visitDate"/>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-xs-3">
-                <a href="{{path('approjet4_booking_contactDetails')}}"><button class="button">Journée</button></a>
-                <a href="{{path('approjet4_booking_contactDetails')}}"><button class="button">Demi-journée</button></a>
-            </div>
+                <div class="col-lg-6 col-md-6 col-xs-3">
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button class="button">Journée</button></a>
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button class="button">Demi-journée</button></a>
+                </div>
 
-        </div> 
-        <div class ="row pull-left">
-            <a href={{path('approjet4_booking_index')}}><button class="btn draw-border">Retour</button></a>
+            </div> 
+            <div class ="row pull-left">
+                <a href={{path('approjet4_booking_index')}}><button class="btn draw-border">Retour</button></a>
+            </div>
         </div>
-    </div>
     </form>
 
     {% block javascript %}
@@ -59,11 +59,10 @@
                 daysMin: ["D", "L", "M", "M", "J", "V", "S"],
                 months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
                 monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
-                today: "Aujourd'hui",
-                clear: "Clear",
                 format: "dd/mm/yyyy",
                 titleFormat: "MM yyyy",
-                weekStart: 1
+                weekStart: 1,
+                defaultDate: new Date()
             };
         </script>
         <script type="text/javascript">
@@ -79,14 +78,15 @@
                     ("25/12/2018")
                 ],
                 enableOnReadonly: true,
-                startDate: ("28/04/2018"),/*'event.startDate'*/
-                endDate: ("15/07/2018") /*'event.endDate'*/
-                
-                /*onSelect: function () {
-                    var visitDate = $(".selector").datepicker("getDate");
-                }*/
+                startDate: new Date(),
+                        /*startDate: ("28/04/2018"), /*'event.startDate'*/
+                        /*endDate: ("15/07/2018") /*'event.endDate'*/
+
+                        onSelect: function () {
+                         var visitDate = $(".selector").datepicker("getDate");
+                         }
             });
-        </script>  
+        </script>
     {% endblock %}
 {% endblock %}
 

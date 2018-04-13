@@ -37,8 +37,8 @@ class BookingController extends Controller {
 
     public function testAction($id) {
         $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('APProjet4BookingBundle:Event')
+                           ->getManager()
+                           ->getRepository('APProjet4BookingBundle:Event')
         ;
 
         $event = $repository->find($id);
@@ -69,18 +69,14 @@ class BookingController extends Controller {
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event');
         $event = $repository->find($id);
-        
+
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-        
+
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', array(
                     'event' => $event,
-                    
         ));
-       
-        
-        
     }
 
     /**
@@ -91,36 +87,39 @@ class BookingController extends Controller {
      * 3  Vérification de l'heure de la commande si >14h impossible de commander 
      *    des billets journée pour le jour-même 
      *    Message 
-    
+
      *    Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
      *    
      * 
      */
     public function contactDetailsAction(Request $request) {
-
-
         $ticket = new Ticket();
-
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $ticket);
-
-        $formBuilder
+        $form1 = $this->get('form.factory')->createBuilder(FormType::class, $ticket)
                 ->add('firstname', TextType::class)
                 ->add('lastname', TextType::class)
-                ->add('dateOfBirth', BirthdayType::class, array(
-                    'placeholder' => array(
-                        'day' => 'Jour', 'month' => 'Mois', 'year' => 'Année',
-            )))
-                ->add('country', CountryType::class);
+                ->add('dateOfBirth', BirthdayType::class, array('placeholder' =>
+                    array('day' => 'Jour', 'month' => 'Mois', 'year' => 'Année')))
+                ->add('country', CountryType::class)
+                
+                ->getForm();
 
+        if ($request->isMethod('POST')) {
+            $form1->handelRequest($request);
+            if ($form1->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($ticket);
+                $em->flush();
 
-        $form1 = $formBuilder->getForm();
-
+                return $this->redirecToRoute('approjet4_booking_email', array('id' => $ticket->getId()));
+            }
+        }
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
                     'form1' => $form1->createView(),
         ));
     }
-
+    
+    
 }
 
 /**
