@@ -1,5 +1,5 @@
 .datepicker table {
-  margin-left: 4.5em;
+  
   margin-bottom: 1.5em;
 }
  
@@ -20,12 +20,13 @@
 }
 
 #mirror_field {
-    color :#fff;
-   margin-left: 290px;
+   color :#fff;
    background-color: #003d50;
    border-color: #000;
    text-align: center;
    padding : 3px;
+   margin-bottom: 5px;
+   margin-top: 5px;
 }
 
 

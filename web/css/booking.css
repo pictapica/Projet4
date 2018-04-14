@@ -44,9 +44,7 @@ a{
     color: #fff;
 }
 
-h4{
-    margin-left: -2.3em;
-}
+
 
 /***********************************************************************
 *  OPAQUE NAVBAR SECTION
@@ -581,7 +579,7 @@ a:hover{
     text-align: center;
     cursor: pointer;
     font-size:22px;
-    margin: 70px 0 0 30px;
+    margin: 70px 0 0 0;
     position: relative;
     background-color: #f39c12;
     border: none;
@@ -666,5 +664,5 @@ a:hover{
 
 .form1{
     color: #000;
-    margin: 1.2em;
+    margin: 1.0em;
 }
