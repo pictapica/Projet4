@@ -177,15 +177,15 @@ class Event {
         return $this->endDate;
     }
 
-    public function GetStartDateReservable() {
+    public function GetStartDateReservable($format = 'd/m/Y') {
         
-        return $this->startDate->format("YYYY-mm-dd");
+        return $this->startDate->format($format);
         
     }
     
-    public function GetEndDateReservable() {
+    public function GetEndDateReservable($format = 'd/m/Y') {
         
-        return $this->endDate->format("YYYY-mm-dd");
+        return $this->endDate->format($format);
         
     }
 }
