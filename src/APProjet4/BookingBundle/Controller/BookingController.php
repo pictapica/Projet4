@@ -5,6 +5,7 @@
 namespace APProjet4\BookingBundle\Controller;
 
 use APProjet4\BookingBundle\Entity\Ticket;
+use APProjet4\BookingBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

@@ -24,7 +24,6 @@
         </ul>
     </nav>
     <form>
-
         <div class="container form">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12 ">
@@ -38,7 +37,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-1 col-md-6 col-mg-offset-1 col-xs-12">
                             <div class ="form_datetime">
-                                
+
                                 <div class=" col-lg-offset-12  col-md-offset-12 col-xs-12">
                                     <h4>DATE DE VOTRE VISITE : </h4><input type="text" id="mirror_field" value="" readonly name="visitDate"/>
                                 </div>
@@ -51,51 +50,49 @@
                     <a href="{{path('approjet4_booking_contactDetails')}}"><button type="submit" class="button">Demi-journée</button></a>
                 </div>
             </div> 
-        
-    
-    <div class ="row pull-left">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <a href={{path('approjet4_booking_index')}}><button class="btn draw-border">Retour</button></a>
+            <div class ="row pull-left">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour</button></a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-</form>
+    </form>
 
-{% block javascript %}
-    <script>$.fn.datepicker.dates['fr'] = {
-            days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-            daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-            daysMin: ["D", "L", "M", "M", "J", "V", "S"],
-            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
-            monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
-            format: "dd/mm/yyyy",
-            titleFormat: "MM yyyy",
-            weekStart: 1,
-            defaultDate: new Date()
-        };
-    </script>
-    <script type="text/javascript">
-        $(".form_datetime").datepicker({
-            format: "DD d MM yyyy",
-            linkField: "mirror_field",
-            linkFormat: "DDd-MM-yyyy",
-            language: 'fr',
-            daysOfWeekDisabled: [0, 2],
-            datesDisabled: [
-                ("01/05/2018"),
-                ("01/11/2018"),
-                ("25/12/2018")
-            ],
-            enableOnReadonly: true,
-            startDate: new Date(),
-            /*startDate: ("28/04/2018"), /*'event.startDate'*/
-            /*endDate: ("15/07/2018") /*'event.endDate'*/
+    {% block javascript %}
+        <script>$.fn.datepicker.dates['fr'] = {
+                days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+                daysMin: ["D", "L", "M", "M", "J", "V", "S"],
+                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
+                monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
+                format: "dd/mm/yyyy",
+                titleFormat: "MM yyyy",
+                weekStart: 1,
+                defaultDate: new Date()
+            };
+        </script>
+        <script type="text/javascript">
+            $(".form_datetime").datepicker({
+                format: "DD d MM yyyy",
+                linkField: "mirror_field",
+                linkFormat: "DDd-MM-yyyy",
+                language: 'fr',
+                daysOfWeekDisabled: [0, 2],
+                datesDisabled: [
+                    ("01/05/2018"),
+                    ("01/11/2018"),
+                    ("25/12/2018")
+                ],
+                enableOnReadonly: true,
+                
+                startDate: ("{{event.startDateReservable}}"),
+                endDate: ("{{event.endDateReservable}}")
 
-            onSelect: function () {
-                var visitDate = $(".selector").datepicker("getDate");
-            }
-        });
-    </script>
-{% endblock %}
+                
+                
+                
+            });
+        </script>
+    {% endblock %}
 {% endblock %}
 

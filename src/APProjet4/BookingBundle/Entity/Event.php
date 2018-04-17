@@ -3,6 +3,8 @@
 namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
+
 
 /**
  * Event
@@ -36,16 +38,16 @@ class Event {
     private $content;
 
     /**
-     * @var dateTime
+     * @var date
      * 
-     * @ORM\Column(name="startDate", type="datetime")
+     * @ORM\Column(name="startDate", type="date")
      */
     private $startDate;
 
     /**
-     * @var dateTime
+     * @var date
      * 
-     * @ORM\Column(name="endDate", type="datetime")
+     * @ORM\Column(name="endDate", type="date")
      */
     private $endDate;
 
@@ -130,16 +132,14 @@ class Event {
         return $this->image;
     }
 
-
     /**
      * Set startDate
      *
-     * @param \DateTime $startDate
+     * @param \Date $startDate
      *
      * @return Event
      */
-    public function setStartDate($startDate)
-    {
+    public function setStartDate($startDate) {
         $this->startDate = $startDate;
 
         return $this;
@@ -148,22 +148,21 @@ class Event {
     /**
      * Get startDate
      *
-     * @return \DateTime
+     * @return \Date
      */
-    public function getStartDate()
-    {
+    public function getStartDate() {
+        
         return $this->startDate;
     }
 
     /**
      * Set endDate
      *
-     * @param \DateTime $endDate
+     * @param \Date $endDate
      *
      * @return Event
      */
-    public function setEndDate($endDate)
-    {
+    public function setEndDate($endDate) {
         $this->endDate = $endDate;
 
         return $this;
@@ -172,10 +171,21 @@ class Event {
     /**
      * Get endDate
      *
-     * @return \DateTime
+     * @return \Date
      */
-    public function getEndDate()
-    {
+    public function getEndDate() {
         return $this->endDate;
+    }
+
+    public function GetStartDateReservable() {
+        
+        return $this->startDate->format("YYYY-mm-dd");
+        
+    }
+    
+    public function GetEndDateReservable() {
+        
+        return $this->endDate->format("YYYY-mm-dd");
+        
     }
 }

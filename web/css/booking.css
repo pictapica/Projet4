@@ -340,6 +340,8 @@ body {
     line-height: 1.5;
     font: 700 1.2rem 'Roboto Slab', sans-serif;
     padding: 1em 2em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     letter-spacing: 0.05rem;
 }
 .btn:focus {
@@ -581,7 +583,7 @@ a:hover{
     font-size:22px;
     margin: 70px 0 0 0;
     position: relative;
-    background-color: #f39c12;
+    background-color: #fec500;
     border: none;
     padding: 20px;
     width: 200px;
