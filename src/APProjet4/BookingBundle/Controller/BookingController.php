@@ -62,7 +62,7 @@ class BookingController extends Controller {
      *    Au clic sur l'expo de son choix -> selectDate.html.twig
      *    Vérification du nombre de billets vendus dans la journée (<1000)
      * 1   Affichage du calendrier (impossible de commander pour les jours passés, 
-     *    les dimanches, les jours fériés et les jours où il y a déjà 100 billets vendus)
+     *    les dimanches, les jours fériés et les jours où il y a déjà 1000 billets vendus)
      * 
      */
     public function selectDateAction($id) {
@@ -84,12 +84,47 @@ class BookingController extends Controller {
      *    Choix de la date
      * 2  Sauvegarde de la date choisie
 
-     *    Choix JOURNEE ou DEMI-JOURNEE
-     * 3  Vérification de l'heure de la commande si >14h impossible de commander 
+     *    Choix JOURNEE ou DEMI-JOURNEE*/
+      public function maxaAction(Request $request){
+        define("MAX_BOOKING_DATE", 1000);
+        if($request->isXmlHttpRequest()){    
+            $d = new \DateTime($request->get('date'));
+            
+            $bookings = $this->getDoctrine()
+            ->getRepository('APProjet4BookingBundle:Booking')
+            ->findByDate($d);
+            
+            
+            if (!$bookings) {               
+                $response = array(
+                    'availability' => true,
+                );
+            }
+            else {
+                
+                if(count($bookings) > MAX_BOOKING_DATE){                    
+                    $response = array(
+                        'availability' => false,
+                    );
+                }
+                else{                    
+                    
+                    $response = array(
+                        'availability' => true,
+                    );
+                }
+            }           
+            return new JsonResponse($response);
+        }       
+    }
+     /* 3  Vérification de l'heure de la commande si >14h impossible de commander 
      *    des billets journée pour le jour-même 
-     *    Message 
-
-     *    Choix du nombre de billets
+     *    Message */
+     public function saveDateAction(Request $request){
+         
+     }
+     
+     /*    Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
      *    
      * 

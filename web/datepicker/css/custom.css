@@ -16,7 +16,7 @@
 .datepicker .next:hover,
 .datepicker tfoot tr th:hover {
   color: #000;
-  background: #fec500;
+  background: #f39c12;
 }
 
 #mirror_field {

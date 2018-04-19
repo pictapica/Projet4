@@ -63,6 +63,7 @@ class Booking {
 
     public function __construct() {
         // Par défaut, la date de commande est la date d'aujourd'hui
+        $this->status = self::STATUS_START;
         $this->orderDate = new \Datetime();
         $this->tickets = new ArrayCollection();
     }

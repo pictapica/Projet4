@@ -5,7 +5,6 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Date;
 
-
 /**
  * Event
  *
@@ -151,7 +150,7 @@ class Event {
      * @return \Date
      */
     public function getStartDate() {
-        
+
         return $this->startDate;
     }
 
@@ -178,14 +177,37 @@ class Event {
     }
 
     public function GetStartDateReservable($format = 'd/m/Y') {
-        
         return $this->startDate->format($format);
+        /* si aujourd'hui est dans période expo : on commence à aujourd'hui
+         * si aujourd'hui est avant date expo, on commence à date d'expo. public function validateDate($date, $day){
+          
+          
+        $startDate = new Date();
+        $today = new Date();
         
-    }
+
+        if ($today <= $startDateReservable) {
+            $startDate = $today;
+            return $this->startDate->format($format);
+        }else {
+            $startDate = $startDateReservable;
+            return $this->startDate->format($format);
+        }
+      
+        $today = new Date();
+        $startDay = getStartDate($startDate);
+        
+        if ($startDay->format($format) < $today->format($format)) {
+            return $this->startDate;
+        } else {
+            echo 'Hello';
+        }*/
     
-    public function GetEndDateReservable($format = 'd/m/Y') {
-        
-        return $this->endDate->format($format);
-        
     }
+
+    public function GetEndDateReservable($format = 'd/m/Y') {
+
+        return $this->endDate->format($format);
+    }
+
 }
