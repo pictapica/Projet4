@@ -25,25 +25,196 @@
     <div class="container form">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <h2>DELACROIX</h2>
-                <p style="text-align:center">LE LUNDI 4 JUIN 2018 - BILLET JOURNEE</p>
+
+                <h2>DELACROIX</h2> 
+                <p style="text-align:center">LE LUNDI 4 JUIN 2018 - BILLET JOURNEE</p>{#Récupérer pick_a date + journée ou 1/2#}
                 <hr>
+                {#Nombre de billets - A chaque clic pour ajouter un billet un nouveau formulaire apparait
+                Imbrication de formulaires ?
+                #}
+            </div>
+        </div>
+            <div class="row">
+                <h4>3 - Choisissez le nombre de billets</h4>
+            </div><br>
                 
-                <div class="form1">
-                    {{ form(form1) }}
-                    <button class="button2">Finaliser votre commande</button>
+        <div class="row" >
+            <div class="col-lg-offset-1  col-lg-6 col-md-6 col-xs-6"> 
+                <label for="name" style="color :#fff;">PLEIN TARIF&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6">
+                <select name="" id="" style="color :#000;">
+                    <option value="0" selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6 ">
+                <span >16 €</span>
+            </div>
+        </div><br>
+        <div class="row" >
+            <div class="col-lg-offset-1  col-lg-6 col-md-6 col-xs-6"> 
+                <label for="name" style="color :#fff;">REDUIT&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6">
+                <select name="" id="" style="color :#000;">
+                    <option value="0" selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6 ">
+                <span >10 €</span>
+            </div>
+        </div><br>
+            <div class="row" >
+            <div class="col-lg-offset-1  col-lg-6 col-md-6 col-xs-6"> 
+                <label for="name" style="color :#fff;">ENFANT&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6">
+                <select name="" id="" style="color :#000;">
+                    <option value="0" selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6 ">
+                <span >8 €</span>
+            </div>
+            </div><br>
+            <div class="row" >
+            <div class="col-lg-offset-1  col-lg-6 col-md-6 col-xs-6"> 
+                <label for="name" style="color :#fff;">SENIOR&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6">
+                <select name="" id="" style="color :#000;">
+                    <option value="0" selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-6 col-xs-6 ">
+                <span >12 €</span>
+            </div>
+            </div><br>
+            <hr>   
+        <div class="container form">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="form">
+                        {{form(form1)}}
+                    </div>
                 </div>
             </div>
+            <button class="button2">Finaliser votre commande</button>
         </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6">
 
-            </div>
-        </div>
     </div>
 
 
+
     {% block javascript %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        {# Voici le script en question : #}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+                var $container = $('div#APProjet4_bookingbundle_booking_tickets');
+
+                // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+                var index = $container.find(':input').length;
+
+                // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+                $('#add_ticket').click(function (e) {
+                    addticket($container);
+
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                });
+
+                // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+                if (index == 0) {
+                    addticket($container);
+                } else {
+                    // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+                    $container.children('div').each(function () {
+                        addDeleteLink($(this));
+                    });
+                }
+
+                // La fonction qui ajoute un formulaire CategoryType
+                function addticket($container) {
+                    // Dans le contenu de l'attribut « data-prototype », on remplace :
+                    // - le texte "__name__label__" qu'il contient par le label du champ
+                    // - le texte "__name__" qu'il contient par le numéro du champ
+                    var template = $container.attr('data-prototype')
+                            .replace(/__name__label__/g, 'Catégorie n°' + (index + 1))
+                            .replace(/__name__/g, index)
+                            ;
+
+                    // On crée un objet jquery qui contient ce template
+                    var $prototype = $(template);
+
+                    // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+                    addDeleteLink($prototype);
+
+                    // On ajoute le prototype modifié à la fin de la balise <div>
+                    $container.append($prototype);
+
+                    // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                    index++;
+                }
+
+                // La fonction qui ajoute un lien de suppression d'une catégorie
+                function addDeleteLink($prototype) {
+                    // Création du lien
+                    var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+                    // Ajout du lien
+                    $prototype.append($deleteLink);
+
+                    // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+                    $deleteLink.click(function (e) {
+                        $prototype.remove();
+
+                        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                        return false;
+                    });
+                }
+            });
+        </script>
     {% endblock %}
 {% endblock %}
 

@@ -536,10 +536,7 @@ body {
 
 }
 
-#datepicker {
-    margin:20px;
 
-}
 
 /*Button*/
 
@@ -581,7 +578,7 @@ a:hover{
     text-align: center;
     cursor: pointer;
     font-size:22px;
-    margin: 70px 0 0 0;
+    margin: 35px 0 0 0;
     position: relative;
     background-color: #f39c12;
     border: none;
@@ -625,7 +622,7 @@ a:hover{
     cursor: pointer;
     color:#fff;
     font-size:18px;
-    margin: 70px 0 0 30px;
+    margin: 20px 0 0 30px;
     position: relative;
     background-color: #f39c12;
     border: none;
@@ -664,7 +661,3 @@ a:hover{
     transition: 0s
 }
 
-.form1{
-    color: #000;
-    margin: 1.0em;
-}

@@ -4,24 +4,24 @@
 
 namespace APProjet4\BookingBundle\Controller;
 
-use APProjet4\BookingBundle\Entity\Ticket;
-use APProjet4\BookingBundle\Entity\Event;
+use APProjet4\BookingBundle\Entity\Booking;
+use APProjet4\BookingBundle\Form\BookingType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class BookingController extends Controller {
 
-    // Une action par affichage de page, une action par changement de page
+    //////////////// Affichage de la page d'accueil////////////////
+
     public function homeAction() {
         $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
         return new Response($content);
     }
+
+    ////////////////Affichage de la liste des évènements////////////////
 
     public function indexAction() {
         $repository = $this
@@ -36,10 +36,12 @@ class BookingController extends Controller {
         ));
     }
 
+    ////////////////Test////////////////
+
     public function testAction($id) {
         $repository = $this->getDoctrine()
-                           ->getManager()
-                           ->getRepository('APProjet4BookingBundle:Event')
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event')
         ;
 
         $event = $repository->find($id);
@@ -51,19 +53,19 @@ class BookingController extends Controller {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
 
-        return $this->render('APProjet4BookingBundle:Booking:test.html.twig', array(
+        return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
                     'event' => $event,
                     'url' => $url,
                     'alt' => $alt
         ));
     }
 
+    ////////////////Date & jour////////////////
     /**
      *    Au clic sur l'expo de son choix -> selectDate.html.twig
      *    Vérification du nombre de billets vendus dans la journée (<1000)
      * 1   Affichage du calendrier (impossible de commander pour les jours passés, 
      *    les dimanches, les jours fériés et les jours où il y a déjà 1000 billets vendus)
-     * 
      */
     public function selectDateAction($id) {
         $repository = $this->getDoctrine()
@@ -83,79 +85,69 @@ class BookingController extends Controller {
     /**
      *    Choix de la date
      * 2  Sauvegarde de la date choisie
-
-     *    Choix JOURNEE ou DEMI-JOURNEE*/
-      public function maxaAction(Request $request){
+     *    Choix JOURNEE ou DEMI-JOURNEE 
+     */
+    public function maxAction(Request $request) {
         define("MAX_BOOKING_DATE", 1000);
-        if($request->isXmlHttpRequest()){    
+        if ($request->isXmlHttpRequest()) {
             $d = new \DateTime($request->get('date'));
-            
+
             $bookings = $this->getDoctrine()
-            ->getRepository('APProjet4BookingBundle:Booking')
-            ->findByDate($d);
-            
-            
-            if (!$bookings) {               
+                    ->getRepository('APProjet4BookingBundle:Booking')
+                    ->findByDate($d);
+
+            if (!$bookings) {
                 $response = array(
                     'availability' => true,
                 );
-            }
-            else {
-                
-                if(count($bookings) > MAX_BOOKING_DATE){                    
+            } else {
+                if (count($bookings) > MAX_BOOKING_DATE) {
                     $response = array(
                         'availability' => false,
                     );
-                }
-                else{                    
-                    
+                } else {
                     $response = array(
                         'availability' => true,
                     );
                 }
-            }           
+            }
             return new JsonResponse($response);
-        }       
+        }
     }
-     /* 3  Vérification de l'heure de la commande si >14h impossible de commander 
+
+    /* 3  Vérification de l'heure de la commande si >14h impossible de commander 
      *    des billets journée pour le jour-même 
      *    Message */
-     public function saveDateAction(Request $request){
-         
-     }
-     
-     /*    Choix du nombre de billets
+
+    public function saveDateAction(Request $request) {
+        
+    }
+
+    /*    Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
      *    
      * 
      */
-    public function contactDetailsAction(Request $request) {
-        $ticket = new Ticket();
-        $form1 = $this->get('form.factory')->createBuilder(FormType::class, $ticket)
-                ->add('firstname', TextType::class)
-                ->add('lastname', TextType::class)
-                ->add('dateOfBirth', BirthdayType::class, array('placeholder' =>
-                    array('day' => 'Jour', 'month' => 'Mois', 'year' => 'Année')))
-                ->add('country', CountryType::class)
-                
-                ->getForm();
 
-        if ($request->isMethod('POST')) {
-            $form1->handelRequest($request);
-            if ($form1->isValid()) {
+    public function contactDetailsAction(Request $request) {
+        
+        $booking = new Booking();
+        $form1 = $this->createForm(BookingType::class, $booking);
+                
+
+        if ($request->isMethod('POST') && $form1->handelRequest($request)->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($ticket);
+                $em->persist($booking);
                 $em->flush();
 
-                return $this->redirecToRoute('approjet4_booking_email', array('id' => $ticket->getId()));
+                return $this->redirecToRoute('approjet4_booking_email', array('id' => $booking->getId()));
             }
-        }
+        
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
                     'form1' => $form1->createView(),
         ));
     }
-    
-    
+
 }
 
 /**

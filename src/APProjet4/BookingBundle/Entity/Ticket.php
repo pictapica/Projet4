@@ -3,6 +3,7 @@
 namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -25,6 +26,7 @@ class Ticket {
      * @var \DateTime
      *
      * @ORM\Column(name="visitDate", type="datetime")
+     * @Assert\NotBlank()
      */
     private $visitDate;
 
@@ -32,6 +34,7 @@ class Ticket {
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=50)
+     * @Assert\NotBlank()
      */
     private $firstname;
 
@@ -39,6 +42,7 @@ class Ticket {
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=50)
+     * @Assert\NotBlank()
      */
     private $lastname;
 
@@ -46,6 +50,7 @@ class Ticket {
      * @var \DateTime
      *
      * @ORM\Column(name="dateOfBirth", type="datetime")
+     * @Assert\NotBlank()
      */
     private $dateOfBirth;
 
@@ -53,6 +58,7 @@ class Ticket {
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=50)
+     * @Assert\NotBlank()
      */
     private $country;
 

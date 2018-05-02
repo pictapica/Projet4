@@ -33,30 +33,26 @@
                     <hr>
                 </div>
             </div>
-            <div class="row">  
-                <div class="col-lg-8 col-md-8 col-xs-12">
-                    <div class="row">
-                        <div class="col-lg-6 col-lg-offset-1 col-md-6 col-mg-offset-1 col-xs-12">
-                            <div class ="form_datetime">
-
-                                <div class=" col-lg-offset-12  col-md-offset-12 col-xs-12">
-                                    <h4>DATE DE VOTRE VISITE : </h4> 
-                                    <input type="text" id="mirror_field" value="" readonly />
-                                    <input id="pick_a_date" type="hidden" name="pick_a_date" value=false>
-                                </div>
-                            </div>
-                        </div>
+            <div class="row"> 
+                <div class="col-lg-offset-1 col-lg-5 col-md-5 col-xs-12 ">
+                    <div class="form_datetime">
+                    <h4>1 - Choisissez une date : </h4><br>
+                        {#<input type="text" id="mirror_field" value="" readonly />#}
+                        <input style="align-content: center" id="pick_a_date" type="hidden" name="pick_a_date" value=false>
                     </div>
                 </div>
-                <div class="col-lg-4  col-md-4  col-xs-12">
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button {#onclick="submitData();" #}id="daySelect" type="text" class="button">Journée</button></a>
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button {#onclick="submitData();" #}id="halfDaySelect" type="text" class="button">Demi-journée</button></a>
+                <div class="col-lg-offset-1 col-lg-5  col-md-5  col-xs-12">
+                    <h4>2 - Choisissez votre type de billet </h4>
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button onclick="submitData();" id="daySelect" type="text" class="button">Journée</button></a>
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button onclick="submitData();" id="halfDaySelect" type="text" class="button">Demi-journée</button></a>
                 </div>
             </div>
+
 
         </form>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
+                <br>
                 <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour</button></a>
             </div>
         </div>
@@ -73,82 +69,38 @@
                 format: "dd/mm/yyyy",
                 titleFormat: "MM yyyy",
                 weekStart: 1,
-                defaultDate: new Date(),
                 today: "Aujourd'hui"
             };
 
             $(".form_datetime").datepicker({
-            format: "DD d MM yyyy",
-                    linkField: "mirror_field",
-                    linkFormat: "DDd-MM-yyyy",
-                    language: 'fr',
-                    todayBtn: "linked",
-                    daysOfWeekDisabled: [0, 2],
-                    datesDisabled: [
-                            ("01/05/2018"),
-                            ("01/11/2018"),
-                            ("25/12/2018")],
-                    startDate: ("{{event.startDateReservable}}"),
-                    endDate: ("{{event.endDateReservable}}"),
-                    onSelect: function(){
+                format: "DD d MM yyyy",
+                linkField: "mirror_field",
+                linkFormat: "DDd-MM-yyyy",
+                language: 'fr',
+                todayBtn: "linked",
+                daysOfWeekDisabled: [0, 2],
+                datesDisabled: [
+                    ("01/05/2018"),
+                    ("01/11/2018"),
+                    ("25/12/2018")],
+
+                startDate: ("{{event.startDateReservable}}", new Date()),
+                endDate: ("{{event.endDateReservable}}"),
+
+                onSelect: function () {
                     var visitDate = $("#pick_a_date").datepicker("getDate");
-                            console.log(visitDate);
-                            $.ajax({
-                            type:'GET',
-                            data: {pick_a_date : visitDate},
-                                success: function(response){
-                                    console.log("success");
-                                    }
-                            });
-
-                            }})
-                    ;
-            {#
-            
-            function CheckMaxBooking(orderdate) {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('approjet4_booking_max_booking') }}",
-                    dataType: 'json',
-                    data: {date: orderDate}
-                })
-                        .done(function (response) {
-
-                            if (response['availability'] == false) {
-                                $("#invalid_date").show();
-                                $("#pick_a_date").val(false);
-                            }
-                            if (response['availability'] == true) {
-                                $("#invalid_date").hide();
-                                $("#pick_a_date").val(true);
-                            }
-                        });
-            }#}
-        </script>
-        {#<script>
-            function submitData() {
-               
-                            if ($("#pick_a_date").val() === true) {
-                    console.log(value);//saveDate();
-                } else {
-                    alert("Une erreur est survenue. Merci de choisir à nouveau la date de votre visite");
+                    console.log(visitDate);
+                    $.ajax({
+                        type: 'GET',
+                        data: {pick_a_date: visitDate},
+                        success: function () {
+                            console.log("success");
+                        }
+                    });
                 }
-            }
-            {#function saveDate() {
-                visitDate = $("#pick_a_date").val();
-                day = $("#daySelect").val();
-                halfDay = $("#halfDaySelect").val();
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('approjet4_booking_pick_a_date') }}",
-                    dataType: 'json',
-                    data: {date: visitDate, day: day}
-                })
-                        .done(function () {
+            });
+        </script>
 
-                        });
-            }
-        </script>#}
         {#<script>
         // Création d'une requête HTTP
     var req = new XMLHttpRequest();

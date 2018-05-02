@@ -1,8 +1,5 @@
 .datepicker table {
-  
-  margin-bottom: 1.5em;
 }
- 
  
 .datepicker table tr td.day:hover,
 .datepicker table tr td.focused {
