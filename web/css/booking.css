@@ -44,7 +44,9 @@ a{
     color: #fff;
 }
 
-
+h3{
+    text-decoration: underline;
+}
 
 /***********************************************************************
 *  OPAQUE NAVBAR SECTION
@@ -284,7 +286,7 @@ body {
     color: #7c8a8a;
 }
 /**********************************************
-*Button
+*Buttons entourés
 ***********************************************/
 .draw-border {
     -webkit-box-shadow: inset 0 0 0 4px #58afd1;
@@ -517,23 +519,179 @@ body {
 
     background-color: #003d50;
     color : #fff;
-
-    display: inline-block;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    margin: 10px 7px;
     max-width: 850px;
     min-width: 230px;
     overflow: hidden;
-    position: relative;
-
     width: 100%;
 }
 
-.section_title {
-    font-size: 1.2em;
 
+* {
+    box-sizing: border-box;
+}
+::-webkit-input-placeholder {
+    transition: color 0.25s 0.5s ease-in-out;
+}
 
+.h {
+    font-weight: normal;
+}
+.h1 {
+    text-align: center;
+    font-size: 3em;
+}
+.input {
+    display: block;
+    position: relative;
+    max-width: 850px;
+    height: 50px;
+    margin: 15px auto;
+    color: inherit;
+    font: inherit;
+
+}
+.native {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+
+    transition: color .25s;
+}
+.native::-webkit-input-placeholder {
+    color: #ffffff;
+}
+.native:focus,
+.native:invalid,
+.jsstate-filled .native {
+    outline: none;
+}
+.native:focus::-webkit-input-placeholder,
+.native:invalid::-webkit-input-placeholder,
+.jsstate-filled .native::-webkit-input-placeholder {
+    color: #003d50;
+    transition: color 0.25s ease-in-out;
+}
+.native:focus + .label::after,
+.native:invalid + .label::after,
+.jsstate-filled .native + .label::after {
+    opacity: 1;
+    transition: opacity 0.25s 0.5s ease-in-out;
+}
+.native:focus + .label::before,
+.native:invalid + .label::before,
+.jsstate-filled .native + .label::before {
+    -webkit-transform: translateY(-50%) scaleX(1);
+    transform: translateY(-50%) scaleX(1);
+    transition: -webkit-transform 0.25s ease-in-out;
+    transition: transform 0.25s ease-in-out;
+    transition: transform 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+}
+.native[disabled],
+.jsstate-disabled .native {
+    color: rgba(0, 0, 0, 0.6);
+}
+.native[disabled] + .label,
+.jsstate-disabled .native + .label,
+.native[disabled]::-webkit-input-placeholder,
+.jsstate-disabled .native::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+.native[disabled] + .label,
+.jsstate-disabled .native + .label {
+    background: rgba(0, 0, 0, 0.05);
+}
+.jsstate-visited .native:invalid,
+.jsstate-invalid .native {
+    color: #003d50;
+}
+.jsstate-visited .native:invalid + .label,
+.jsstate-invalid .native + .label {
+    color: #003d50;
+}
+.jsstate-visited .native:invalid ~ .message,
+.jsstate-invalid .native ~ .message {
+    color: #003d50;
+}
+.jsstate-visited .native:invalid ~ .message::after,
+.jsstate-invalid .native ~ .message::after {
+    opacity: 1;
+    transition: opacity 0.25s 0.5s ease-in-out;
+}
+.jsstate-visited .native:invalid ~ .message::before,
+.jsstate-invalid .native ~ .message::before {
+    opacity: 1;
+    -webkit-transform: translateY(-50%) scaleX(1);
+    transform: translateY(-50%) scaleX(1);
+    transition: color 0.25s, opacity 0.25s, -webkit-transform 0.25s ease-in-out;
+    transition: transform 0.25s ease-in-out, color 0.25s, opacity 0.25s;
+    transition: transform 0.25s ease-in-out, color 0.25s, opacity 0.25s, -webkit-transform 0.25s ease-in-out;
+}
+.label {
+    border: 1px solid currentcolor;
+    z-index: 1;
+}
+.label::before {
+    transition: color 0.25s, -webkit-transform 0.25s 0.25s ease-in-out;
+    transition: transform 0.25s 0.25s ease-in-out, color 0.25s;
+    transition: transform 0.25s 0.25s ease-in-out, color 0.25s, -webkit-transform 0.25s 0.25s ease-in-out;
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+}
+.message {
+    z-index: 2;
+}
+.message::before {
+    opacity: 0;
+    transition: color 0.25s, opacity 0.25s, -webkit-transform 0.25s 0.25s ease-in-out;
+    transition: transform 0.25s 0.25s ease-in-out, color 0.25s, opacity 0.25s;
+    transition: transform 0.25s 0.25s ease-in-out, color 0.25s, opacity 0.25s, -webkit-transform 0.25s 0.25s ease-in-out;
+    -webkit-transform-origin: 0%;
+    transform-origin: 0%;
+}
+.label,
+.message {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    transition: color .25s;
+}
+.label::before,
+.message::before {
+    content: attr(data-label);
+    font-size: 1.2rem;
+    position: absolute;
+    z-index: -1;
+    left: 5px;
+    padding: 0 10px 0 10px;
+    background: #003d50;
+    color: #fff;
+    -webkit-transform: translateY(-50%) scaleX(0);
+    transform: translateY(-50%) scaleX(0);
+}
+.label::after,
+.message::after {
+    content: attr(data-label);
+    display: inline-block;
+    padding: 0 10px;
+    font-size: .2rem;
+    line-height: 1.6rem;
+    opacity: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    transition: opacity 0.25s ease-in-out, color 0.25s;
 }
 
 
@@ -555,7 +713,7 @@ button{
 
 a{
     text-decoration:none;
-    color:#fff;
+
 }
 
 a:hover{
@@ -622,7 +780,7 @@ a:hover{
     cursor: pointer;
     color:#fff;
     font-size:18px;
-    margin: 20px 0 0 30px;
+    margin: 20px;
     position: relative;
     background-color: #f39c12;
     border: none;
@@ -660,4 +818,25 @@ a:hover{
     opacity: 1;
     transition: 0s
 }
+
+
+/* Augmente l'espacement gauche et droite des suggestions */
+.suggestion {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* Modifie la couleur de la suggestion survolée par la souris */
+.suggestion:hover {
+    background-color: #adf;
+    cursor: pointer;
+}
+
+/* Positionne la liste des suggestions au-dessous de la zone de saisie */
+#suggestions {
+    position: absolute;
+    border: 1px solid black;
+    left: 171px;
+}
+
 

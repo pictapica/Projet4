@@ -1,67 +1,60 @@
-{# src/OC/PlatformBundle/Resources/views/Advert/form.html.twig #}
+{# src/OC/PlatformBundle/Resources/views/Advert/form1.html.twig #}
 
-<h3>Billet 1 {#changer le numéro selon le nombre de billets + récupérer TARIF#}</h3>
+<h3>Billet 1 {#changer le numéro selon le nombre de billets#}</h3>
 
-<div class="details">
-    {{ form_start(form1, {'attr': {'class': 'form-horizontal'}}) }}
-    
-      {# Les erreurs générales du formulaire. #}
-  {{ form_errors(form1) }}
-  
-    {# Génération du label + error + widget pour un champ. #}
-  {{ form_row(form1.tickets) }}
-  
-    <div class="form-group">
-        <label class="col-sm-2 control-label required"></label>
-        <div class="col-sm-10">
-            <div id="booking_tickets___name__">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label required" for="booking_tickets___name___name">Nom</label>
-                    <div class="col-sm-10">
-                        <input type="text" id="booking_tickets___lastname___lastname" name="booking[tickets][__name__][name]" required="required" class="form-control" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <label class="col-sm-2 control-label required"></label>
-        <div class="col-sm-10">
-            <div id="booking_tickets___firstname__">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label required" for="booking_tickets___name___name">Prénom</label>
-                    <div class="col-sm-10">
-                        <input type="text" id="booking_tickets___name___name" name="booking[tickets][__name__][name]" required="required" class="form-control" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <label class="col-sm-2 control-label required"></label>
-        <div class="col-sm-10">
-            <div id="booking_tickets___name__">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label required" for="booking_tickets___name___name">Date de naissance</label>
-                    <div class="col-sm-10">
-                        <input type="text" id="booking_tickets___name___name" name="booking[tickets][__name__][name]" required="required" class="form-control" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <label class="col-sm-2 control-label required"></label>
-        <div class="col-sm-10">
-            <div id="booking_tickets___name__">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label required" for="booking_tickets___country___country">Pays de résidence</label>
-                    <div class="col-sm-10">
-                        <input type="text" id="booking_tickets___name___name" name="booking[tickets][__name__][name]" required="required" class="form-control" />
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="ticket-type col-lg-12"
+<span>Choisissez votre tarif : </span>
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+    <label class="btn btn-warning active form-check-label col-xs-6 col-md-3">
+        <input class="form-check-input" type="radio"autocomplete="off" checked> Tarif normal<br>16€
+    </label>
+    <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+        <input class="form-check-input" type="radio" autocomplete="off"> Tarif réduit<br>8€
+    </label>
+    <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+        <input class="form-check-input" type="radio" autocomplete="off"> Enfant<br>6€
+    </label>
+    <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+        <input class="form-check-input" type="radio" autocomplete="off"> Sénior<br>10€
+    </label>
+</div>
     </div>
-    {# Génération automatique des champs pas encore écrits.
-     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-     et tous les champs cachés (type « hidden »). #}
-  {{ form_rest(form1) }}
+<br>
+<br>
 
-  {# Fermeture de la balise <form> du formulaire HTML #}
-  {{ form_end(form1) }}
+<div class="details  col-lg-12">
+    {{ form_start(form1, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form1) }}
+
+    {# Génération du label + error + widget pour un champ. #}
+    {{ form_row(form1.tickets) }}
+
+    <label class="input js-input">
+        <input type="text" class="native js-native" placeholder="Nom"/>
+        <span class="label" data-label="Nom" aria-role="label">Nom</span>
+        <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom</span>
+    </label>
+    <label class="input js-input">
+        <input type="text" class="native js-native" placeholder="Prénom "/>
+        <span class="label" data-label="Prénom" aria-role="label">Prénom</span>
+        <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Prénom</span>
+    </label>
+    <label class="input js-input">
+        <input type="date" min="1910-06-25" class="native js-native" placeholder="Date de naissance" />
+        <span class="label" data-label="Date de naissance" aria-role="label">Date de naissance</span>
+        <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Date de naissance</span>
+    </label>
+    <label class="input js-input">
+        <input type="text" id="pays" class="native js-native" placeholder="Pays de résidence "/>
+        <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
+        <span class="message" data-label="Merci de renseigner le pays de résidence du visiteur" aria-role="label">Pays de résidence</span>
+        <div id="suggestions"></div>
+    </label>
+    
+    {{ form_rest(form1) }}
+
+    {{ form_end(form1) }}
 </div>

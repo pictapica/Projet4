@@ -11,6 +11,8 @@ approjet4_booking_index:
 approjet4_booking_selectDate:
     path:    /purchase/{id}
     defaults: { _controller: APProjet4BookingBundle:Booking:selectDate}
+    requirements:
+        id: \d+
     
 ## Vérification max 1000 tickets ( Ajax )
 approjet4_booking_max_booking:

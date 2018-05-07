@@ -37,14 +37,14 @@
                 <div class="col-lg-offset-1 col-lg-5 col-md-5 col-xs-12 ">
                     <div class="form_datetime">
                     <h4>1 - Choisissez une date : </h4><br>
-                        {#<input type="text" id="mirror_field" value="" readonly />#}
+                        
                         <input style="align-content: center" id="pick_a_date" type="hidden" name="pick_a_date" value=false>
                     </div>
                 </div>
                 <div class="col-lg-offset-1 col-lg-5  col-md-5  col-xs-12">
                     <h4>2 - Choisissez votre type de billet </h4>
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button onclick="submitData();" id="daySelect" type="text" class="button">Journée</button></a>
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button onclick="submitData();" id="halfDaySelect" type="text" class="button">Demi-journée</button></a>
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button id="daySelect" type="text" class="button">Journée</button></a>
+                    <a href="{{path('approjet4_booking_contactDetails')}}"><button id="halfDaySelect" type="text" class="button">Demi-journée</button></a>
                 </div>
             </div>
 
@@ -66,23 +66,21 @@
                 daysMin: ["D", "L", "M", "M", "J", "V", "S"],
                 months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
                 monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
-                format: "dd/mm/yyyy",
+                format: "yyyy/mm/dd",
                 titleFormat: "MM yyyy",
                 weekStart: 1,
                 today: "Aujourd'hui"
             };
 
             $(".form_datetime").datepicker({
-                format: "DD d MM yyyy",
-                linkField: "mirror_field",
-                linkFormat: "DDd-MM-yyyy",
+                format: "yyyy/mm/dd",
                 language: 'fr',
                 todayBtn: "linked",
                 daysOfWeekDisabled: [0, 2],
                 datesDisabled: [
-                    ("01/05/2018"),
-                    ("01/11/2018"),
-                    ("25/12/2018")],
+                    ("2018/05/01"),
+                    ("2018/11/01"),
+                    ("2018/12/25")],
 
                 startDate: ("{{event.startDateReservable}}", new Date()),
                 endDate: ("{{event.endDateReservable}}"),

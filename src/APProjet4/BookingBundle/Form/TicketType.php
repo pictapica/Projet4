@@ -18,15 +18,12 @@ class TicketType extends AbstractType {
         $builder
             ->add('lastname',    TextType::class, [
                         'label' => 'Nom :',
-                        'label_attr' => ['class' => 'label_block'],
                 ])
             ->add('firstname',   TextType::class, [
                         'label' => 'Prénom :',
-                        'label_attr' => ['class' => 'label_block'],
                 ])
             ->add('dateOfBirth', BirthdayType::class, [
                         'label' => 'Date de naissance : ',
-                        'label_attr' => ['class' => 'label_block'],
                         'placeholder' => [
                             'day' => 'Jour',
                             'month' => 'Mois',
