@@ -39,9 +39,9 @@ class Booking {
     /**
      * @var string
      *
-     * @ORM\Column(name="orderCode", type="string", length=18, unique=true)
+     * @ORM\Column(name="orderCode", type="string", length=12, unique=true)
      */
-    private $orderCode;
+    private $orderCode = null;
 
     /**
      * @var int
