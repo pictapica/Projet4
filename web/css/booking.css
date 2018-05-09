@@ -405,7 +405,7 @@ body {
 }
 .progress-indicator>li.completed,
 .progress-indicator>li.completed .bubble{
-    color:#fec500;
+    color:#ec971f;
 }
 .progress-indicator>li .bubble{
     border-radius:1000px;
@@ -430,7 +430,7 @@ body {
 .progress-indicator>li.completed .bubble,
 .progress-indicator>li.completed .bubble:after,
 .progress-indicator>li.completed .bubble:before{
-    background-color:#fec500;
+    background-color:#ec971f;
     border-color:#247830;
 }
 .progress-indicator>li .bubble:before{
@@ -526,6 +526,9 @@ body {
 }
 
 
+.form__error{
+   color: #000; 
+}
 * {
     box-sizing: border-box;
 }
@@ -576,7 +579,7 @@ body {
 .native:focus::-webkit-input-placeholder,
 .native:invalid::-webkit-input-placeholder,
 .jsstate-filled .native::-webkit-input-placeholder {
-    color: #003d50;
+    color: #27627f;
     transition: color 0.25s ease-in-out;
 }
 .native:focus + .label::after,
@@ -647,6 +650,7 @@ body {
 }
 .message {
     z-index: 2;
+    color: yellow;
 }
 .message::before {
     opacity: 0;
@@ -676,10 +680,11 @@ body {
     z-index: -1;
     left: 5px;
     padding: 0 10px 0 10px;
-    background: #003d50;
+    background: #27627f;
     color: #fff;
     -webkit-transform: translateY(-50%) scaleX(0);
     transform: translateY(-50%) scaleX(0);
+    
 }
 .label::after,
 .message::after {
@@ -692,8 +697,8 @@ body {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     transition: opacity 0.25s ease-in-out, color 0.25s;
+    
 }
-
 
 
 /*Button*/
@@ -839,4 +844,68 @@ a:hover{
     left: 171px;
 }
 
+.cross {
+  width: 25px;
+  height: 25px;
+  margin: 5px auto;
+  border-radius: 50% 50%;
+  position: relative;
+  transform: scale(1.3);
+}
+.cross::before {
+  background: #888;
+  position: absolute;
+  display: block;
+  content: '';
+  width: 70%;
+  height: 6%;
+  top: 47%;
+  left: 15%;
+  transform: rotate(45deg);
+}
+.cross::after {
+  background: #888;
+  position: absolute;
+  display: block;
+  content: '';
+  width: 6%;
+  height: 70%;
+  left: 47%;
+  top: 15%;
+  transform: rotate(45deg);
+}
+.cross:hover {
+  background: transparent;
+  box-shadow: inset 0 0 5px 1px #444;
+  -webkit-transition: background .3s;
+  -moz-transition: background .9s;
+}
+.cross:hover::before {
+  background: #fff;
+  box-shadow: 0px 0px 8px -1px #555;
+}
+.cross:hover::after {
+  background: #fff;
+  box-shadow: 0px 0px 8px -1px #555;
+}
 
+fieldset {
+ padding:0 20px 20px 20px;
+ margin-bottom:10px;
+ 
+ background-color: #27627f;
+ }
+
+ btn2{
+    color:#fff;
+    text-align: center;
+    padding: 10px;
+}
+btn2::hover {
+    color:#fff;
+}
+
+.form__option {
+    background-color: #003d50;
+    color: #fff;
+}

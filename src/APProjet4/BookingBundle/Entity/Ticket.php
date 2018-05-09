@@ -50,7 +50,7 @@ class Ticket {
      * @var \DateTime
      *
      * @ORM\Column(name="dateOfBirth", type="datetime")
-     * @Assert\NotBlank()
+     * @Assert\Date()
      */
     private $dateOfBirth;
 

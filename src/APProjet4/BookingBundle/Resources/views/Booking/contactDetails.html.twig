@@ -31,6 +31,7 @@
                 <hr>
             </div>
         </div>
+         <fieldset>
         <div id="tickets">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
@@ -38,11 +39,15 @@
                 </div>
             </div>
         </div>
-        <div class="tickets"></div>
+        <div class="new_ticket">
+            <button type="button" id="close"  class=" pull-right cross">
+            </button>
+        </div>
+         </fieldset>
         <button id="add-ticket" style="color:#000;">+ Ajouter un billet</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <button class="button2">Finaliser votre commande</button>
+                <button type="submit" class="button2">Finaliser votre commande</button>
             </div>
         </div><br>
     </div>
@@ -56,9 +61,17 @@
 
 
             button.on("click", function () {
-                //$('#tickets').clone().insertBefore($('.tickets'));
-                var ticket_html = '<div class="tickets">Toc</div>';
-                tickets.append(ticket_html);
+                $('#tickets').clone().prependTo($('.new_ticket'));
+                //var ticket_html = '<div class="tickets">Toc</div>';
+                //tickets.append(ticket_html);
+            });
+
+        </script>
+        <script>
+            var button = $("#close");
+
+            button.on("click", function () {
+                $('.new_ticket').remove();
             });
         </script>
         <script>$("#alert-target").click(function () {

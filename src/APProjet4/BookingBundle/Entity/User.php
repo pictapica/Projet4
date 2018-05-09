@@ -3,6 +3,7 @@
 namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -10,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="APProjet4\BookingBundle\Repository\UserRepository")
  */
-class User
-{
+class User {
+
     /**
      * @var int
      *
@@ -25,22 +26,24 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas valide.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
-    
     /**
      * @ORM\OneToMany(targetEntity="Booking", mappedBy="user",cascade={"persist"})
      */
     private $bookings;
-    
+
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -51,8 +54,7 @@ class User
      *
      * @return User
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -63,15 +65,14 @@ class User
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -82,8 +83,7 @@ class User
      *
      * @return User
      */
-    public function addBooking(\APProjet4\BookingBundle\Entity\Booking $booking)
-    {
+    public function addBooking(\APProjet4\BookingBundle\Entity\Booking $booking) {
         $this->bookings[] = $booking;
 
         return $this;
@@ -94,8 +94,7 @@ class User
      *
      * @param \APProjet4\BookingBundle\Entity\Booking $booking
      */
-    public function removeBooking(\APProjet4\BookingBundle\Entity\Booking $booking)
-    {
+    public function removeBooking(\APProjet4\BookingBundle\Entity\Booking $booking) {
         $this->bookings->removeElement($booking);
     }
 
@@ -104,8 +103,8 @@ class User
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getBookings()
-    {
+    public function getBookings() {
         return $this->bookings;
     }
+
 }

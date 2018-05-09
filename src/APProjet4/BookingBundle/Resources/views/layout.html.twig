@@ -18,7 +18,7 @@
             <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
             <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
             <script src="{{asset('js/script.js')}}"></script>
-            
+
         {% endblock %}
 
     {% endblock %}
@@ -71,7 +71,19 @@
         {% block javascripts %}
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
             <script src="{{asset('js/pays.js')}}"></script>
+            <script>
+
+                $.validate({
+                    onModulesLoaded: function () {
+                        $('#country').suggestCountry();
+                    }
+                });
+
+                
+
+            </script>
             <script>$(window).scroll(function () {
                     if ($(this).scrollTop() > 50)  /*height in pixels when the navbar becomes non opaque*/
                     {

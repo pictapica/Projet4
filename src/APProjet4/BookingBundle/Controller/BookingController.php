@@ -9,7 +9,6 @@ use APProjet4\BookingBundle\Form\BookingType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Symfony\Component\HttpFoundation\Request;
 
 class BookingController extends Controller {
@@ -119,33 +118,61 @@ class BookingController extends Controller {
      *    des billets journée pour le jour-même 
      *    Message */
 
-    public function saveDateAction(Request $request) {
-        
+    public function saveDateAction(Request $request, $orderCode) {
+        $em = $this->getDoctrine()->getManager();
+        if ($orderCode) {
+            $booking = $em->getRepository('APProjet4BookingBundle:Booking')->findOneByOrderCode($orderCode);
+            if (!booking) {
+                return $this->redirectToRoute('approjet4_booking_selectDate');
+            } else {
+                if ($booking->getStatus() === Booking::STATUS_PAID) {
+                    return $this->redirectToRoute('approjet4_booking_paid', array($orderCode => $booking->getOrderCode()
+                    ));
+                }
+            }
+        } else {
+            $booking = new Booking();
+            $em->persist($booking);
+
+            $visitDate = $request->query->get('pick_a_date');
+            if (!$visitDate) {
+                $this->getFlashBag()
+                        ->add('notice', 'Vous devez saisir une date de visite!');
+            } else {
+                if (availability === true) {
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($visitDate);
+                    $em->flush();
+                } else {
+                    $this->getFlashBag()
+                            ->add('notice', 'Le nombre de visiteurs possible pour cette journée est dépassé');
+                }
+            }
+        }
     }
 
-    /*    Choix du nombre de billets
+    /*
+     *   Choix du nombre de billets
      * 4  Calcul le total selon le montant de chaque billet 
-     *    
-     * 
      */
 
-    public function contactDetailsAction(Request $request) {
-        
-        $booking = new Booking();
-        $form1 = $this->createForm(BookingType::class, $booking);
-                
-
-        if ($request->isMethod('POST') && $form1->handelRequest($request)->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($booking);
-                $em->flush();
-
-                return $this->redirecToRoute('approjet4_booking_email', array('id' => $booking->getId()));
-            }
-        
+    public function contactDetailsShowAction() {
+        $form1 = $this->createForm(BookingType::class);
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
                     'form1' => $form1->createView(),
         ));
+    }
+
+    public function saveContactDetailsAction(Request $request) {
+        $booking = new Booking();
+
+        if ($request->isMethod('POST') && $form1->handelRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($booking);
+            $em->flush();
+            return $this->redirecToRoute('approjet4_booking_email', array('id' => $booking->getId()));
+        }
     }
 
 }

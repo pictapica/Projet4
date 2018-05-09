@@ -2,7 +2,7 @@
 
 namespace APProjet4\BookingBundle\Repository;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
+
 
 class EventRepository extends \Doctrine\ORM\EntityRepository
 {

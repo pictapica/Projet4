@@ -23,11 +23,12 @@ approjet4_booking_max_booking:
 approjet4_booking_pick_a_date:
     path:    /save_date
     defaults: {_controller: APProjet4BookingBundle:Booking:saveDate}
+    methods: [GET]
 
  ## Page 2 - Nombre de billets et renseignements  
 approjet4_booking_contactDetails:
     path:    /details
-    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
+    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetailsShow}
 
 ##approjet4_booking_contactDetail2:
    ## path:    /details/{id}
