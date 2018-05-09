@@ -87,20 +87,20 @@ class BookingController extends Controller {
      *    Choix JOURNEE ou DEMI-JOURNEE 
      */
     public function maxAction(Request $request) {
-        define("MAX_BOOKING_DATE", 1000);
+        define("MAX_TICKETS_PER_DAY", 1000);
         if ($request->isXmlHttpRequest()) {
-            $d = new \DateTime($request->get('date'));
+            $d = new \DateTime($request->get('visitDate'));
 
-            $bookings = $this->getDoctrine()
+            $tickets = $this->getDoctrine()
                     ->getRepository('APProjet4BookingBundle:Booking')
-                    ->findByDate($d);
+                    ->findByVisitDate($d);
 
-            if (!$bookings) {
+            if (!$tickets) {
                 $response = array(
                     'availability' => true,
                 );
             } else {
-                if (count($bookings) > MAX_BOOKING_DATE) {
+                if (count($tickets) > MAX_TICKETS_PER_DAY) {
                     $response = array(
                         'availability' => false,
                     );

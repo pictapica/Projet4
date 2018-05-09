@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Ticket {
 
+
     /**
      * @var int
      *
@@ -216,7 +217,6 @@ class Ticket {
         return $this->reduced;
     }
 
-
     /**
      * Set booking
      *
@@ -224,8 +224,7 @@ class Ticket {
      *
      * @return Ticket
      */
-    public function setBooking(\APProjet4\BookingBundle\Entity\Booking $booking = null)
-    {
+    public function setBooking(\APProjet4\BookingBundle\Entity\Booking $booking = null) {
         $this->booking = $booking;
 
         return $this;
@@ -236,8 +235,8 @@ class Ticket {
      *
      * @return \APProjet4\BookingBundle\Entity\Booking
      */
-    public function getBooking()
-    {
+    public function getBooking() {
         return $this->booking;
     }
+
 }
