@@ -69,6 +69,8 @@ class Ticket {
      * @ORM\Column(name="reduced", type="boolean")
      */
     private $reduced;
+    
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
@@ -239,4 +241,15 @@ class Ticket {
         return $this->booking;
     }
 
+    const HEURE_MAX = '14';
+
+    public  function isHourOk() {
+        $now = new \DateTime();
+
+        if (($this->visitDate->format('Ymd') === $now->format('Ymd')) && ($now->format('H') >= self::HEURE_MAX)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

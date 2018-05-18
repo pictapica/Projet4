@@ -10,16 +10,16 @@ namespace APProjet4\BookingBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository {
 
-    const HEURE_MAX = '14';
-
-    public static function checkTime($visitDate) {
-        $now = new \DateTime();
-
-        if (($visitDate->format('Ymd') === $now->format('Ymd')) && ($now->format('H') >= self::HEURE_MAX)) {
-            return true;
-        } else {
-            return false;
-        }
+    public static function countTicketsPerDay($orderDate) {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+                ->select('count(t.id)')
+                ->leftJoin('t.booking', 'b')
+                ->where('b.orderDate=:date')
+                ->setParameter('date', $orderDate)
+                ->andWhere('b.status>=:status')
+                ->setParameter('status', Booking::STATUS_PAID);
+        return $qb->getQuery()->getArrayResult();
+        //renvoyer un nombre de tickets();
     }
-
 }
