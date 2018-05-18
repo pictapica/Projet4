@@ -23,41 +23,76 @@
             <li><span class="bubble"></span><a href="#0">Confirmation</a></li>
         </ul>
     </nav>
-
     <div class="container form">
-        <form>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-xs-12 ">
-                    <h2>{{event.title}}</h2>
-                    <p style="text-align:center;">{{event.content}}</p>
-                    <hr>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 ">
+                <h2>{{event.title}}</h2>
+                <p style="text-align:center;">{{event.content}}</p>
+                <hr>
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="col-lg-offset-1 col-lg-4 col-md-offset-1 col-md-5 col-xs-12 ">
+                <div class="form_datetime">
+                    <h4>1 - Choisissez une date : </h4><br>
+                    <input  class="col-lg-offset-1 col-lg-5 col-md-5 col-xs-12" id="pick_a_date" type="hidden" name="pick_a_date" value="">
                 </div>
             </div>
-            <div class="row"> 
-                <div class="col-lg-offset-1 col-lg-4 col-md-offset-1 col-md-5 col-xs-12 ">
-                    <div class="form_datetime">
-                        <h4>1 - Choisissez une date : </h4><br>
-                        <input  class="col-lg-offset-1 col-lg-5 col-md-5 col-xs-12" id="pick_a_date" type="hidden" name="pick_a_date" value=false>
-                    </div>
-                </div>
-                <div class=" col-lg-offset-2 col-lg-4 col-md-5  col-xs-12">
-                    <h4>2 - Choisissez votre type de billet </h4>
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button id="daySelect" type="text" class="button">Journée</button></a>
-                    <a href="{{path('approjet4_booking_contactDetails')}}"><button id="halfDaySelect" type="text" class="button">Demi-journée</button></a>
-                </div>
+            <div class=" col-lg-offset-2 col-lg-4 col-md-5  col-xs-12">
+                <h4>2 - Choisissez votre type de billet </h4>
+                <button id="daySelect"  class="button">Journée</button>
+                <button id="halfDaySelect"  class="button">Demi-journée</button>
             </div>
-        </form>
+        </div>
+        <hr>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <br>
                 <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour</button></a>
             </div>
         </div>
-    </div> 
+    </div>
 
 
     {% block javascript %}
-        <script>$.fn.datepicker.dates['fr'] = {
+        <script>
+            
+            var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
+            var url_contact_details = "{{path('approjet4_booking_contactDetails')}}";
+            
+            function submitData(fullDay) {
+                var visitDate = $('#pick_a_date').val();
+
+                if (!$('#pick_a_date').val()) {
+                    toastr.warning('Vous devez renseigner une date !', '', {positionClass: "toast-top-center"});
+                } else {
+                    $.post(url_post_date, {
+                        visitDate: visitDate,
+                        isFullDay: fullDay,
+                        id: "{{event.id}}"
+                    }, function (response) {
+                        if (response.success) {
+                            document.location = url_contact_details;
+                        } else {
+                            console.log(response.error);
+                            toastr.warning('Vous devez renseigner une date !', '', {positionClass: "toast-top-center"});
+                        }
+                    });
+                }
+            }
+            $(document).ready(function () {
+                $('#daySelect').click(function () {
+                    console.log('daySelect');
+                    submitData(true);
+                });
+
+                $('#halfDaySelect').click(function () {
+                    console.log('halfDaySelect');
+                    submitData(false);
+                });
+            });
+
+            $.fn.datepicker.dates['fr'] = {
                 days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
                 daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
                 daysMin: ["D", "L", "M", "M", "J", "V", "S"],
@@ -68,7 +103,6 @@
                 weekStart: 1,
                 today: "Aujourd'hui"
             };
-
             $(".form_datetime").datepicker({
                 format: "yyyy/mm/dd",
                 language: 'fr',
@@ -77,32 +111,15 @@
                 datesDisabled: [
                     ("2018/05/01"),
                     ("2018/11/01"),
-                    ("2018/12/25")],
-                
-                startDate: ("{{event.startDateReservable}}", new Date()),
-                endDate: ("{{event.endDateReservable}}"),
+                    ("2018/12/25")
+                    ],
 
-                onSelect: function () {
-                    var visitDate = $("#pick_a_date").datepicker("getDate");
-                    console.log(visitDate);
-                    $.ajax({
-                        type: 'GET',
-                        data: {pick_a_date: visitDate}
-                    });
-                }
+                startDate: ("{{event.startDateReservable}}", new Date()),
+                endDate: ("{{event.endDateReservable}}")
             });
         </script>
 
-        {#<script>
-        // Création d'une requête HTTP
-    var req = new XMLHttpRequest();
-    // Requête HTTP GET synchrone vers le fichier langages.txt publié localement
-    req.open("GET", "http://http://localhost/Projet4/web/app_dev.php/purchase/2?pick_a_date=", false);
-    // Envoi de la requête
-    req.send(null);
-    // Affiche la réponse reçue pour la requête
-    console.log(req.responseText);
-    </script>#}
+
     {% endblock %}
 {% endblock %}
 
