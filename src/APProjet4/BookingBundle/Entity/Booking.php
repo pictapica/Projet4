@@ -54,15 +54,22 @@ class Booking {
      * @var string
      * @ORM\column(name="email", type="string")
      */
-    private $email;
+    private $email = null;
 
+        /**
+     * @var bool
+     *
+     * @ORM\Column(name="fullDay", type="boolean")
+     * @Assert\Type(type="bool")
+     */
+    private $fullDay = true;
+    
     /**
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
      */
     private $tickets;
 
     public function __construct() {
-        // Par défaut, la date de commande est la date d'aujourd'hui
         $this->status = self::STATUS_START;
         $this->orderDate = new \Datetime();
         $this->tickets = new ArrayCollection();
@@ -197,4 +204,28 @@ class Booking {
     }
 
     
+
+    /**
+     * Set fullDay
+     *
+     * @param boolean $fullDay
+     *
+     * @return Booking
+     */
+    public function setFullDay($fullDay)
+    {
+        $this->fullDay = $fullDay;
+
+        return $this;
+    }
+
+    /**
+     * Get fullDay
+     *
+     * @return boolean
+     */
+    public function getFullDay()
+    {
+        return $this->fullDay;
+    }
 }
