@@ -909,3 +909,7 @@ btn2::hover {
     background-color: #003d50;
     color: #fff;
 }
+
+.form-check-label {
+    padding: 20px 40px 20px 20px;
+}

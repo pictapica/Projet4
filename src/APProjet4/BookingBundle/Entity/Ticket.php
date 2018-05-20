@@ -36,6 +36,7 @@ class Ticket {
      *
      * @ORM\Column(name="firstname", type="string", length=50)
      * @Assert\NotBlank()
+     * 
      */
     private $firstname;
 
@@ -243,13 +244,29 @@ class Ticket {
 
     const HEURE_MAX = '14';
 
-    public  function isHourOk() {
+    public  function isHourPast() {
         $now = new \DateTime();
-
         if (($this->visitDate->format('Ymd') === $now->format('Ymd')) && ($now->format('H') >= self::HEURE_MAX)) {
             return true;
         } else {
             return false;
         }
     }
+    public function isItAPastDay($visitDay) {
+        $now = new \DateTime();
+        if ($visitDay->format('Y-m-d') < $now->format('Y-m-d')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function isItADisabledDay($visitDay){
+        if ($visitDay->format('D') == mardi || $visitDay->format('D') == 'Sun'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //Vérification pour les jours fériés
 }

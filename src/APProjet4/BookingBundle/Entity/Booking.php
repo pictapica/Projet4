@@ -53,6 +53,7 @@ class Booking {
     /**
      * @var string
      * @ORM\column(name="email", type="string")
+     * @Assert\Email()
      */
     private $email = null;
 

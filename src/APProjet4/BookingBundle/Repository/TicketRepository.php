@@ -12,14 +12,18 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository {
 
     public static function countTicketsPerDay($orderDate) {
         $qb = $this->createQueryBuilder('t');
-        $qb
-                ->select('count(t.id)')
-                ->leftJoin('t.booking', 'b')
-                ->where('b.orderDate=:date')
-                ->setParameter('date', $orderDate)
-                ->andWhere('b.status>=:status')
-                ->setParameter('status', Booking::STATUS_PAID);
-        return $qb->getQuery()->getArrayResult();
-        //renvoyer un nombre de tickets();
+
+        $qb     ->select('count(t.id)')// On compte le nombre d'id de tickets
+                ->leftJoin('t.booking', 'b') //On lie avec l'entité booking
+                ->where('b.orderDate=:orderdate')//On défini un paramètre  => "orderDate"
+                ->setParameter('orderdate', $orderDate) //On attribut une valeur à ce paramètre 
+                ->andWhere('b.status>=:status') //On défini un second paramètre
+                ->setParameter('status', Booking::STATUS_PAID); // On attribut une valeur à ce paramètre
+        // On retourne les résultats
+        return $qb
+                ->getQuery()
+                ->getResult()
+        ;
     }
+
 }
