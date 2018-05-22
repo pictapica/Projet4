@@ -15,26 +15,23 @@ approjet4_booking_selectDate:
         id: \d+
     
 ## Vérification max 1000 tickets ( Ajax )
-approjet4_booking_max_booking:
+approjet4_booking_max_booking_ajax:
     path : /max-booking
     defaults: { _controller: APProjet4BookingBundle:Booking:max}
+    methods: [GET]
 
 ## Submit ( Ajax )
 approjet4_booking_pick_a_date:
     path:    /save_date
     defaults: {_controller: APProjet4BookingBundle:Booking:saveDate}
-    methods: [GET]
+    methods: [POST]
 
  ## Page 2 - Nombre de billets et renseignements  
 approjet4_booking_contactDetails:
     path:    /details
-    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetailsShow}
-
-##approjet4_booking_contactDetail2:
-   ## path:    /details/{id}
-   ## defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
+    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
     
 ## Page3 - Récapitulatif et Adresse Email
-approjet4_booking_email:
-    path:   /
-    defaults: {_controller: APPRojet4BookingBundle:Booking:email}
+approjet4_booking_showRecap:
+    path:   /recapitulative
+    defaults: {_controller: APProjet4BookingBundle:Booking:showRecap}

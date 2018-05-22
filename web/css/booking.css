@@ -527,7 +527,7 @@ body {
 
 
 .form__error{
-   color: #000; 
+    color: #000; 
 }
 * {
     box-sizing: border-box;
@@ -553,6 +553,11 @@ body {
     font: inherit;
 
 }
+
+input:invalid {
+  border: 2px dashed red;
+}
+
 .native {
     position: absolute;
     z-index: 2;
@@ -579,7 +584,7 @@ body {
 .native:focus::-webkit-input-placeholder,
 .native:invalid::-webkit-input-placeholder,
 .jsstate-filled .native::-webkit-input-placeholder {
-    color: #27627f;
+    color: #003d50;
     transition: color 0.25s ease-in-out;
 }
 .native:focus + .label::after,
@@ -680,11 +685,11 @@ body {
     z-index: -1;
     left: 5px;
     padding: 0 10px 0 10px;
-    background: #27627f;
+    background: #003d50;
     color: #fff;
     -webkit-transform: translateY(-50%) scaleX(0);
     transform: translateY(-50%) scaleX(0);
-    
+
 }
 .label::after,
 .message::after {
@@ -697,7 +702,7 @@ body {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     transition: opacity 0.25s ease-in-out, color 0.25s;
-    
+
 }
 
 
@@ -845,58 +850,77 @@ a:hover{
 }
 
 .cross {
-  width: 25px;
-  height: 25px;
-  margin: 5px auto;
-  border-radius: 50% 50%;
-  position: relative;
-  transform: scale(1.3);
+    width: 25px;
+    height: 25px;
+    margin: 5px auto;
+    border-radius: 50% 50%;
+    position: relative;
+    transform: scale(1.3);
 }
 .cross::before {
-  background: #888;
-  position: absolute;
-  display: block;
-  content: '';
-  width: 70%;
-  height: 6%;
-  top: 47%;
-  left: 15%;
-  transform: rotate(45deg);
+    background: #888;
+    position: absolute;
+    display: block;
+    content: '';
+    width: 70%;
+    height: 6%;
+    top: 47%;
+    left: 15%;
+    transform: rotate(45deg);
 }
 .cross::after {
-  background: #888;
-  position: absolute;
-  display: block;
-  content: '';
-  width: 6%;
-  height: 70%;
-  left: 47%;
-  top: 15%;
-  transform: rotate(45deg);
+    background: #888;
+    position: absolute;
+    display: block;
+    content: '';
+    width: 6%;
+    height: 70%;
+    left: 47%;
+    top: 15%;
+    transform: rotate(45deg);
 }
 .cross:hover {
-  background: transparent;
-  box-shadow: inset 0 0 5px 1px #444;
-  -webkit-transition: background .3s;
-  -moz-transition: background .9s;
+    background: transparent;
+    box-shadow: inset 0 0 5px 1px #444;
+    -webkit-transition: background .3s;
+    -moz-transition: background .9s;
 }
 .cross:hover::before {
-  background: #fff;
-  box-shadow: 0px 0px 8px -1px #555;
+    background: #fff;
+    box-shadow: 0px 0px 8px -1px #555;
 }
 .cross:hover::after {
-  background: #fff;
-  box-shadow: 0px 0px 8px -1px #555;
+    background: #fff;
+    box-shadow: 0px 0px 8px -1px #555;
 }
 
-fieldset {
- padding:0 20px 20px 20px;
- margin-bottom:10px;
- 
- background-color: #27627f;
- }
+.recap {
+    margin:  10px 0 0 0;
+    padding : 1.2em;
+    font-size: 1.1em;
+    
+    background-color: #27627f;
+    border: 1px solid #fff;
+}
+.recapticket{
+    text-align:left;
+}
 
- btn2{
+.total1{
+    text-align: right;
+}
+#total {
+    padding: 1.3em;
+    margin: 0;
+    text-align: right;
+    font-size: 1.3em;
+    background-color: #73021b;
+}
+
+fieldset{
+    border: 1px solid #fff;
+}
+btn2{
     color:#fff;
     text-align: center;
     padding: 10px;

@@ -13,13 +13,13 @@
             <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
             <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
             <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
             <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
             <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
-            <script src="{{asset('js/script.js')}}"></script>
+            
         {% endblock %}
-
     {% endblock %}
 
     <body>
@@ -68,9 +68,9 @@
         </div>          
 
         {% block javascripts %}
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
             <script>$(window).scroll(function () {
                     if ($(this).scrollTop() > 50)  /*height in pixels when the navbar becomes non opaque*/

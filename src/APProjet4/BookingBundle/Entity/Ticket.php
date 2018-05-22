@@ -36,7 +36,7 @@ class Ticket {
      *
      * @ORM\Column(name="firstname", type="string", length=50)
      * @Assert\NotBlank()
-     * 
+     * @Assert\Length(min=2)
      */
     private $firstname;
 
@@ -45,6 +45,7 @@ class Ticket {
      *
      * @ORM\Column(name="lastname", type="string", length=50)
      * @Assert\NotBlank()
+     * @Assert\Length(min=2)
      */
     private $lastname;
 

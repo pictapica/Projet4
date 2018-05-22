@@ -3,53 +3,61 @@
 <h3>Billet 1 {#changer le numéro selon le nombre de billets#}</h3>
 
 <div class="ticket-type col-lg-12">
-    <div class="row"><span>CHOISISSEZ VOTRE TARIF : </span><br><br>
+    <div class="row"><span>CHOISISSEZ VOTRE TARIF : </span><br><br> 
+        {#Le tarif devra varié en fonction de journée ou 1/2 journée sélectionnée#}
         <div class="row">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
                 <label class="btn btn-warning active form-check-label col-xs-6 col-md-3">
-                    <input class="form-check-input" type="radio"autocomplete="off" checked> Tarif normal<br>16€
+                    <input class="form-check-input " 
+                           type="radio"
+                           autocomplete="off">TARIF NORMAL<br><br>
+                    <span style="padding-left: 20px" class="full">16€</span>
+                    <span style="padding-left: 20px" class="half">8€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                    <input class="form-check-input" type="radio" autocomplete="off"> Tarif réduit<br>8€
+                    <input class="form-check-input"  
+                           type="radio" 
+                           autocomplete="off">TARIF REDUIT<br><br>
+                    <span style="padding-left: 20px" class="full">8€</span>
+                    <span style="padding-left: 20px" class="half">4€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                    <input class="form-check-input" type="radio" autocomplete="off"> Enfant<br>6€
+                    <input class="form-check-input" 
+                           type="radio" 
+                           autocomplete="off">ENFANT<br><br>
+                    <span class="full">6€</span>
+                    <span class="half">3€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                    <input class="form-check-input" type="radio" autocomplete="off"> Sénior<br>10€
+                    <input class="form-check-input" 
+                           type="radio" 
+                           autocomplete="off">SENIOR<br><br>
+                    <span class="full">10€</span>
+                    <span class="half">5€</span>
                 </label>
             </div>
         </div>
     </div>
 </div>
 <div class="details  col-lg-12">
-    {{ form_start(form1, {'attr': {'class': 'form-horizontal'}}) }}
-
-    {# Les erreurs générales du formulaire. #}
-    {{ form_errors(form1) }}
-
-    {# Génération du label + error + widget pour un champ. #}
-    {{ form_row(form1.tickets) }}
 
     <label class="input js-input">
         <input type="text" 
                class="native js-native" 
-               placeholder="Nom" 
+               placeholder="Nom du visiteur" 
                data-validation="length alphanumeric" 
-               data-validation-length="2-15" 
-               data-validation-error-msg="Merci de renseigner le nom du visiteur"/>
-        <span class="label" data-label="Nom" aria-role="label">Nom</span>
-        <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom</span>
+               data-validation-length="2-15">
+        <span class="label" data-label="Nom" aria-role="label">Nom du visiteur</span>
+        <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom du visiteur</span>
     </label>
     <label class="input js-input">
         <input type="text" class="native js-native" 
-               placeholder="Prénom "
+               placeholder="Prénom du visiteur"
                data-validation="length alphanumeric" 
                data-validation-length="2-12" 
-               data-validation-error-msg="Merci de renseigner le prénom du visiteur"/>
-        <span class="label" data-label="Prénom" aria-role="label">Prénom</span>
-        <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Prénom</span>
+               data-validation-error-msg="Merci de renseigner le prénom du visiteur">
+        <span class="label" data-label="Prénom" aria-role="label">Prénom du visiteur</span>
+        <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Prénom du visiteur</span>
     </label>
 
     <label class="form-label">Date de naissance</label><br>
@@ -57,7 +65,7 @@
 
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
             <input type="text" class="native "
-                   data-validation-error-msg="Merci de renseigner une date valide"/>
+                   data-validation-error-msg="Merci de renseigner une date valide">
             <span class="label" data-label="Jour" aria-role="label">Jour</span>
             <select class="native js-native" name="birthday-day" id="birthday-day">
                 <option class="form__option" value="">Jour</option>
@@ -95,12 +103,11 @@
             </select> 
         </label> 
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
-            <input type="text" class="native js-native"
-
-                   data-validation="birthdate"
-                   data-validation-error-msg="Merci de renseigner une date valide"/>
+            <input type="text" class="native"
+                   data-validation="length alphanumeric"
+                   data-validation-error-msg="Merci de renseigner une date valide">
             <span class="label" data-label="Mois" aria-role="label">Mois</span>
-            <span class="message" data-label="Merci de renseigner la date de naissance du visiteur"  aria-role="label">Mois</span>
+
             <select class="native js-native" name="birthday-month" id="birthday-month">
                 <option class="form__option" value="">Mois</option>
                 <option class="form__option" value="01">Janvier</option>
@@ -118,11 +125,11 @@
             </select>
         </label>
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
-            <input type="text" class="native js-native"
-                   data-validation="birthdate"
-                   data-validation-error-msg="Merci de renseigner une date valide"/>
+            <input type="text" class="native"
+                   data-validation="length alphanumeric"
+                   data-validation-error-msg="Merci de renseigner une date valide">
             <span class="label" data-label="Année" aria-role="label">Année</span>
-            <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Année</span>
+            <span class="message"  aria-role="label">Année</span>
             <select class="native js-native" name="birthday-year" id="birthday-year">
                 <option class="form__option" value="">Année</option>
                 <option class="form__option" value="2017">2018</option>
@@ -248,107 +255,102 @@
         </label>
     </div>
     <label for="country" class="input js-input">	
-       <input type="text" id="pays" class="native js-native" data-validation="country"/>
+        <input type="text" id="pays" class="native" data-validation="length alphanumeric">
         <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
-        <span class="message" data-label="Merci de renseigner le pays de résidence du visiteur" aria-role="label">Pays de résidence</span>
-
-            <select class="native js-native" name="country" id="country">
-                <option class="form__option" value="">Pays de résidence</option>
-                <option class="form__option" value="AR">Argentina</option>
-                <option class="form__option" value="AU">Australia</option>
-                <option class="form__option" value="AT">Austria</option>
-                <option class="form__option" value="BY">Belarus</option>
-                <option class="form__option" value="BE">Belgium</option>
-                <option class="form__option" value="BA">Bosnia and Herzegovina</option>
-                <option class="form__option" value="BR">Brazil</option>
-                <option class="form__option" value="BG">Bulgaria</option>
-                <option class="form__option" value="CA">Canada</option>
-                <option class="form__option" value="CL">Chile</option>
-                <option class="form__option" value="CN">China</option>
-                <option class="form__option" value="CO">Colombia</option>
-                <option class="form__option" value="CR">Costa Rica</option>
-                <option class="form__option" value="HR">Croatia</option>
-                <option class="form__option" value="CU">Cuba</option>
-                <option class="form__option" value="CY">Cyprus</option>
-                <option class="form__option" value="CZ">Czech Republic</option>
-                <option class="form__option" value="DK">Denmark</option>
-                <option class="form__option" value="DO">Dominican Republic</option>
-                <option class="form__option" value="EG">Egypt</option>
-                <option class="form__option" value="EE">Estonia</option>
-                <option class="form__option" value="FI">Finland</option>
-                <option class="form__option" value="FR">France</option>
-                <option class="form__option" value="GE">Georgia</option>
-                <option class="form__option" value="DE">Germany</option>
-                <option class="form__option" value="GI">Gibraltar</option>
-                <option class="form__option" value="GR">Greece</option>
-                <option class="form__option" value="HK">Hong Kong S.A.R., China</option>
-                <option class="form__option" value="HU">Hungary</option>
-                <option class="form__option" value="IS">Iceland</option>
-                <option class="form__option" value="IN">India</option>
-                <option class="form__option" value="ID">Indonesia</option>
-                <option class="form__option" value="IR">Iran</option>
-                <option class="form__option" value="IQ">Iraq</option>
-                <option class="form__option" value="IE">Ireland</option>
-                <option class="form__option" value="IL">Israel</option>
-                <option class="form__option" value="IT">Italy</option>
-                <option class="form__option" value="JM">Jamaica</option>
-                <option class="form__option" value="JP">Japan</option>
-                <option class="form__option" value="KZ">Kazakhstan</option>
-                <option class="form__option" value="KW">Kuwait</option>
-                <option class="form__option" value="KG">Kyrgyzstan</option>
-                <option class="form__option" value="LA">Laos</option>
-                <option class="form__option" value="LV">Latvia</option>
-                <option class="form__option" value="LB">Lebanon</option>
-                <option class="form__option" value="LT">Lithuania</option>
-                <option class="form__option" value="LU">Luxembourg</option>
-                <option class="form__option" value="MK">Macedonia</option>
-                <option class="form__option" value="MY">Malaysia</option>
-                <option class="form__option" value="MT">Malta</option>
-                <option class="form__option" value="MX">Mexico</option>
-                <option class="form__option" value="MD">Moldova</option>
-                <option class="form__option" value="MC">Monaco</option>
-                <option class="form__option" value="ME">Montenegro</option>
-                <option class="form__option" value="MA">Morocco</option>
-                <option class="form__option" value="NL">Netherlands</option>
-                <option class="form__option" value="NZ">New Zealand</option>
-                <option class="form__option" value="NI">Nicaragua</option>
-                <option class="form__option" value="KP">North Korea</option>
-                <option class="form__option" value="NO">Norway</option>
-                <option class="form__option" value="PK">Pakistan</option>
-                <option class="form__option" value="PS">Palestinian Territory</option>
-                <option class="form__option" value="PE">Peru</option>
-                <option class="form__option" value="PH">Philippines</option>
-                <option class="form__option" value="PL">Poland</option>
-                <option class="form__option" value="PT">Portugal</option>
-                <option class="form__option" value="PR">Puerto Rico</option>
-                <option class="form__option" value="QA">Qatar</option>
-                <option class="form__option" value="RO">Romania</option>
-                <option class="form__option" value="RU">Russia</option>
-                <option class="form__option" value="SA">Saudi Arabia</option>
-                <option class="form__option" value="RS">Serbia</option>
-                <option class="form__option" value="SG">Singapore</option>
-                <option class="form__option" value="SK">Slovakia</option>
-                <option class="form__option" value="SI">Slovenia</option>
-                <option class="form__option" value="ZA">South Africa</option>
-                <option class="form__option" value="KR">South Korea</option>
-                <option class="form__option" value="ES">Spain</option>
-                <option class="form__option" value="LK">Sri Lanka</option>
-                <option class="form__option" value="SE">Sweden</option>
-                <option class="form__option" value="CH">Switzerland</option>
-                <option class="form__option" value="TW">Taiwan</option>
-                <option class="form__option" value="TH">Thailand</option>
-                <option class="form__option" value="TN">Tunisia</option>
-                <option class="form__option" value="TR">Turkey</option>
-                <option class="form__option" value="UA">Ukraine</option>
-                <option class="form__option" value="AE">United Arab Emirates</option>
-                <option class="form__option" value="GB">United Kingdom</option>
-                <option class="form__option" value="US">USA</option>
-                <option class="form__option" value="UZ">Uzbekistan</option>
-                <option class="form__option" value="VN">Vietnam</option>
-            </select>
-        
+        <span class="message" aria-role="label">Pays de résidence</span>
+        <select class="native js-native" name="country" id="country">
+            <option class="form__option" value="">Pays de résidence</option>
+            <option class="form__option" value="AR">Argentina</option>
+            <option class="form__option" value="AU">Australia</option>
+            <option class="form__option" value="AT">Austria</option>
+            <option class="form__option" value="BY">Belarus</option>
+            <option class="form__option" value="BE">Belgium</option>
+            <option class="form__option" value="BA">Bosnia and Herzegovina</option>
+            <option class="form__option" value="BR">Brazil</option>
+            <option class="form__option" value="BG">Bulgaria</option>
+            <option class="form__option" value="CA">Canada</option>
+            <option class="form__option" value="CL">Chile</option>
+            <option class="form__option" value="CN">China</option>
+            <option class="form__option" value="CO">Colombia</option>
+            <option class="form__option" value="CR">Costa Rica</option>
+            <option class="form__option" value="HR">Croatia</option>
+            <option class="form__option" value="CU">Cuba</option>
+            <option class="form__option" value="CY">Cyprus</option>
+            <option class="form__option" value="CZ">Czech Republic</option>
+            <option class="form__option" value="DK">Denmark</option>
+            <option class="form__option" value="DO">Dominican Republic</option>
+            <option class="form__option" value="EG">Egypt</option>
+            <option class="form__option" value="EE">Estonia</option>
+            <option class="form__option" value="FI">Finland</option>
+            <option class="form__option" value="FR">France</option>
+            <option class="form__option" value="GE">Georgia</option>
+            <option class="form__option" value="DE">Germany</option>
+            <option class="form__option" value="GI">Gibraltar</option>
+            <option class="form__option" value="GR">Greece</option>
+            <option class="form__option" value="HK">Hong Kong S.A.R., China</option>
+            <option class="form__option" value="HU">Hungary</option>
+            <option class="form__option" value="IS">Iceland</option>
+            <option class="form__option" value="IN">India</option>
+            <option class="form__option" value="ID">Indonesia</option>
+            <option class="form__option" value="IR">Iran</option>
+            <option class="form__option" value="IQ">Iraq</option>
+            <option class="form__option" value="IE">Ireland</option>
+            <option class="form__option" value="IL">Israel</option>
+            <option class="form__option" value="IT">Italy</option>
+            <option class="form__option" value="JM">Jamaica</option>
+            <option class="form__option" value="JP">Japan</option>
+            <option class="form__option" value="KZ">Kazakhstan</option>
+            <option class="form__option" value="KW">Kuwait</option>
+            <option class="form__option" value="KG">Kyrgyzstan</option>
+            <option class="form__option" value="LA">Laos</option>
+            <option class="form__option" value="LV">Latvia</option>
+            <option class="form__option" value="LB">Lebanon</option>
+            <option class="form__option" value="LT">Lithuania</option>
+            <option class="form__option" value="LU">Luxembourg</option>
+            <option class="form__option" value="MK">Macedonia</option>
+            <option class="form__option" value="MY">Malaysia</option>
+            <option class="form__option" value="MT">Malta</option>
+            <option class="form__option" value="MX">Mexico</option>
+            <option class="form__option" value="MD">Moldova</option>
+            <option class="form__option" value="MC">Monaco</option>
+            <option class="form__option" value="ME">Montenegro</option>
+            <option class="form__option" value="MA">Morocco</option>
+            <option class="form__option" value="NL">Netherlands</option>
+            <option class="form__option" value="NZ">New Zealand</option>
+            <option class="form__option" value="NI">Nicaragua</option>
+            <option class="form__option" value="KP">North Korea</option>
+            <option class="form__option" value="NO">Norway</option>
+            <option class="form__option" value="PK">Pakistan</option>
+            <option class="form__option" value="PS">Palestinian Territory</option>
+            <option class="form__option" value="PE">Peru</option>
+            <option class="form__option" value="PH">Philippines</option>
+            <option class="form__option" value="PL">Poland</option>
+            <option class="form__option" value="PT">Portugal</option>
+            <option class="form__option" value="PR">Puerto Rico</option>
+            <option class="form__option" value="QA">Qatar</option>
+            <option class="form__option" value="RO">Romania</option>
+            <option class="form__option" value="RU">Russia</option>
+            <option class="form__option" value="SA">Saudi Arabia</option>
+            <option class="form__option" value="RS">Serbia</option>
+            <option class="form__option" value="SG">Singapore</option>
+            <option class="form__option" value="SK">Slovakia</option>
+            <option class="form__option" value="SI">Slovenia</option>
+            <option class="form__option" value="ZA">South Africa</option>
+            <option class="form__option" value="KR">South Korea</option>
+            <option class="form__option" value="ES">Spain</option>
+            <option class="form__option" value="LK">Sri Lanka</option>
+            <option class="form__option" value="SE">Sweden</option>
+            <option class="form__option" value="CH">Switzerland</option>
+            <option class="form__option" value="TW">Taiwan</option>
+            <option class="form__option" value="TH">Thailand</option>
+            <option class="form__option" value="TN">Tunisia</option>
+            <option class="form__option" value="TR">Turkey</option>
+            <option class="form__option" value="UA">Ukraine</option>
+            <option class="form__option" value="AE">United Arab Emirates</option>
+            <option class="form__option" value="GB">United Kingdom</option>
+            <option class="form__option" value="US">USA</option>
+            <option class="form__option" value="UZ">Uzbekistan</option>
+            <option class="form__option" value="VN">Vietnam</option>
+        </select>
     </label>
-    {{ form_rest(form1) }}
-
-    {{ form_end(form1) }}
 </div>
