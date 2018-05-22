@@ -1,5 +1,5 @@
 {# src/OC/PlatformBundle/Resources/views/Advert/form1.html.twig #}
-
+<form>
 <h3>Billet 1 {#changer le numéro selon le nombre de billets#}</h3>
 
 <div class="ticket-type col-lg-12">
@@ -10,28 +10,32 @@
                 <label class="btn btn-warning active form-check-label col-xs-6 col-md-3">
                     <input class="form-check-input " 
                            type="radio"
-                           autocomplete="off">TARIF NORMAL<br><br>
+                           autocomplete="off"
+                           id="normal"/>TARIF NORMAL<br><br>
                     <span style="padding-left: 20px" class="full">16€</span>
                     <span style="padding-left: 20px" class="half">8€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                     <input class="form-check-input"  
                            type="radio" 
-                           autocomplete="off">TARIF REDUIT<br><br>
+                           autocomplete="off"
+                           id="reduct"/>TARIF REDUIT<br><br>
                     <span style="padding-left: 20px" class="full">8€</span>
                     <span style="padding-left: 20px" class="half">4€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                     <input class="form-check-input" 
                            type="radio" 
-                           autocomplete="off">ENFANT<br><br>
+                           autocomplete="off"
+                           id="child"/>ENFANT<br><br>
                     <span class="full">6€</span>
                     <span class="half">3€</span>
                 </label>
                 <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                     <input class="form-check-input" 
                            type="radio" 
-                           autocomplete="off">SENIOR<br><br>
+                           autocomplete="off"
+                           id="senior"/>SENIOR<br><br>
                     <span class="full">10€</span>
                     <span class="half">5€</span>
                 </label>
@@ -43,19 +47,24 @@
 
     <label class="input js-input">
         <input type="text" 
-               class="native js-native" 
+               class="native js-native champ" 
                placeholder="Nom du visiteur" 
                data-validation="length alphanumeric" 
-               data-validation-length="2-15">
+               data-validation-length="2-15"
+               value=""
+               id="lastname"/>
         <span class="label" data-label="Nom" aria-role="label">Nom du visiteur</span>
         <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom du visiteur</span>
     </label>
     <label class="input js-input">
-        <input type="text" class="native js-native" 
+        <input type="text" 
+               class="native js-native champ" 
                placeholder="Prénom du visiteur"
                data-validation="length alphanumeric" 
                data-validation-length="2-12" 
-               data-validation-error-msg="Merci de renseigner le prénom du visiteur">
+               data-validation-error-msg="Merci de renseigner le prénom du visiteur"
+               value=""
+               id="firstname"/>
         <span class="label" data-label="Prénom" aria-role="label">Prénom du visiteur</span>
         <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Prénom du visiteur</span>
     </label>
@@ -64,8 +73,10 @@
     <div class="row col-lg-offset-2 col-md-offset-2 col-xs-offset-1">
 
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
-            <input type="text" class="native "
-                   data-validation-error-msg="Merci de renseigner une date valide">
+            <input type="text" class="native champ"
+                   data-validation-error-msg="Merci de renseigner une date valide"
+                   value=""
+                   id="day"/>
             <span class="label" data-label="Jour" aria-role="label">Jour</span>
             <select class="native js-native" name="birthday-day" id="birthday-day">
                 <option class="form__option" value="">Jour</option>
@@ -103,9 +114,11 @@
             </select> 
         </label> 
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
-            <input type="text" class="native"
+            <input type="text" class="native champ"
                    data-validation="length alphanumeric"
-                   data-validation-error-msg="Merci de renseigner une date valide">
+                   data-validation-error-msg="Merci de renseigner une date valide"
+                   value=""
+                   id="month"/>
             <span class="label" data-label="Mois" aria-role="label">Mois</span>
 
             <select class="native js-native" name="birthday-month" id="birthday-month">
@@ -125,9 +138,11 @@
             </select>
         </label>
         <label class="input js-input col-lg-3 col-md-3 col-xs-3">
-            <input type="text" class="native"
+            <input type="text" class="native champ"
                    data-validation="length alphanumeric"
-                   data-validation-error-msg="Merci de renseigner une date valide">
+                   data-validation-error-msg="Merci de renseigner une date valide"
+                   value=""
+                   id="year"/>
             <span class="label" data-label="Année" aria-role="label">Année</span>
             <span class="message"  aria-role="label">Année</span>
             <select class="native js-native" name="birthday-year" id="birthday-year">
@@ -255,7 +270,9 @@
         </label>
     </div>
     <label for="country" class="input js-input">	
-        <input type="text" id="pays" class="native" data-validation="length alphanumeric">
+        <input type="text" id="pays" class="native champ" data-validation="length alphanumeric"
+               value=""
+               id="country"/>
         <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
         <span class="message" aria-role="label">Pays de résidence</span>
         <select class="native js-native" name="country" id="country">
@@ -354,3 +371,4 @@
         </select>
     </label>
 </div>
+</form>

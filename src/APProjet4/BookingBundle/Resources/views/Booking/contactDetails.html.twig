@@ -13,6 +13,7 @@
         </div>
     </section>
 {% endblock %}
+
 {% block APProjet4Booking_body %}
     <nav>
         <ul class="progress-indicator">
@@ -24,59 +25,216 @@
     </nav>
     <div class="container form">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12 ">
-
-                <h2>DELACROIX</h2> 
-                <p style="text-align:center">LE LUNDI 4 JUIN 2018 - BILLET JOURNEE</p>{#Récupérer pick_a date + journée ou 1/2#}
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <h2>{{event.title}}</h2> 
+                <p style="text-align:center">Visite du : {{visitDate|date('d/m/Y')}} - 
+                    <span id="fullDay">BILLET JOURNEE</span>
+                    <span id="halfDay">BILLET DEMI-JOURNEE</span></p>
                 <hr>
             </div>
         </div>
-         <fieldset>
-        <div id="tickets">
+        <div class="tickets">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
                     {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
+                    <button type="button" id="close"  title="Delete ticket" class=" pull-right cross">
+                    </button> 
                 </div>
             </div>
         </div>
+
         <div class="new_ticket">
-            <button type="button" id="close"  class=" pull-right cross">
-            </button>
+            <input type="hidden" />
         </div>
-         </fieldset>
-        <button id="add-ticket" style="color:#000;">+ Ajouter un billet</button>
+        <button id="add-ticket" title="Add ticket"style="color:#000;">+ Ajouter un billet</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <button type="submit" class="button2">Finaliser votre commande</button>
+                <input type="submit" id="envoi" class="button2"/>
             </div>
         </div><br>
     </div>
 
-
-
     {% block javascript %}
         <script>
-            var tickets = $("#tickets");
+            if ({{isFullDay}} == true){
+            $("#fullDay").show();
+            $("#halfDay").hide();
+            }
+            if ({{isFullDay}} == false){
+            $("#fullDay").hide();
+            $("#halfDay").show();
+            }
+        </script>
+        <script>
+            if ({{isFullDay}} == true){
+            $(".full").show();
+            $(".half").hide();
+            } else{
+            $(".full").hide();
+            $(".half").show();
+            }
+        </script>
+        <script>
+            var tickets = $(".tickets");
             var button = $("#add-ticket");
-
-
             button.on("click", function () {
-                $('#tickets').clone().prependTo($('.new_ticket'));
-                //var ticket_html = '<div class="tickets">Toc</div>';
-                //tickets.append(ticket_html);
+            $('.tickets').clone().prependTo($('.new_ticket'));
+            //var ticket_html = '<div class="new_ticket"></div>';
+            tickets.append(ticket_html);
             });
-
+            //insérer un élément div ticket
+            {#var new_ticket = document.createElement('div');
+            new_ticket.class = 'new";
+            var texte = document.createTextNode('un nouveau ticket !');
+            new_ticket.appendChild(texte);
+            var tickets1 = document.querySelector('.tickets');
+            document.body.insertAfter(new_Ticket, tickets1);#}
+                //})
         </script>
         <script>
             var button = $("#close");
-
             button.on("click", function () {
-                $('.new_ticket').remove();
+            $('.new_ticket').remove();
             });
         </script>
         <script>$("#alert-target").click(function () {
-                toastr["info"]("I was launched via jQuery!");
+            toastr["info"]("I was launched via jQuery!");
             });</script>
-        {% endblock %}
+        <script>
+            $(function () {
+            $('body').on('click', '.btn-checkbox', function () {
+
+            var $checkbox = $(this).find(':input[type=checkbox]');
+            if ($checkbox.length) {
+            var $icon = $(this).find('[data-icon-on]');
+            if ($checkbox.is(':checked')) {
+            unchecked($checkbox);
+            } else {
+            checked($checkbox);
+            }
+            return;
+            }
+            var $radio = $(this).find(':input[type=radio]');
+            if ($radio.length) {
+            var $group = $radio.closest('.btn-group');
+            $group.find(':input[type=radio]').not($radio).each(function () {
+            unchecked($(this));
+            })
+                    var $icon = $(this).find('[data-icon-on]');
+            if ($radio.is(':checked')) {
+            unchecked($radio);
+            } else {
+            checked($radio);
+            }
+            return;
+            }
+            });
+            });
+            function checked($input) {
+            var $button = $input.closest('.btn');
+            var $icon = $button.find('[data-icon-on]');
+            $button.addClass('active');
+            $input.prop('checked', true);
+            $icon.css('width', $icon.width());
+            $icon.removeAttr('class').addClass($icon.data('icon-on'));
+            $input.trigger('change');
+            }
+
+            function unchecked($input) {
+            var $button = $input.closest('.btn');
+            var $icon = $button.find('[data-icon-on]');
+            $button.removeClass('active');
+            $input.prop('checked', false);
+            $icon.css('width', $icon.width());
+            $icon.removeAttr('class').addClass($icon.data('icon-off'));
+            $input.trigger('change');
+            }
+
+            function initInput(elements) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+            var defaults = {
+            triggerPrefix: 'js',
+                    statePrefix: 'jsstate',
+                    filledClassName: 'filled',
+                    nativeClassName: 'native',
+                    visitedClassName: 'visited'
+            };
+            var config = Object.assign({}, defaults, options);
+            var filledClassName = config.statePrefix + '-' + config.filledClassName;
+            var visitedClassName = config.statePrefix + '-' + config.visitedClassName;
+            var nativeSelector = '.' + config.triggerPrefix + '-' + config.nativeClassName;
+            function onBlur(e) {
+            var match = Array.prototype.filter.call(e.path, function (node) {
+            return Array.prototype.filter.call(elements, function (element) {
+            return element === node;
+            }).length > 0;
+            })[0];
+            if (!match)
+                    return;
+            var native = match.querySelector(nativeSelector);
+            if (!native)
+                    return;
+            match.classList.toggle(filledClassName, native.value.length > 0);
+            match.classList.add(visitedClassName);
+            }
+
+            document.addEventListener('blur', onBlur, true);
+            document.addEventListener('change', onBlur, true);
+            }
+
+            initInput(document.querySelectorAll('.js-input'));
+        </script>
+        {#<script>
+            var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
+            var url_recap = "{{path('approjet4_booking_showRecap')}}";
+            function submitInfo(submit) {
+
+            if (!('#fistname').val() || !('#lastname').val() || !('#day').val()
+                    || !('#month').val() || !('#year').val() || !('#country').val()) {
+            toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
+            } else {
+            $.post(url_post_date, {
+
+            firstname: firstname,
+                    lastname: lastname,
+                    dateOfBirth: dateOfBirth,
+                    country: country
+            }, function (response) {
+            if (response.success) {
+            document.location = url_recap;
+            } else {
+            toastr.warning('Merci de renseigner une date et de choisir un type de visite.', '', {positionClass: "toast-top-center"});
+            }
+            });
+            }
+            }
+            </scrip>#}
+        <script>
+            $(document).ready(function () {
+            var $firstname = $(#firstname),
+                    $lastname = $(#lastname),
+                    $dateOfBirth = $(#dateOfBirth),
+                    $country = $(#country);
+                    
+            
+            $envoi.click(function(e){
+            e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
+
+            // puis on lance la fonction de vérification sur tous les champs :
+            verify($firstname);
+            verify($lastname);
+            verify($dateOfBirth);
+            verify($country);
+            });
+            
+            
+            function verify(champ){
+            if (champ.val() == ""){ // si le champ est vide
+            toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
+            };
+            }
+            });
+        </script>
     {% endblock %}
+{% endblock %}
 
