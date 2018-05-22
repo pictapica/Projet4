@@ -1,0 +1,97 @@
+{#src/APProjet4/BookingBundle/Resources/views/Booking/recap.html.twig #}
+
+{% extends "APProjet4BookingBundle::layout.html.twig" %}
+
+{% block title_section %}
+    <section class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="cold-lg-12">
+                    <h1>RECAPITULATIF</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block APProjet4Booking_body %}
+    <nav>
+        <ul class="progress-indicator">
+            <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">Coordonnées</a></li>
+            <li><span class="bubble"></span><a href="#0">Paiement</a></li>
+            <li><span class="bubble"></span><a href="#0">Confirmation</a></li>
+        </ul>
+    </nav>
+    <div>
+        {# On affiche tous les messages flash dont le nom est « info » #}
+        {% for message in app.session.flashbag.get('info') %}
+            <p>Message flash : {{ message }}</p>
+        {% endfor %}
+    </div>
+    <div class="container form">
+        <div class="row recap">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <h2>{{event.title}}</h2> 
+                <p style="text-align:center">Visite du : {{visitDate|date('d/m/Y')}} - 
+                    <span id="fullDay">BILLET JOURNEE</span>
+                    <span id="halfDay">BILLET DEMI-JOURNEE</span></p>
+                <hr>
+            </div>
+            <div class="row"> 
+                <div class="col-lg-12">
+                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket" > 2 billet(s) PLEIN TARIF</div>
+                    <div class="col-lg-4 col-md-4 col-xs-4 total1">16 €</div><br><br>
+                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> 1 billet(s) TARIF ENFANT</div>
+                    <div class="col-lg-4 col-md-4 col-xs-4 total1">4 €</span></p></div>
+                </div>
+            </div>
+            <div class="col-lg-12" id="total">
+                TOTAL : 20 €
+            </div>  
+        </div>
+        <br><br>
+        <div class="col-lg-12">
+            <p>Pour recevoir vos billets, merci de renseigner votre adresse e-mail. </p>
+            <label class="input js-input">
+                <input type="text" class="native js-native" 
+                       placeholder="Adresse e-mail"
+                       data-validation="length alphanumeric" 
+                       data-validation-length="2-12" 
+                       data-validation-error-msg="Merci de renseigner votre adresse e-mail">
+                <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
+                <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
+            </label>
+        </div>
+        <div class=" col-lg-12">
+            <p>Confirmation de votre adresse e-mail.</p>
+            <label class="input js-input">
+                <input type="text" class="native js-native" 
+                       placeholder="Confirmation e-mail"
+                       data-validation="length alphanumeric" 
+                       data-validation-length="2-12" 
+                       data-validation-error-msg="Merci de renseigner votre adresse email">
+                <span class="label" data-label="Confirmation e-mail" aria-role="label">Confirmation e-mail</span>
+                <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">Confirmation e-mail</span>
+            </label>
+        </div>
+        <div class ="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 ">
+                <button type="submit" class="button2">Confirmer</button>
+            </div>
+        </div><br>
+    </div>
+
+    {% block javascript %}
+        <script>
+                if ({{isFullDay}} == true){
+                $("#fullDay").show();
+                $("#halfDay").hide();
+                }
+                if ({{isFullDay}} == false){
+                $("#fullDay").hide();
+                $("#halfDay").show();
+                }
+        </script>
+    {% endblock %}
+{% endblock %}
+
