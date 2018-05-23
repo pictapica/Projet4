@@ -105,7 +105,7 @@ class BookingController extends Controller {
             throw new \Exception('Méthode post attendue!');
         }
         //Vérification de l'absence des paramètres date, fullday et id event, 
-        //Vérification si date dispo
+        
         if (!('visitDate') || !('isFullDay') || !('id')) {
 
             $response = [
@@ -113,33 +113,24 @@ class BookingController extends Controller {
             ];
             return new JsonResponse($response);
         }
-        //Vérification de la validité des paramètres ? isHourPast(), isItAPastDay(), isItADisabledDay()
-        //Vérification  et <1000 billets vendus ( On doit récupérer 
-        // résultat fonction countTicketsPerDay dans le repository ou dire que if ($maxAction = true) bla bla 
-        //Vérification du billet journée pour la date actuelle (<14h) 
-        //Enregistrer la date sélectionnée, le type de ticket et l'id de l'évènement 
+        //Vérification si date dispo
+        //Vérification de la validité des paramètres ? isItAPastDay(), isItADisabledDay()
+        //Vérification du billet journée pour la date actuelle (<14h) :  isHourPast() 
+        
+        
         $visitDate = $request->get('visitDate');
         $id = $request->get('id');
         $isFullDay = $request->get('isFullDay');
-//
-//        // On définit une nouvelle valeur pour ces variables
+
+       // On définit une nouvelle valeur pour ces variables
         $booking_visitDate = $session->set('visitDate', $visitDate);
         $event_id = $session->set('id', $id);
         $booking_isFullDay = $session->set('isFullDay', $isFullDay);
 
-//        // On récupère le service validator
-//        $validator = $this->get('validator');
-//
-//        // On déclenche la validation sur notre object
-//        $listErrors = $validator->validate($ticket);
-//
-//        // Si $listErrors n'est pas vide, on affiche les erreurs
-//        if (count($listErrors) > 0) {
-//            // $listErrors est un objet, sa méthode __toString permet de lister joliement les erreurs
-//            return new Response((string) $listErrors);
-//        } else {
-//            return new Response("L'annonce est valide !");
-//        }
+       // On récupère le service validator??? 
+      
+        //Vérification  et <1000 billets vendus ( On doit récupérer résultat fonction countTicketsPerDay dans le 
+        //repository ou dire que if ($maxAction = true) ? 
         if ('maxAction(true)') {
 //        // On renvoie une réponse success
             $response = [
