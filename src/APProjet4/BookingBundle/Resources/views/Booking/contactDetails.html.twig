@@ -49,7 +49,8 @@
         <button id="add-ticket" title="Add ticket"style="color:#000;">+ Ajouter un billet</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <input type="submit" id="envoi" class="button2"/>
+                <button type="submit" id="envoi" class="button2">Finaliser votre commande</button>
+                <p>Vous pourrez continuer vos achat après confirmation</p>
             </div>
         </div><br>
     </div>
@@ -98,8 +99,9 @@
             });
         </script>
         <script>$("#alert-target").click(function () {
-            toastr["info"]("I was launched via jQuery!");
-            });</script>
+            toastr["info"]("");
+            });
+        </script>
         <script>
             $(function () {
             $('body').on('click', '.btn-checkbox', function () {
@@ -184,57 +186,52 @@
 
             initInput(document.querySelectorAll('.js-input'));
         </script>
-        {#<script>
+        
+        <script>
             var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
-            function submitInfo(submit) {
+            function submitForm(details) {
+                    var lastname = $("#lastname").val();
+                    var firstname = $("#firstname").val();
+                    var dateOfBirth = $("#dateOfBirth").val();
+                    var country = $("#country").val();
+            $.ajax({
+            type: "POST",
+                    url: "{{ url('approjet4_booking_contactDetails') }}",
+                    data: "firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country,
+                    success: function(response){
+                    if (response.success){
+                    document.location = url_recap;
+                    } else {
+                    toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    }
 
-            if (!('#fistname').val() || !('#lastname').val() || !('#day').val()
-                    || !('#month').val() || !('#year').val() || !('#country').val()) {
-            toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
-            } else {
-            $.post(url_post_date, {
-
-            firstname: firstname,
-                    lastname: lastname,
-                    dateOfBirth: dateOfBirth,
-                    country: country
-            }, function (response) {
-            if (response.success) {
-            document.location = url_recap;
-            } else {
-            toastr.warning('Merci de renseigner une date et de choisir un type de visite.', '', {positionClass: "toast-top-center"});
-            }
-            });
-            }
-            }
-            </scrip>#}
-        <script>
-            $(document).ready(function () {
-            var $firstname = $(#firstname),
-                    $lastname = $(#lastname),
-                    $dateOfBirth = $(#dateOfBirth),
-                    $country = $(#country);
-                    
-            
-            $envoi.click(function(e){
-            e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
-
-            // puis on lance la fonction de vérification sur tous les champs :
-            verify($firstname);
-            verify($lastname);
-            verify($dateOfBirth);
-            verify($country);
-            });
-            
-            
-            function verify(champ){
-            if (champ.val() == ""){ // si le champ est vide
-            toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
+                    }});
             };
-            }
+            $(document).ready(function () {
+                if($('#envoi').click(function () {
+                    submitForm(true);
+                }));
+                
             });
-        </script>
+            </script>
+
+        {#$envoi.click(function(e){
+                        e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
+    
+                // puis on lance la fonction de vérification sur tous les champs :
+                verify($firstname);
+                verify($lastname);
+                verify($dateOfBirth);
+                verify($country);
+        });
+        function verify(champ){
+                        if (champ.val() == ""){ // si le champ est vide
+                toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
+        };
+        }
+        });#}
+
     {% endblock %}
 {% endblock %}
 

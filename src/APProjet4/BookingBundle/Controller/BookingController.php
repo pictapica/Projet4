@@ -98,7 +98,6 @@ class BookingController extends Controller {
 
     public function saveDateAction(Request $request) {
 
-//If submitData True -> tarifs entiers if submitdata false ->1/2tarifs
         // Récupération de la session
         $session = $request->getSession();
 
@@ -116,8 +115,8 @@ class BookingController extends Controller {
         }
         //Vérification de la validité des paramètres ? isHourPast(), isItAPastDay(), isItADisabledDay()
         //Vérification  et <1000 billets vendus ( On doit récupérer 
-        // résultat fonction countTicketsPerDay dans le repository ou dire que if ($maxbookingAction = true) bla bla 
-        //Vérification du billet journée pour la date actuelle (<14h)
+        // résultat fonction countTicketsPerDay dans le repository ou dire que if ($maxAction = true) bla bla 
+        //Vérification du billet journée pour la date actuelle (<14h) 
         //Enregistrer la date sélectionnée, le type de ticket et l'id de l'évènement 
         $visitDate = $request->get('visitDate');
         $id = $request->get('id');
@@ -174,19 +173,33 @@ class BookingController extends Controller {
         }
 
         $booking = new Booking();
-        $ticket = new Ticket();
+
 
         $form1 = $this->createForm(BookingType::class);
 
-        if ($request->isMethod('POST') && $form1->handelRequest($request)->isValid()) {
+        if ($request->isMethod('POST') && $form1->handleRequest($request)) {//+ is valid
             $booking->setStatus(Booking::STATUS_INPROGRESS);
-            $ticket = $form1->getData();
-            $ticket->setFirstname();
+            $booking->setFullDay($isFullDay);
+            $ticket = new Ticket();
+            $form1->getData();
+
             $this->get('session')->set('Booking', $booking);
             $this->get('session')->set('Ticket', $ticket);
 
-            $session->getFlashBag()->add('info','Informations enregistrées');
-            return $this->redirecToRoute('approjet4_booking_showRecap', array('id' => $booking->getId()));
+            $lastname = $request->get('lastname');
+            $firstname = $request->get('firstname');
+            $dateOfBirth = $request->get('dateOfBirth');
+            $country = $request->get('country');
+            $ticket->setVisitDate($visitDate);
+            $ticket->setLastname($lastname);
+            $ticket->setFirstname($firstname);
+            $ticket->setDateOfBirth($dateOfBirth);
+            $ticket->setCountry($country);
+
+            $response = [
+                'success' => true
+            ];
+            return new JsonResponse($response);
         }
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
                     'form1' => $form1->createView(),
