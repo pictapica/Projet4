@@ -33,20 +33,11 @@
                 <hr>
             </div>
         </div>
-        <div class="tickets">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-xs-12">
-                    {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
-                    <button type="button" id="close"  title="Delete ticket" class=" pull-right cross">
-                    </button> 
-                </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
             </div>
         </div>
-
-        <div class="new_ticket">
-            <input type="hidden" />
-        </div>
-        <button id="add-ticket" title="Add ticket"style="color:#000;">+ Ajouter un billet</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
                 <button type="submit" id="envoi" class="button2">Finaliser votre commande</button>
@@ -58,104 +49,124 @@
     {% block javascript %}
         <script>
             if ({{isFullDay}} == true){
-            $("#fullDay").show();
-            $("#halfDay").hide();
+                $("#fullDay").show();
+                $("#halfDay").hide();
             }
             if ({{isFullDay}} == false){
-            $("#fullDay").hide();
-            $("#halfDay").show();
+                $("#fullDay").hide();
+                $("#halfDay").show();
             }
         </script>
         <script>
             if ({{isFullDay}} == true){
-            $(".full").show();
-            $(".half").hide();
+                $(".full").show();
+                $(".half").hide();
             } else{
-            $(".full").hide();
-            $(".half").show();
+                $(".full").hide();
+                $(".half").show();
             }
         </script>
         <script>
-            var tickets = $(".tickets");
-            var button = $("#add-ticket");
-            button.on("click", function () {
-            $('.tickets').clone().prependTo($('.new_ticket'));
-            //var ticket_html = '<div class="new_ticket"></div>';
-            tickets.append(ticket_html);
+            $(document).ready(function(){
+
+                $(".deleteTicket").hide();
+                
+                $(".addTicket").click(function (){
+                    var form = $(this).closest('form');
+                    var ticketList = form.find('.ticket');
+                    //Le nombre de ticket déjà présents
+                    var n = ticketList.length;
+                    //Le premier ticket que l'on va cloner
+                    var firstTicket = $(ticketList[0]);
+                    //Le dernier ticket de la liste
+                    var lastTicket = $(ticketList[n - 1]);
+                    //Un ticket cloné
+                    var clonedTicket = firstTicket.clone();
+                    //Pour chaque ticket cloné
+                    clonedTicket.find(':input').each(function(){
+                        //On vide la valeur
+                         $(this).filter(':text',':date').val('').end();
+                        //On change le nom en ajoutant le numéro
+                        $(this).attr('name', $(this).attr('name') + n);
+                    })
+
+                    //On ajoute au dom après les autres tickets
+                    clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
+                    //on ajoute le lien de suppression
+                     $(".deleteTicket").fadeIn("fast");
+                });
+                
+                $(".deleteTicket").click(function (){
+                var ticket = $(".ticket:last");
+                ticket.remove();
+                
+                //S'il y a moins de 2 articles on cache le bouton supprimer?
+                if ($(".ticket").length < 2) {
+                 $(".deleteTicket").fadeOut("fast"); }
+                });
             });
-            //insérer un élément div ticket
-            {#var new_ticket = document.createElement('div');
-            new_ticket.class = 'new";
-            var texte = document.createTextNode('un nouveau ticket !');
-            new_ticket.appendChild(texte);
-            var tickets1 = document.querySelector('.tickets');
-            document.body.insertAfter(new_Ticket, tickets1);#}
-                //})
         </script>
+
         <script>
-            var button = $("#close");
-            button.on("click", function () {
-            $('.new_ticket').remove();
-            });
-        </script>
-        <script>$("#alert-target").click(function () {
-            toastr["info"]("");
+            $("#alert-target").click(function () {
+                toastr["info"]("");
             });
         </script>
         <script>
             $(function () {
-            $('body').on('click', '.btn-checkbox', function () {
+                $('body').on('click', '.btn-checkbox', function () {
 
-            var $checkbox = $(this).find(':input[type=checkbox]');
-            if ($checkbox.length) {
-            var $icon = $(this).find('[data-icon-on]');
-            if ($checkbox.is(':checked')) {
-            unchecked($checkbox);
-            } else {
-            checked($checkbox);
-            }
-            return;
-            }
-            var $radio = $(this).find(':input[type=radio]');
-            if ($radio.length) {
-            var $group = $radio.closest('.btn-group');
-            $group.find(':input[type=radio]').not($radio).each(function () {
-            unchecked($(this));
-            })
-                    var $icon = $(this).find('[data-icon-on]');
-            if ($radio.is(':checked')) {
-            unchecked($radio);
-            } else {
-            checked($radio);
-            }
-            return;
-            }
-            });
-            });
+                var $checkbox = $(this).find(':input[type=checkbox]');
+                if ($checkbox.length) {
+                var $icon = $(this).find('[data-icon-on]');
+                if ($checkbox.is(':checked')) {
+                unchecked($checkbox);
+                } else {
+                checked($checkbox);
+                }
+                return;
+                }
+                var $radio = $(this).find(':input[type=radio]');
+                if ($radio.length) {
+                var $group = $radio.closest('.btn-group');
+                $group.find(':input[type=radio]').not($radio).each(function () {
+                unchecked($(this));
+                })
+                var $icon = $(this).find('[data-icon-on]');
+                if ($radio.is(':checked')) {
+                unchecked($radio);
+                } else {
+                checked($radio);
+                }
+                return;
+                }
+                });
+             });
+                
             function checked($input) {
-            var $button = $input.closest('.btn');
-            var $icon = $button.find('[data-icon-on]');
-            $button.addClass('active');
-            $input.prop('checked', true);
-            $icon.css('width', $icon.width());
-            $icon.removeAttr('class').addClass($icon.data('icon-on'));
-            $input.trigger('change');
+                var $button = $input.closest('.btn');
+                var $icon = $button.find('[data-icon-on]');
+                $button.addClass('active');
+                $input.prop('checked', true);
+                $icon.css('width', $icon.width());
+                $icon.removeAttr('class').addClass($icon.data('icon-on'));
+                $input.trigger('change');
             }
 
             function unchecked($input) {
-            var $button = $input.closest('.btn');
-            var $icon = $button.find('[data-icon-on]');
-            $button.removeClass('active');
-            $input.prop('checked', false);
-            $icon.css('width', $icon.width());
-            $icon.removeAttr('class').addClass($icon.data('icon-off'));
-            $input.trigger('change');
+                var $button = $input.closest('.btn');
+                var $icon = $button.find('[data-icon-on]');
+                $button.removeClass('active');
+                $input.prop('checked', false);
+                $icon.css('width', $icon.width());
+                $icon.removeAttr('class').addClass($icon.data('icon-off'));
+                $input.trigger('change');
             }
 
             function initInput(elements) {
-            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-            var defaults = {
-            triggerPrefix: 'js',
+                var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var defaults = {
+                triggerPrefix: 'js',
                     statePrefix: 'jsstate',
                     filledClassName: 'filled',
                     nativeClassName: 'native',
@@ -165,36 +176,37 @@
             var filledClassName = config.statePrefix + '-' + config.filledClassName;
             var visitedClassName = config.statePrefix + '-' + config.visitedClassName;
             var nativeSelector = '.' + config.triggerPrefix + '-' + config.nativeClassName;
+            
             function onBlur(e) {
-            var match = Array.prototype.filter.call(e.path, function (node) {
-            return Array.prototype.filter.call(elements, function (element) {
-            return element === node;
-            }).length > 0;
-            })[0];
-            if (!match)
+                var match = Array.prototype.filter.call(e.path, function (node) {
+                return Array.prototype.filter.call(elements, function (element) {
+                return element === node;
+                }).length > 0;
+                })[0];
+                if (!match)
                     return;
-            var native = match.querySelector(nativeSelector);
-            if (!native)
+                var native = match.querySelector(nativeSelector);
+                if (!native)
                     return;
-            match.classList.toggle(filledClassName, native.value.length > 0);
-            match.classList.add(visitedClassName);
-            }
+                match.classList.toggle(filledClassName, native.value.length > 0);
+                match.classList.add(visitedClassName);
+                }
 
-            document.addEventListener('blur', onBlur, true);
-            document.addEventListener('change', onBlur, true);
+                document.addEventListener('blur', onBlur, true);
+                document.addEventListener('change', onBlur, true);
             }
 
             initInput(document.querySelectorAll('.js-input'));
         </script>
-        
+
         <script>
             var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
             function submitForm(details) {
-                    var lastname = $("#lastname").val();
-                    var firstname = $("#firstname").val();
-                    var dateOfBirth = $("#dateOfBirth").val();
-                    var country = $("#country").val();
+            var lastname = $("#lastname").val();
+            var firstname = $("#firstname").val();
+            var dateOfBirth = $("#dateOfBirth").val();
+            var country = $("#country").val();
             $.ajax({
             type: "POST",
                     url: "{{ url('approjet4_booking_contactDetails') }}",
@@ -209,14 +221,13 @@
                     }});
             };
             $(document).ready(function () {
-                if($('#envoi').click(function () {
-                    submitForm(true);
-                }));
-                
+            if ($('#envoi').click(function () {
+            submitForm(true);
+            }));
             });
-            </script>
-
-        {#$envoi.click(function(e){
+        </script>
+        <script>
+        $envoi.click(function(e){
                         e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
     
                 // puis on lance la fonction de vérification sur tous les champs :
@@ -230,8 +241,8 @@
                 toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
         };
         }
-        });#}
-
+        });
+        </script>
     {% endblock %}
 {% endblock %}
 
