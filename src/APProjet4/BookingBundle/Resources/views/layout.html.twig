@@ -14,11 +14,12 @@
             <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
             <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
             <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
             <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
-            
+
         {% endblock %}
     {% endblock %}
 
@@ -84,8 +85,18 @@
                             $(this).removeClass("hover");
                         }
                 );</script>
-
-            {% endblock %}
+            <script>
+                
+                $('#dateInfo').click(function () {
+                    $('#dateInfoText').show();})
+                
+                $('#closeCross').click(function() {
+                    $('#dateInfoText').hide();
+                        $('#dateInfoSpace').show();
+                });
+               
+            </script>
+        {% endblock %}
 
     </body>
 

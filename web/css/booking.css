@@ -937,3 +937,29 @@ btn2::hover {
 .form-check-label {
     padding: 20px 40px 20px 20px;
 }
+
+
+/* Info*/
+
+#dateInfoText{
+    position: absolute; 
+    font-size: 0.9em;
+    padding: 20px 8px 6px 6px;
+    margin: 0 0 0 330px;
+    background-color: #DADADA;
+    text-align: initial;
+    border-radius: 8px;
+    display: none;
+    color : #000;
+}
+
+#closeCross{
+    float: right;
+    margin-top: -15px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.info{
+    cursor: pointer;
+    pointer-events: auto;
+}

@@ -17,15 +17,17 @@ use Symfony\Component\HttpFoundation\Session;
 class BookingController extends Controller {
 
     const MAX_TICKETS_PER_DAY = 1000;
-
-    //////////////// Affichage de la page d'accueil////////////////
+    
+    //////////////////////////////////////////////////////   
+   ///////////// Affichage de la page d'accueil//////////
 
     public function homeAction() {
         $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
         return new Response($content);
     }
-
-    ////////////////Affichage de la liste des évènements////////////////
+    
+    //////////////////////////////////////////////////////   
+   ///////////Affichage de la liste des évènements/////////
 
     public function indexAction() {
         $repository = $this
@@ -39,7 +41,8 @@ class BookingController extends Controller {
                     'listEvents' => $listEvents
         ));
     }
-
+    
+    //////////////////////////////////////////////////////   
     ////////////////Date & type de billet////////////////
 
     public function selectDateAction($id) {
@@ -57,30 +60,27 @@ class BookingController extends Controller {
         ));
     }
 
+    //////////////////////////////////////////////////////   
     ///////////////Quota par jour///////////////////////
 
-    public function maxAction(Request $request) {
+    public function checkMaxBookingAction(Request $request) {
+    //On récupère un tableau avec date availability = false qui va s'ajouter à datesDisabled
+       
 
-        //On récupère les tickets par date de visite
-        //Si pas de tickets => availability = true 
-        //Sinon on les compte (count($tickets) > MAX_TICKETS_PER_DAY
-        //On revoie une reponse availability => false
-        //sinon true
-        //On récupère un tableau avec date availability = false qui va s'ajouter à datesDisabled
-        //A utiliser dans la vue selectDate : ex: datesDisabled: [("2018/05/01"),("2018/11/01"),("2018/12/25")],
-
-
+    //On récupère les tickets par date de visite
         $d = new \DateTime($request->get('visitDate'));
         $tickets = $this->getDoctrine()
                 ->getRepository('APProjet4BookingBundle:Booking')
                 ->findByVisitDate($d);
+        console.log($tickets);
+        //Si pas de tickets 
         if (!$tickets) {
             $response = [
                 'availability' => true,
             ];
-        } else {
+        } else { //Sinon on les compte (count($tickets) > MAX_TICKETS_PER_DAY
+
             if (count($tickets) > MAX_TICKETS_PER_DAY) {
-                console . log($tickets);
                 $response = [
                     'availability' => false,
                 ];
@@ -90,10 +90,12 @@ class BookingController extends Controller {
                 ];
             }
         }
-        console . log($response);
+        echo json_encode($response);
         return new JsonResponse($response);
     }
 
+    
+    
     ////////////////Sauvegarde de la date/////////////////
 
     public function saveDateAction(Request $request) {
@@ -105,7 +107,7 @@ class BookingController extends Controller {
             throw new \Exception('Méthode post attendue!');
         }
         //Vérification de l'absence des paramètres date, fullday et id event, 
-        
+
         if (!('visitDate') || !('isFullDay') || !('id')) {
 
             $response = [
@@ -116,22 +118,21 @@ class BookingController extends Controller {
         //Vérification si date dispo
         //Vérification de la validité des paramètres ? isItAPastDay(), isItADisabledDay()
         //Vérification du billet journée pour la date actuelle (<14h) :  isHourPast() 
-        
-        
+
+
         $visitDate = $request->get('visitDate');
         $id = $request->get('id');
         $isFullDay = $request->get('isFullDay');
 
-       // On définit une nouvelle valeur pour ces variables
+        // On définit une nouvelle valeur pour ces variables
         $booking_visitDate = $session->set('visitDate', $visitDate);
         $event_id = $session->set('id', $id);
         $booking_isFullDay = $session->set('isFullDay', $isFullDay);
 
-       // On récupère le service validator??? 
-      
+        // On récupère le service validator??? 
         //Vérification  et <1000 billets vendus ( On doit récupérer résultat fonction countTicketsPerDay dans le 
-        //repository ou dire que if ($maxAction = true) ? 
-        if ('maxAction(true)') {
+        //repository ou dire que if ($maxBookingAction = true) ? 
+        if ('checkMaxBookingAction(true)') {
 //        // On renvoie une réponse success
             $response = [
                 'success' => true
@@ -152,6 +153,7 @@ class BookingController extends Controller {
     public function ContactDetailsAction(Request $request) {
         // Récupération de la session
         $session = $request->getSession();
+        
         //récupération des variables en session
         $visitDate = $session->get('visitDate');
         $id = $session->get('id');
@@ -165,22 +167,24 @@ class BookingController extends Controller {
 
         $booking = new Booking();
 
-
         $form1 = $this->createForm(BookingType::class);
 
         if ($request->isMethod('POST') && $form1->handleRequest($request)) {//+ is valid
             $booking->setStatus(Booking::STATUS_INPROGRESS);
             $booking->setFullDay($isFullDay);
+            
             $ticket = new Ticket();
             $form1->getData();
 
             $this->get('session')->set('Booking', $booking);
             $this->get('session')->set('Ticket', $ticket);
-
+            
+            //Récupération des paramètres
             $lastname = $request->get('lastname');
             $firstname = $request->get('firstname');
             $dateOfBirth = $request->get('dateOfBirth');
             $country = $request->get('country');
+            
             $ticket->setVisitDate($visitDate);
             $ticket->setLastname($lastname);
             $ticket->setFirstname($firstname);

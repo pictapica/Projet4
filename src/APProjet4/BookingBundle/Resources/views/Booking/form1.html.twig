@@ -1,7 +1,7 @@
 {# src/OC/PlatformBundle/Resources/views/Advert/form1.html.twig #}
 <form>
     <div class="ticket">
-        <h3 class="title">Billet {#numéro de billet (correspond au nombre de billets#}</h3>
+        <h3 id="titleTicket">Billet {#numéro de billet (correspond au nombre de billets#}</h3>
         <div class="ticket-type col-lg-12">
             <div class="row"><span>CHOISISSEZ VOTRE TARIF : </span><br><br> 
                 {#Le tarif devra varier en fonction de journée ou 1/2 journée sélectionnée#}
@@ -11,33 +11,34 @@
                             <input class="form-check-input " 
                                    type="radio"
                                    autocomplete="off"
-                                   id="normal"/>TARIF NORMAL<br><br>
-                            <span style="padding-left: 20px" class="full" valeur="16">16€</span>
-                            <span style="padding-left: 20px" class="half"valeur="8">8€</span>
+                                   id="normal"
+                                   checked/>TARIF NORMAL<br><br>
+                            <span style="padding-left: 20px" class="full" value="16">16€</span>
+                            <span style="padding-left: 20px" class="half"value="8">8€</span>
                         </label>
                         <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input"  
                                    type="radio" 
                                    autocomplete="off"
                                    id="reduct"/>TARIF REDUIT<br><br>
-                            <span style="padding-left: 20px" class="full"valeur="8">8€</span>
-                            <span style="padding-left: 20px" class="half" valeur="4">4€</span>
+                            <span style="padding-left: 20px" class="full"value="8">8€</span>
+                            <span style="padding-left: 20px" class="half" value="4">4€</span>
                         </label>
                         <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
                                    type="radio" 
                                    autocomplete="off"
                                    id="child"/>ENFANT<br><br>
-                            <span class="full" valeur="6">6€</span>
-                            <span class="half" valeur="3">3€</span>
+                            <span class="full" value="6">6€</span>
+                            <span class="half" value="3">3€</span>
                         </label>
                         <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
                                    type="radio" 
                                    autocomplete="off"
                                    id="senior"/>SENIOR<br><br>
-                            <span class="full" valeur="10">10€</span>
-                            <span class="half" valeur="5">5€</span>
+                            <span class="full" value="10">10€</span>
+                            <span class="half" value="5">5€</span>
                         </label>
                     </div>
                 </div>
@@ -72,16 +73,16 @@
             </label>
             <label class="input js-input">
                 <input type="date" 
-                       class="native js-native champ" 
+                       class="native champ" 
 
                        data-validation="length alphanumeric" 
 
-                       data-validation-error-msg="Merci de renseigner le prénom du visiteur"
+                       data-validation-error-msg="Merci de renseigner la date de naissance du visiteur"
                        value=""
                        id="dateOfBirth"
                        name="dateOfBirth"/>
                 <span class="label" data-label="Date de naissance" aria-role="label">Date de naissance</span>
-                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Date de naissance</span>
+                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Date de naissance</span>
             </label>
             <label for="country" class="input js-input">	
                 <input type="text" id="pays" class="native champ" data-validation="length alphanumeric"
@@ -193,7 +194,7 @@
                 <span class="glyphicon glyphicon-plus-sign"></span> Ajouter un ticket</a>
         </button>
         
-          <a href="javascript:;" title="Supprimer un ticket" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
+          <a href="javascript:;" title="Supprimer un ticket" style="font-size:20px" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
               <span class="glyphicon glyphicon-trash"></span>
           </a>
     </div>

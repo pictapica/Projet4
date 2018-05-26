@@ -47,7 +47,7 @@
     </div>
 
     {% block javascript %}
-        <script>
+        <script>//On indique si le visiteur a choisi un billet journée ou demi-journée
             if ({{isFullDay}} == true){
                 $("#fullDay").show();
                 $("#halfDay").hide();
@@ -57,7 +57,7 @@
                 $("#halfDay").show();
             }
         </script>
-        <script>
+        <script>//Affichage des tarifs journée ou demi-journée
             if ({{isFullDay}} == true){
                 $(".full").show();
                 $(".half").hide();
@@ -66,11 +66,16 @@
                 $(".half").show();
             }
         </script>
-        <script>
+        <script>//To do : Il faut empêcher d'ajouter un second ticket si le premier n'est pas rempli !!
+            ////to do : On doit récupérer la variable n pour l'afficher après "Billet" 
+            //
+            //On duplique un ticket
             $(document).ready(function(){
-
+                
+                //On cache l'icone "Supprimer"
                 $(".deleteTicket").hide();
                 
+                //On ajoute un ticket
                 $(".addTicket").click(function (){
                     var form = $(this).closest('form');
                     var ticketList = form.find('.ticket');
@@ -89,145 +94,76 @@
                         //On change le nom en ajoutant le numéro
                         $(this).attr('name', $(this).attr('name') + n);
                     })
-
-                    //On ajoute au dom après les autres tickets
+                    //On ajoute après les autres tickets
                     clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
                     //on ajoute le lien de suppression
                      $(".deleteTicket").fadeIn("fast");
                 });
                 
+                //On supprime le dernier ticket
                 $(".deleteTicket").click(function (){
                 var ticket = $(".ticket:last");
                 ticket.remove();
                 
-                //S'il y a moins de 2 articles on cache le bouton supprimer?
-                if ($(".ticket").length < 2) {
+                //S'il y a 1 seul article, on cache le bouton supprimer
+                if ($(".ticket").length < 3) {
                  $(".deleteTicket").fadeOut("fast"); }
                 });
             });
+            
         </script>
 
-        <script>
+        <script>//Messages info
             $("#alert-target").click(function () {
                 toastr["info"]("");
             });
         </script>
-        <script>
-            $(function () {
-                $('body').on('click', '.btn-checkbox', function () {
-
-                var $checkbox = $(this).find(':input[type=checkbox]');
-                if ($checkbox.length) {
-                var $icon = $(this).find('[data-icon-on]');
-                if ($checkbox.is(':checked')) {
-                unchecked($checkbox);
-                } else {
-                checked($checkbox);
-                }
-                return;
-                }
-                var $radio = $(this).find(':input[type=radio]');
-                if ($radio.length) {
-                var $group = $radio.closest('.btn-group');
-                $group.find(':input[type=radio]').not($radio).each(function () {
-                unchecked($(this));
-                })
-                var $icon = $(this).find('[data-icon-on]');
-                if ($radio.is(':checked')) {
-                unchecked($radio);
-                } else {
-                checked($radio);
-                }
-                return;
-                }
-                });
-             });
-                
-            function checked($input) {
-                var $button = $input.closest('.btn');
-                var $icon = $button.find('[data-icon-on]');
-                $button.addClass('active');
-                $input.prop('checked', true);
-                $icon.css('width', $icon.width());
-                $icon.removeAttr('class').addClass($icon.data('icon-on'));
-                $input.trigger('change');
-            }
-
-            function unchecked($input) {
-                var $button = $input.closest('.btn');
-                var $icon = $button.find('[data-icon-on]');
-                $button.removeClass('active');
-                $input.prop('checked', false);
-                $icon.css('width', $icon.width());
-                $icon.removeAttr('class').addClass($icon.data('icon-off'));
-                $input.trigger('change');
-            }
-
-            function initInput(elements) {
-                var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var defaults = {
-                triggerPrefix: 'js',
-                    statePrefix: 'jsstate',
-                    filledClassName: 'filled',
-                    nativeClassName: 'native',
-                    visitedClassName: 'visited'
-            };
-            var config = Object.assign({}, defaults, options);
-            var filledClassName = config.statePrefix + '-' + config.filledClassName;
-            var visitedClassName = config.statePrefix + '-' + config.visitedClassName;
-            var nativeSelector = '.' + config.triggerPrefix + '-' + config.nativeClassName;
-            
-            function onBlur(e) {
-                var match = Array.prototype.filter.call(e.path, function (node) {
-                return Array.prototype.filter.call(elements, function (element) {
-                return element === node;
-                }).length > 0;
-                })[0];
-                if (!match)
-                    return;
-                var native = match.querySelector(nativeSelector);
-                if (!native)
-                    return;
-                match.classList.toggle(filledClassName, native.value.length > 0);
-                match.classList.add(visitedClassName);
-                }
-
-                document.addEventListener('blur', onBlur, true);
-                document.addEventListener('change', onBlur, true);
-            }
-
-            initInput(document.querySelectorAll('.js-input'));
-        </script>
-
+       
         <script>
             var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
             function submitForm(details) {
-            var lastname = $("#lastname").val();
-            var firstname = $("#firstname").val();
-            var dateOfBirth = $("#dateOfBirth").val();
-            var country = $("#country").val();
-            $.ajax({
-            type: "POST",
-                    url: "{{ url('approjet4_booking_contactDetails') }}",
-                    data: "firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country,
-                    success: function(response){
-                    if (response.success){
-                    document.location = url_recap;
-                    } else {
-                    toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                    }
+                var tarif = $(".form-check-input:checked").val();
+                var lastname = $("#lastname").val();
+                var firstname = $("#firstname").val();
+                var dateOfBirth = $("#dateOfBirth").val();
+                var country = $("#country").val();
+                $.ajax({
+                type: "POST",
+                        url: "{{ url('approjet4_booking_contactDetails') }}",
+                        data: "tarif=" + tarif + "&firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country,
+                        success: function(response){
+                        if (response.success){
+                            console.log('$tarif');
+                        document.location = url_recap;
+                        } else {
+                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                        }
 
-                    }});
+                        }});
             };
+            
+            {#$.post(url_post_type, {
+                    firstname: firstname,
+                    lastname: lastname,
+                    dateOfBirth: dateOfBirth,
+                    country: country
+                        },function(response){
+                        if (response.success){
+                        document.location = url_recap;
+                        } else {
+                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                        }
+                        }});#}
+                            
             $(document).ready(function () {
             if ($('#envoi').click(function () {
-            submitForm(true);
+                submitForm(true);
             }));
             });
         </script>
-        <script>
-        $envoi.click(function(e){
+        {#<script>
+        $('#envoi").click(function(e){
                         e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
     
                 // puis on lance la fonction de vérification sur tous les champs :
@@ -236,13 +172,25 @@
                 verify($dateOfBirth);
                 verify($country);
         });
-        function verify(champ){
-                        if (champ.val() == ""){ // si le champ est vide
+        function verify(input){
+                        if (input.val() == ""){ // si le champ est vide
                 toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
         };
         }
         });
+        </script>#}
+        <script>//Tarifs
+            function checkTicketFare (){
+                var tarif = $(".form-check-input:checked").val(); 
+               if(!$(".form-check-input:checked").val()) {
+                   toastr.warning('Vous devez choisir un tarif !', '', {positionClass: "toast-top-center"});
+               }else {
+                   console.log($tarif).val();
+                   return $tarif.val();
+                    };
+      }
         </script>
+        
     {% endblock %}
 {% endblock %}
 

@@ -34,7 +34,7 @@
         <div class="row"> 
             <div class="col-lg-offset-1 col-lg-4 col-md-offset-1 col-md-5 col-xs-12 ">
                 <div class="form_datetime">
-                    <h4>1 - Choisissez une date : </h4><br>
+                    <h4>1 - Choisissez une date : <i alt="info_icon" class="material-icons info" id="dateInfo">&#xe88f;</i></h4><br>
                     <input  class="col-lg-offset-1 col-lg-5 col-md-5 col-xs-12" 
                             id="pick_a_date" 
                             type="hidden" 
@@ -42,8 +42,21 @@
                             value=""/>
                 </div>
             </div>
-            <div class=" col-lg-offset-2 col-lg-4 col-md-5  col-xs-12">
-                <h4>2 - Choisissez votre type de billet </h4>
+            <div id="dateInfoSpace" class="col-lg-2 col-md-2" >
+            </div>
+            <div id="dateInfoText" class="col-lg-offset-3 col-lg-2 col-md-2" >
+                <i class="material-icons" id="closeCross">&#xe5cd;</i>
+                <p>Le musée est ouvert tout les jours, de 9h à 18h, 
+                    <strong>sauf le mardi (Fermeture hebdomadaire) et les 1er mai, 1er novembre et 25 décembre</strong>. </p>
+                <p>
+                    La commande de billets en ligne est impossible :</p>
+                <p>- Les dimanches
+                <p>- Les jours fériés
+                <p>- Si plus de 1000 billets ont déjà été commandés en ligne pour la journée en cours
+                Pour ces dates, veuillez vous rendre directement au Musée pour acheter vos billets. </p>
+            </div>
+            <div class="  col-lg-4 col-md-4  col-xs-12">
+                <h4>2 - Choisissez votre billet </h4>
                 <button id="daySelect"  class="button">Journée</button>
                 <button id="halfDaySelect"  class="button">Demi-journée</button>
             </div>
@@ -103,6 +116,7 @@
                 titleFormat: "MM yyyy",
                 weekStart: 1,
                 today: "Aujourd'hui"
+
             };
             $(".form_datetime").datepicker({
                 format: "yyyy/mm/dd",
@@ -114,6 +128,10 @@
                     ("2018/11/01"),
                     ("2018/12/25")
                 ],
+                //beforeShowDay:
+                //// on doit récupérer les dates pour lesquelles 
+                //on a déjà dépassé 1000 tickets donc pour lesquelles availability = false
+                //var daysNotAvailable = [On a pls dates],
 
                 startDate: ("{{event.startDateReservable}}", new Date()),
                 endDate: ("{{event.endDateReservable}}")
