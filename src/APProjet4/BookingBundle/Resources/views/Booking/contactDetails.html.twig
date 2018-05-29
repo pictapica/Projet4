@@ -66,59 +66,12 @@
                 $(".half").show();
             }
         </script>
-        <script>//To do : Il faut empêcher d'ajouter un second ticket si le premier n'est pas rempli !!
-            ////to do : On doit récupérer la variable n pour l'afficher après "Billet" 
-            //
-            //On duplique un ticket
-            $(document).ready(function(){
-                
-                //On cache l'icone "Supprimer"
-                $(".deleteTicket").hide();
-                
-                //On ajoute un ticket
-                $(".addTicket").click(function (){
-                    var form = $(this).closest('form');
-                    var ticketList = form.find('.ticket');
-                    //Le nombre de ticket déjà présents
-                    var n = ticketList.length;
-                    //Le premier ticket que l'on va cloner
-                    var firstTicket = $(ticketList[0]);
-                    //Le dernier ticket de la liste
-                    var lastTicket = $(ticketList[n - 1]);
-                    //Un ticket cloné
-                    var clonedTicket = firstTicket.clone();
-                    //Pour chaque ticket cloné
-                    clonedTicket.find(':input').each(function(){
-                        //On vide la valeur
-                         $(this).filter(':text',':date').val('').end();
-                        //On change le nom en ajoutant le numéro
-                        $(this).attr('name', $(this).attr('name') + n);
-                    })
-                    //On ajoute après les autres tickets
-                    clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
-                    //on ajoute le lien de suppression
-                     $(".deleteTicket").fadeIn("fast");
-                });
-                
-                //On supprime le dernier ticket
-                $(".deleteTicket").click(function (){
-                var ticket = $(".ticket:last");
-                ticket.remove();
-                
-                //S'il y a 1 seul article, on cache le bouton supprimer
-                if ($(".ticket").length < 3) {
-                 $(".deleteTicket").fadeOut("fast"); }
-                });
-            });
-            
-        </script>
-
         <script>//Messages info
             $("#alert-target").click(function () {
                 toastr["info"]("");
             });
         </script>
-       
+
         <script>
             var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
@@ -130,19 +83,18 @@
                 var country = $("#country").val();
                 $.ajax({
                 type: "POST",
-                        url: "{{ url('approjet4_booking_contactDetails') }}",
-                        data: "tarif=" + tarif + "&firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country,
-                        success: function(response){
-                        if (response.success){
-                            console.log('$tarif');
-                        document.location = url_recap;
-                        } else {
-                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                        }
+                    url: "{{ url('approjet4_booking_contactDetails') }}",
+                    data: "tarif=" + tarif + "&firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country,
+                    success: function(response){
+                    if (response.success){
+                    console.log('$tarif');
+                    document.location = url_recap;
+                    } else {
+                    toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    }
 
-                        }});
+                    }});
             };
-            
             {#$.post(url_post_type, {
                     firstname: firstname,
                     lastname: lastname,
@@ -155,11 +107,11 @@
                         toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
                         }
                         }});#}
-                            
+
             $(document).ready(function () {
-            if ($('#envoi').click(function () {
-                submitForm(true);
-            }));
+                if ($('#envoi').click(function () {
+                    submitForm(true);
+                }));
             });
         </script>
         {#<script>
@@ -172,25 +124,22 @@
                 verify($dateOfBirth);
                 verify($country);
         });
-        function verify(input){
-                        if (input.val() == ""){ // si le champ est vide
-                toastr.warning('Vous devez renseigner tous les champs !', '', {positionClass: "toast-top-center"});
-        };
+        
         }
         });
         </script>#}
         <script>//Tarifs
             function checkTicketFare (){
-                var tarif = $(".form-check-input:checked").val(); 
-               if(!$(".form-check-input:checked").val()) {
-                   toastr.warning('Vous devez choisir un tarif !', '', {positionClass: "toast-top-center"});
-               }else {
-                   console.log($tarif).val();
-                   return $tarif.val();
-                    };
-      }
+                var tarif = $(".form-check-input:checked").val();
+                if (!$(".form-check-input:checked").val()) {
+                    toastr.warning('Vous devez choisir un tarif !', '', {positionClass: "toast-top-center"});
+                } else {
+                    console.log($tarif).val();
+                    return $tarif.val();
+                };
+            }
         </script>
-        
+
     {% endblock %}
 {% endblock %}
 

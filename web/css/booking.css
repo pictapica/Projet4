@@ -48,6 +48,7 @@ h3{
     text-decoration: underline;
 }
 
+
 /***********************************************************************
 *  OPAQUE NAVBAR SECTION
 ***********************************************************************/
@@ -73,7 +74,7 @@ ul.dropdown-menu {
 @media (max-width: 992px) {
     body
     {
-        background:red;
+        background:#001824;
     }
     .opaque-navbar {
         background-color: black;
@@ -98,7 +99,10 @@ footer {
 *  INDEX SECTION
 ***********************************************************************/
 
-
+body {
+    background-color: #001824;
+    text-align: center;
+}
 .expo {
     background-color: #000;
     display: inline-block;
@@ -210,11 +214,6 @@ footer {
     opacity: 1;
 }
 
-
-body {
-    background-color: #001824;
-    text-align: center;
-}
 
 .story-card--recirc {
     margin: 40px auto 0 auto;
@@ -555,7 +554,7 @@ body {
 }
 
 input:invalid {
-  border: 2px dashed red;
+  border: 2px solid red;
 }
 
 .native {
@@ -944,10 +943,10 @@ btn2::hover {
 #dateInfoText{
     position: absolute; 
     font-size: 0.9em;
-    padding: 20px 8px 6px 6px;
+    padding: 15px;
     margin: 0 0 0 330px;
     background-color: #DADADA;
-    text-align: initial;
+    text-align: justify;
     border-radius: 8px;
     display: none;
     color : #000;
@@ -960,6 +959,27 @@ btn2::hover {
     pointer-events: auto;
 }
 .info{
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#typeInfoText{
+    position: absolute; 
+    font-size: 0.9em;
+    padding: 15px;
+    margin: 0 0 0 330px;
+    background-color: #DADADA;
+    text-align: justify;
+    border-radius: 8px;
+    display: none;
+    color : #000;
+}
+
+#dateInfoCloseCross{
+    cursor: pointer;
+    pointer-events: auto;
+}
+#typeInfoCloseCross{
     cursor: pointer;
     pointer-events: auto;
 }
