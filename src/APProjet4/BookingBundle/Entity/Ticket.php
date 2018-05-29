@@ -28,6 +28,7 @@ class Ticket {
      *
      * @ORM\Column(name="visitDate", type="datetime")
      * @Assert\NotBlank()
+     * @Assert\Date()
      */
     private $visitDate;
 
@@ -72,7 +73,13 @@ class Ticket {
      */
     private $reduced;
     
-    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nbTickets", type="integer")
+     * @Assert\Range(min = 1, max = 10)
+     */
+    private $nbTickets;
 
     /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
@@ -242,32 +249,38 @@ class Ticket {
     public function getBooking() {
         return $this->booking;
     }
-
-    const HEURE_MAX = '14';
-
-    public  function isHourPast() {
-        $now = new \DateTime();
-        if (($this->visitDate->format('Ymd') === $now->format('Ymd')) && ($now->format('H') >= self::HEURE_MAX)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function isItAPastDay($visitDay) {
-        $now = new \DateTime();
-        if ($visitDay->format('Y-m-d') < $now->format('Y-m-d')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function isItADisabledDay($visitDay){
-        if ($visitDay->format('D') == mardi || $visitDay->format('D') == 'Sun'){
-            return true;
-        }else{
-            return false;
-        }
-    }
     
-    //Vérification pour les jours fériés
+    
+    /**
+     * @assert\isTrue()
+     */
+    
+    public function isFirstname(){
+        return false;
+    }
+
+    
+    /**
+     * Set nbTickets
+     *
+     * @param integer $nbTickets
+     *
+     * @return Ticket
+     */
+    public function setNbTickets($nbTickets)
+    {
+        $this->nbTickets = $nbTickets;
+
+        return $this;
+    }
+
+    /**
+     * Get nbTickets
+     *
+     * @return integer
+     */
+    public function getNbTickets()
+    {
+        return $this->nbTickets;
+    }
 }
