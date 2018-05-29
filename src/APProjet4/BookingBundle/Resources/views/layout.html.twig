@@ -72,30 +72,23 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
             <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-            <script>$(window).scroll(function () {
+            <script>
+                $(window).scroll(function () {
                     if ($(this).scrollTop() > 50)  /*height in pixels when the navbar becomes non opaque*/
                     {
                         $('.opaque-navbar').addClass('opaque');
                     } else {
                         $('.opaque-navbar').removeClass('opaque');
                     }
-                });</script>
-            <script> $(".hover").mouseleave(
-                        function () {
+                });
+            </script>
+            <script> 
+                $(".hover").mouseleave(function () {
                             $(this).removeClass("hover");
                         }
-                );</script>
-            <script>
-                
-                $('#dateInfo').click(function () {
-                    $('#dateInfoText').show();})
-                
-                $('#closeCross').click(function() {
-                    $('#dateInfoText').hide();
-                        $('#dateInfoSpace').show();
-                });
-               
+                );
             </script>
+            
         {% endblock %}
 
     </body>
