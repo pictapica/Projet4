@@ -65,6 +65,14 @@ class Booking {
      */
     private $fullDay = true;
     
+        /**
+     * @var int
+     *
+     * @ORM\Column(name="nbTickets", type="integer")
+     * @Assert\Range(min = 1, max = 10)
+     */
+    private $nbTickets;
+    
     /**
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
      */
@@ -229,4 +237,29 @@ class Booking {
     {
         return $this->fullDay;
     }
+    
+    /**
+     * Set nbTickets
+     *
+     * @param integer $nbTickets
+     *
+     * @return Ticket
+     */
+    public function setNbTickets($nbTickets)
+    {
+        $this->nbTickets = $nbTickets;
+
+        return $this;
+    }
+
+    /**
+     * Get nbTickets
+     *
+     * @return integer
+     */
+    public function getNbTickets()
+    {
+        return $this->nbTickets;
+    }
+
 }

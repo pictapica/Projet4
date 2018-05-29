@@ -73,13 +73,6 @@ class Ticket {
      */
     private $reduced;
     
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="nbTickets", type="integer")
-     * @Assert\Range(min = 1, max = 10)
-     */
-    private $nbTickets;
 
     /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
@@ -259,28 +252,4 @@ class Ticket {
         return false;
     }
 
-    
-    /**
-     * Set nbTickets
-     *
-     * @param integer $nbTickets
-     *
-     * @return Ticket
-     */
-    public function setNbTickets($nbTickets)
-    {
-        $this->nbTickets = $nbTickets;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTickets
-     *
-     * @return integer
-     */
-    public function getNbTickets()
-    {
-        return $this->nbTickets;
-    }
 }
