@@ -25,8 +25,8 @@
 
                 <div class="collapse navbar-collapse" id="navMain">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="#"><img src="../../web/images/ticket_w.png" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
-                        <li><a href="#" class="language"><img src="../../web/images/flag24.png" alt="english"</a></li> 
+                        <li><a href="#"><img src="{{asset('images/ticket_w.png')}}" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
+                        <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english"</a></li> 
                     </ul>
                 </div>
             </div>
@@ -46,8 +46,8 @@
             <div class="row" style="height: 200px"></div>
             <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn draw-border"><a href="http://localhost/Projet4/web/app_dev.php/events">Choisissez votre exposition</a></button>
-                        </div>
+                        <a href="{{path('approjet4_booking_index')}}" class="btn draw-border" role="button">Choisissez votre exposition</a>
+                    </div>
                         
                     
             </div>
