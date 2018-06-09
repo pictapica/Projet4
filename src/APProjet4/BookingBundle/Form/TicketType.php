@@ -3,11 +3,14 @@
 namespace APProjet4\BookingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use APProjet4\BookingBundle\Validator\Constraints\IsTooOld;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -21,7 +24,7 @@ class TicketType extends AbstractType {
                 ->add('lastname', TextType::class, [
                     'label' => 'Nom :',
                     'constraints' => [
-                        new Lenght([
+                        new Length([
                             'min' => 2,
                             'max' => 40,
                             'minMessage' => 'Votre nom doit comporter au moins 2 lettres',
@@ -35,7 +38,7 @@ class TicketType extends AbstractType {
                 ->add('firstname', TextType::class, [
                     'label' => 'Prénom :',
                     'constraints' => [
-                        new Lenght([
+                        new Length([
                             'min' => 2,
                             'max' => 40,
                             'minMessage' => 'Votre prénom doit comporter au moins 2 lettres',
@@ -53,13 +56,13 @@ class TicketType extends AbstractType {
                         'month' => 'Mois',
                         'year' => 'Année'
                     ],
-                    'contraints' => [
-                        newLessThan([
+                    'constraints' => [
+                        new LessThan([
                             'value' => 'today',
                             'message' => 'Veuillez vérifier la date de naissance'
                         ]),
                         //Validator
-                        new isTooOld([]),
+                        new IsTooOld([]),
                     ]
                 ])
                 ->add('country', CountryType::class, [
@@ -80,9 +83,9 @@ class TicketType extends AbstractType {
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver) {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'APProjet4\BookingBundle\Entity\Ticket'
-        ));
+        ]);
     }
 
     /**

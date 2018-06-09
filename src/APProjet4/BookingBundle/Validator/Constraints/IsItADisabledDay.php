@@ -7,7 +7,7 @@ namespace APProjet4\BookingBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /*
- * Annotation
+ * @Annotation
  */
 
 class IsItADisableDay extends Constraint {
