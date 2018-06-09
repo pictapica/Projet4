@@ -1,44 +1,69 @@
 {# src/OC/PlatformBundle/Resources/views/Advert/form1.html.twig #}
+
 <form id="myForm">
-    <div class="ticket">
-        <h3 id="titleTicket">Billet {#numéro de billet (correspond au nombre de billets#}</h3>
+    <div class="pull-right"
+    <span>
+        <a href="#" 
+           data-toggle="popover" 
+           data-content=" - Gratuit pour les - de 4 ans.-------------------------------------------
+           - Tarif enfant de 4 à 11 ans. -------------------------------------------
+           - Tarif réduit sous certaines conditions 
+           (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)-------------------------
+           - Tarif sénior s'applique dès 60 ans. ------------------------------
+           Un justificatif pourra vous être demandé à l'entrée du musée"
+           data-placement="left">
+            <i alt="info_icon" class="material-icons info" id="fareInfo">&#xe88f;</i>
+        </a>
+    </span>
+    </div>
+    <div class="ticket" name="billet">
+        
+        <h3 id="ticketTitle">Billet n°1{#numéro de billet (correspond au nombre de billets#}</h3>
+        
         <div class="ticket-type col-lg-12">
-            <div class="row"><span>CHOISISSEZ VOTRE TARIF : </span><br><br> 
-                {#Le tarif devra varier en fonction de journée ou 1/2 journée sélectionnée#}
+            <div class="row">CHOISISSEZ VOTRE TARIF : 
+                    <br><br> 
                 <div class="row">
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-warning active form-check-label col-xs-6 col-md-3">
+                        <label for="normal" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input " 
                                    type="radio"
                                    autocomplete="off"
-                                   id="normal"
-                                   checked/>TARIF NORMAL<br><br>
-                            <span style="padding-left: 20px" class="full" value="16">16€</span>
-                            <span style="padding-left: 20px" class="half"value="8">8€</span>
+                                   value="normal"
+                                   name="ticketFare"
+                                   id="normal"/>TARIF NORMAL<br><br>
+                            <span style="padding-left: 20px" id="normalFull" class="full"  value="16">16€</span>
+                            <span style="padding-left: 20px" id="normalHalf"  class="half"value="8">8€</span>
                         </label>
-                        <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+                        <label for="reduct" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input"  
                                    type="radio" 
                                    autocomplete="off"
+                                   value="reduct"
+                                   name="ticketFare"
                                    id="reduct"/>TARIF REDUIT<br><br>
-                            <span style="padding-left: 20px" class="full"value="8">8€</span>
-                            <span style="padding-left: 20px" class="half" value="4">4€</span>
+                            <span style="padding-left: 20px" id="reductFull" class="full"value="8">8€</span>
+                            <span style="padding-left: 20px" id="reductHalf" class="half" value="4">4€</span>
                         </label>
-                        <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+                        <label for="child" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
                                    type="radio" 
                                    autocomplete="off"
+                                   value="child"
+                                   name="ticketFare"
                                    id="child"/>ENFANT<br><br>
-                            <span class="full" value="6">6€</span>
-                            <span class="half" value="3">3€</span>
+                            <span class="full" id="childFull" value="6">6€</span>
+                            <span class="half"  id="childHalf" value="3">3€</span>
                         </label>
-                        <label class="btn btn-warning form-check-label col-xs-6 col-md-3">
+                        <label for="senior" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
                                    type="radio" 
                                    autocomplete="off"
+                                   value="senior"
+                                   name="ticketFare"
                                    id="senior"/>SENIOR<br><br>
-                            <span class="full" value="10">10€</span>
-                            <span class="half" value="5">5€</span>
+                            <span class="full" id="seniorFull" value="10">10€</span>
+                            <span class="half" id="seniorHalf" value="5">5€</span>
                         </label>
                     </div>
                 </div>
@@ -57,6 +82,7 @@
                        name="lastname"/>
                 <span class="label" data-label="Nom" aria-role="label">Nom du visiteur</span>
                 <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom du visiteur</span>
+                {# span id="helpLastname#}
             </label>
             <label class="input js-input">
                 <input type="text" 
@@ -74,9 +100,7 @@
             <label class="input js-input">
                 <input type="date" 
                        class="native champ" 
-
                        data-validation="length alphanumeric" 
-
                        data-validation-error-msg="Merci de renseigner la date de naissance du visiteur"
                        value=""
                        id="dateOfBirth"
@@ -85,10 +109,11 @@
                 <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Date de naissance</span>
             </label>
             <label for="country" class="input js-input">	
-                <input type="text" id="pays" class="native champ" data-validation="length alphanumeric"
+                <input type="select"  class="native champ" data-validation="length alphanumeric"
                        value=""
-                       id="country"
-                       name="country"/>
+                       id="countryInput"
+                       name="country"
+                       disabled/>
                 <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
                 <span class="message" aria-role="label">Pays de résidence</span>
                 <select class="native js-native" name="country" id="country">
@@ -188,72 +213,93 @@
             </label>
         </div>
     </div>
+
     <div id="AddDeleteTicket">
         <button href="javascript:;"  title="Ajouter un ticket" class="addTicket"
-                   rel="ticket"style="color:#000; text-decoration: none;">
-                 Ajouter un ticket
+                rel="ticket"style="color:#000; text-decoration: none;">
+            Ajouter un ticket
         </button>
-        
-          <a href="javascript:;" title="Supprimer un ticket" style="font-size:20px" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
-              <span class="glyphicon glyphicon-trash"></span>
-          </a>
+
+        <a href="javascript:;" title="Supprimer un ticket" style="font-size:20px" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
     </div>
 
 
 </form>
-        
-        {% block javascript %}
-       <script>/////////Ajout et suppression de ticket////////
+
+{% block javascript %}
+    <script>/////////Ajout et suppression de ticket////////
+
+        //to do faire en sorte que le premier if soit pour chaque nouveau formulaire
+        //to do : On doit récupérer la variable "n" pour l'afficher après "Billet" 
+
+
+        $(document).ready(function () {
+            //On cache l'icone "Supprimer"
+            $(".deleteTicket").hide();
+            //Au clic sur "Ajouter un ticket"
+            $('.addTicket').click(function (e) {
+                //To do : Il faut empêcher l'ajout d'un second ticket si le premier n'est pas rempli 
+                e.preventDefault();
+  //--------> //if (!$(".form-check-input").val() || !$('#lastname').val() || !$('#firstname').val() || !$('#dateOfBirth').val() || !$('#country').val()) {
+                //toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                 //       return;
+                //}
+                //Sinon, on ajoute un ticket
+                    var form = $(this).closest('form');
+                    var ticketList = form.find('.ticket');
+                    //Le nombre de ticket déjà présents
+                    var n = ticketList.length;
+                    //Le premier ticket que l'on va cloner
+                    var firstTicket = $(ticketList[0]);
+                    //Le dernier ticket de la liste
+                    var lastTicket = $(ticketList[n - 1]);
+                    //Un ticket cloné
+                    var clonedTicket = firstTicket.clone();
+                    //J'affiche le nombre de tickets pour vérifier
+                    var nbTickets = document.getElementsByClassName("ticket").length;
+                    console.log(nbTickets);
            
-            //to do faire en sorte que le premier if soit pour chaque nouveau formulaire
-           //to do : On doit récupérer la variable n pour l'afficher après "Billet" 
-           //to do : vider la valeur date ???
-        
-            
-            $(document).ready(function () {
-                //On cache l'icone "Supprimer"
-                $(".deleteTicket").hide();
-                //Au clic sur "Ajouter un ticket"
-                $('.addTicket').click(function(e) {
-                    //To do : Il faut empêcher l'ajout d'un second ticket si le premier n'est pas rempli 
-                    e.preventDefault();
-                    if (!$('#lastname').val() || !$('#firstname').val() || !$('#dateOfBirth').val() ||!$('#country').val()) {
-                       toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                    } else {
-                        //On ajoute un ticket
-                        var form = $(this).closest('form');
-                        var ticketList = form.find('.ticket');
-                        //Le nombre de ticket déjà présents
-                        var n = ticketList.length;
-                        //Le premier ticket que l'on va cloner
-                        var firstTicket = $(ticketList[0]);
-                        //Le dernier ticket de la liste
-                        var lastTicket = $(ticketList[n - 1]);
-                        //Un ticket cloné
-                        var clonedTicket = firstTicket.clone();
-                        //Pour chaque ticket cloné
-                        clonedTicket.find(':input').each(function(){
-                            //On vide la valeur
-                             $(this).filter(':text',':date').val('').end();
-                            //On change le nom en ajoutant le numéro
-                            $(this).attr('name', $(this).attr('name') + n);
+                    //Pour chaque ticket cloné
+                    clonedTicket.find('input', 'h3').each(function () {
+                        //On vide la valeur
+                        $(this).val('').end();
+                        //On change le nom en ajoutant le numéro
+                        $(this).attr('name', $(this).attr('name') + n);
+                        //on modifie l'id pour ne pas qu'ils soient identiques. 
+                        //????
+                        //On vide la valeur checked NE FONCTIONNE PAS
+                        $(this).prop('checked', false);
+                        //On modifie le titre en fonction de nbTickets 
+                        document.getElementById('ticketTitle').innerHTML = 'Billet n°' + nbTickets; //Ne fonctionne pas : Pas dans le bon sens. Le 1 devient 2...  
+                       //$(this).getElementsByTagName('h3', $(this).tagName('h3') + nbTickets);
+                       
                         });
-                        //On ajoute après les autres tickets
-                        clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
-                        //on ajoute le lien de suppression
-                         $(".deleteTicket").fadeIn("fast");
-                }
-            });
-            //On peut supprimer le dernier ticket
-                $(".deleteTicket").click(function (){
+                        
+                    //On ajoute après les autres tickets
+                    clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
+                    //on ajoute le lien de suppression
+                    $(".deleteTicket").fadeIn("fast");
+                
+                });
+                //On peut supprimer le dernier ticket
+                $(".deleteTicket").click(function () {
                 var ticket = $(".ticket:last");
                 ticket.remove();
                 toastr.warning('Le dernier formulaire a bien été supprimé.', '', {positionClass: "toast-top-center"});
-                
+                });
                 //S'il y a 1 seul article, on cache le bouton supprimer
                 if ($(".ticket").length < 3) {
-                 $(".deleteTicket").fadeOut("fast"); }
-                });
+                $(".deleteTicket").fadeOut("fast");
+                }
         });
-        </script>
-        {% endblock %}
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+    
+{% endblock %}

@@ -32,16 +32,17 @@
         <div class="row recap">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h2>{{event.title}}</h2> 
-                <p style="text-align:center">Visite du : {{visitDate|date('d/m/Y')}} - 
+                <p style="text-align:center">Visite du : {{ app.session.get('visitDate')|date('d/m/Y')}} - 
                     <span id="fullDay">BILLET JOURNEE</span>
-                    <span id="halfDay">BILLET DEMI-JOURNEE</span></p>
+                    <span id="halfDay">BILLET DEMI-JOURNEE</span>
+                </p>
                 <hr>
             </div>
             <div class="row"> 
                 <div class="col-lg-12">
-                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket" > 2 billet(s) PLEIN TARIF</div>
+                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket" > {{ app.session.get('Booking').getTickets().count }} billet(s) PLEIN TARIF</div>
                     <div class="col-lg-4 col-md-4 col-xs-4 total1">16 €</div><br><br>
-                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> 1 billet(s) TARIF ENFANT</div>
+                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{ app.session.get('Booking').getTickets().count }} billet(s) TARIF ENFANT</div>
                     <div class="col-lg-4 col-md-4 col-xs-4 total1">4 €</span></p></div>
                 </div>
             </div>
@@ -57,10 +58,12 @@
                        placeholder="Adresse e-mail"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
-                       data-validation-error-msg="Merci de renseigner votre adresse e-mail">
+                       data-validation-error-msg="Merci de renseigner votre adresse e-mail"
+                       id="email">
                 <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
                 <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
             </label>
+            <span id="helpEmail"></span>
         </div>
         <div class=" col-lg-12">
             <p>Confirmation de votre adresse e-mail.</p>
@@ -69,10 +72,12 @@
                        placeholder="Confirmation e-mail"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
-                       data-validation-error-msg="Merci de renseigner votre adresse email">
+                       data-validation-error-msg="Merci de renseigner votre adresse email"
+                       id="verifyEmail">
                 <span class="label" data-label="Confirmation e-mail" aria-role="label">Confirmation e-mail</span>
                 <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">Confirmation e-mail</span>
             </label>
+            <span id="helpVerifyEmail"></span>
         </div>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
@@ -83,15 +88,36 @@
 
     {% block javascript %}
         <script>
-                if ({{isFullDay}} == true){
+                if ({{fullDay}} == true){
                 $("#fullDay").show();
                 $("#halfDay").hide();
                 }
-                if ({{isFullDay}} == false){
+                if ({{fullDay}} == false){
                 $("#fullDay").hide();
                 $("#halfDay").show();
                 }
         </script>
+        <script>
+        // Contrôle de l'email en fin de saisie
+        document.getElementById("email").addEventListener("blur", function (e) {
+            // Correspond à une chaîne de la forme xxx@yyy.zzz
+            var regexEmail = /.+@.+\..+/;
+            var validityEmail = "";
+            if (!regexEmail.test(e.target.value)) {
+                validityEmail = "Adresse invalide";
+            }
+            document.getElementById("helpEmail").textContent = validityEmail;
+        });
+            
+        document.getElementById("verifyEmail").addEventListener("blur", function (e) {
+            // Correspond à une chaîne de la forme xxx@yyy.zzz
+            var regexEmail = /.+@.+\..+/;
+            var validityEmail = "";
+            if (!regexEmail.test(e.target.value)) {
+                validityEmail = "Adresse invalide";
+            }
+            document.getElementById("helpVerifyEmail").textContent = validityEmail;
+        });</script>
     {% endblock %}
 {% endblock %}
 
