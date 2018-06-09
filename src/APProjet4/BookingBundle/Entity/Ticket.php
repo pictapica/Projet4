@@ -5,6 +5,7 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Ticket
  *
@@ -54,6 +55,7 @@ class Ticket {
      * @var \DateTime
      *
      * @ORM\Column(name="dateOfBirth", type="datetime")
+     * @Assert\NotBlank()
      * @Assert\Date()
      */
     private $dateOfBirth;
@@ -67,13 +69,21 @@ class Ticket {
     private $country;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="reduced", type="boolean")
+     * @ORM\Column(name="fareType", type="string")
      */
-    private $reduced;
     
-
+    private $fareType;
+    
+    /**
+     *
+     * @var int
+     * @ORM\Column(name="fare", type="integer")
+         
+     */
+    private $fare;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
      * @ORM\JoinColumn(name="booking_id", referencedColumnName="id")
@@ -199,27 +209,7 @@ class Ticket {
         return $this->country;
     }
 
-    /**
-     * Set reduced
-     *
-     * @param boolean $reduced
-     *
-     * @return Ticket
-     */
-    public function setReduced($reduced) {
-        $this->reduced = $reduced;
 
-        return $this;
-    }
-
-    /**
-     * Get reduced
-     *
-     * @return bool
-     */
-    public function getReduced() {
-        return $this->reduced;
-    }
 
     /**
      * Set booking
@@ -252,4 +242,52 @@ class Ticket {
         return false;
     }
 
+
+    /**
+     * Set fareType
+     *
+     * @param integer $fareType
+     *
+     * @return Ticket
+     */
+    public function setFareType($fareType)
+    {
+        $this->fareType = $fareType;
+
+        return $this;
+    }
+
+    /**
+     * Get fareType
+     *
+     * @return integer
+     */
+    public function getFareType()
+    {
+        return $this->fareType;
+    }
+
+    /**
+     * Set fare
+     *
+     * @param integer $fare
+     *
+     * @return Ticket
+     */
+    public function setFare($fare)
+    {
+        $this->fare = $fare;
+
+        return $this;
+    }
+
+    /**
+     * Get fare
+     *
+     * @return integer
+     */
+    public function getFare()
+    {
+        return $this->fare;
+    }
 }

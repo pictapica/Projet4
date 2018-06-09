@@ -5,6 +5,7 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use APProjet4\BookingBundle\Validator\Constraints\IsHourPast;
 
 /**
  * Booking
@@ -57,19 +58,18 @@ class Booking {
      */
     private $email = null;
 
-        /**
+    /**
      * @var bool
      *
      * @ORM\Column(name="fullDay", type="boolean")
      * @Assert\Type(type="bool")
+     * 
      */
     private $fullDay = true;
     
-        /**
+    /**
      * @var int
-     *
      * @ORM\Column(name="nbTickets", type="integer")
-     * @Assert\Range(min = 1, max = 10)
      */
     private $nbTickets;
     
@@ -212,8 +212,6 @@ class Booking {
         return $this->tickets;
     }
 
-    
-
     /**
      * Set fullDay
      *
@@ -221,8 +219,7 @@ class Booking {
      *
      * @return Booking
      */
-    public function setFullDay($fullDay)
-    {
+    public function setFullDay($fullDay) {
         $this->fullDay = $fullDay;
 
         return $this;
@@ -233,17 +230,17 @@ class Booking {
      *
      * @return boolean
      */
-    public function getFullDay()
-    {
+    public function getFullDay() {
         return $this->fullDay;
     }
-    
+
+
     /**
      * Set nbTickets
      *
      * @param integer $nbTickets
      *
-     * @return Ticket
+     * @return Booking
      */
     public function setNbTickets($nbTickets)
     {
@@ -261,5 +258,4 @@ class Booking {
     {
         return $this->nbTickets;
     }
-
 }
