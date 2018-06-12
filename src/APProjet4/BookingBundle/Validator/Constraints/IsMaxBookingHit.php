@@ -11,6 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 
 class IsMaxBookingHit extends Constraint {
-    public $message = "Le nombre de billets vendu pour la journée a été atteint. Merci de commander pour un autre jour";
+    public $message = "Le nombre de billets vendu pour la journée a été atteint. Merci de choisir un autre jour";
      
 }

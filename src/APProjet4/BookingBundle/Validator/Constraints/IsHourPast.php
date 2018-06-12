@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 
 class IsHourPast extends Constraint {
-    public $message = "Il est impossible d'acheter un billet de type\"Journée après 14h";
+    public $message = "Il est impossible d'acheter un billet pour la journée après 14h";
      
 }
 
