@@ -269,12 +269,11 @@
                         $(this).attr('name', $(this).attr('name') + n);
                         //on modifie l'id pour ne pas qu'ils soient identiques. 
                         //????
-                        //On vide la valeur checked NE FONCTIONNE PAS
+                        //On vide la valeur checked ------- NE FONCTIONNE PAS !!!!!
                         $(this).prop('checked', false);
                         //On modifie le titre en fonction de nbTickets 
                         document.getElementById('ticketTitle').innerHTML = 'Billet n°' + nbTickets; //Ne fonctionne pas : Pas dans le bon sens. Le 1 devient 2...  
                        //$(this).getElementsByTagName('h3', $(this).tagName('h3') + nbTickets);
-                       
                         });
                         
                     //On ajoute après les autres tickets

@@ -18,7 +18,7 @@
         <ul class="progress-indicator">
             <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
             <li class="completed"><span class="bubble"></span><a href="#0">Coordonnées</a></li>
-            <li><span class="bubble"></span><a href="#0">Paiement</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">Paiement</a></li>
             <li><span class="bubble"></span><a href="#0">Confirmation</a></li>
         </ul>
     </nav>
@@ -81,12 +81,32 @@
         </div>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <button type="submit" class="button2">Régler votre commande</button>
+                {#<button type="submit" id="payment" class="button2">Régler votre commande</button>#}
+                <form action="{{ path('approjet4_booking_payment') }}" method="POST">
+        <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
+            data-amount="2000"
+            data-name="Stripe.com"
+            data-description="Example charge"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-zip-code="true">
+        </script>
+    </form>
             </div>
         </div><br>
     </div>
 
     {% block javascript %}
+        <script>
+           var url_payment = "{{path('approjet4_booking_payment')}}";
+         $(document).ready(function () {
+                $('#payment').click(function () { 
+                    document.location = url_payment;
+                });  
+            });
+        </script>
         <script>
                 if ({{fullDay}} == true){
                 $("#fullDay").show();
@@ -118,6 +138,8 @@
             }
             document.getElementById("helpVerifyEmail").textContent = validityEmail;
         });</script>
+        
+        
     {% endblock %}
 {% endblock %}
 

@@ -83,6 +83,22 @@ ul.dropdown-menu {
     }
 
 }
+@media all and (max-width: 802px)
+{
+    .opaque-navbar
+    {
+        
+        font-size: 12px;
+    }
+    .banner{
+        height: 50px;
+        font-size: 12px;
+    }
+    .banner h1{
+        font-size: 18px;
+    }
+}
+
 footer {
     position:fixed;
     left:0px;
@@ -554,7 +570,7 @@ body {
 }
 
 input:invalid {
-  border: 2px solid red;
+    border: 2px solid red;
 }
 
 .native {
@@ -897,7 +913,7 @@ a:hover{
     margin:  10px 0 0 0;
     padding : 1.2em;
     font-size: 1.1em;
-    
+
     background-color: #27627f;
     border: 1px solid #fff;
 }
@@ -982,4 +998,85 @@ btn2::hover {
 #typeInfoCloseCross{
     cursor: pointer;
     pointer-events: auto;
+}
+
+.popover-content{
+    color:#000;
+    font-size: 0.9em;
+    background-color: #DADADA;
+    padding: 15px;
+    text-align: justify;
+    border-radius: 8px;
+    width: 200px;
+}
+
+/*ok pour largeur 480 */
+@media (max-width:768px) {
+    .datepicker{
+        margin-left: 80px;
+    }
+}
+@media (max-width:480px) {
+    .datepicker{
+        margin-left: 0;
+    }
+}
+@media (min-width:500px) and (max-width:760px) {
+    .datepicker{
+        margin-left: 135px;
+    }
+}
+
+/*************************************
+*Tableau récapitulatif
+*************************************/
+
+.table{
+   font-size: 12px;
+   border:2px;
+ border-color: #55d7dc;
+}
+
+table.index  {border : 1px solid black;}
+
+.infoMail{
+    text-align: left;
+    border: 1px;
+    border-color: yellow;
+    background-color: #27627f;
+    padding: 10px;
+}
+
+.recapTable ul{
+   text-align: left;
+   list-style:none;
+}
+.infoTable ul {
+    text-align: left;
+   list-style:none;
+}
+.save{
+    font-size: 10px;
+}
+
+table tbody tr{
+    border: 1px solid #fff; 
+}
+table thead tr {
+    border: 1px solid #fff;
+    background-color: #27627f;
+}
+table tfoot tr th{
+    border: 1px solid #fff;
+}
+table tfoot tr {
+    border: 1px solid #fff;
+}
+
+#totalBooking{
+    background-color: #27627f;
+}
+
+.tableTitle{
+    font-size: 18px;
 }
