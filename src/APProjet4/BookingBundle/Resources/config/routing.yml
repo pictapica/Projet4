@@ -10,7 +10,7 @@ approjet4_booking_index:
 ## Page 1 - Date de visite et type de billet (Journée/Demi-journée)    
 approjet4_booking_selectDate:
     path:    /purchase/{id}
-    defaults: { _controller: APProjet4BookingBundle:Booking:selectDate}
+    defaults: { _controller: APProjet4BookingBundle:Booking:ShowSelectDate}
     requirements:
         id: \d+
     
@@ -35,3 +35,9 @@ approjet4_booking_contactDetails:
 approjet4_booking_showRecap:
     path:   /recapitulative
     defaults: {_controller: APProjet4BookingBundle:Booking:showRecap}
+
+
+approjet4_booking_payment:
+    path: /payment
+    defaults: {_controller: APProjet4BookingBundle:Booking:payment}
+    methods: [POST,GET]
