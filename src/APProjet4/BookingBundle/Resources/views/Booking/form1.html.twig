@@ -18,20 +18,21 @@
     </div>
     <div class="ticket" name="billet">
         
-        <h3 id="ticketTitle">Billet n°1{#numéro de billet (correspond au nombre de billets#}</h3>
+        <h3 id="ticketTitle">Billet n°1</h3>
         
         <div class="ticket-type col-lg-12">
             <div class="row">CHOISISSEZ VOTRE TARIF : 
                     <br><br> 
                 <div class="row">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label for="normal" class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                            <input class="form-check-input " 
+                    <div class="btn-group btn-group-toggle fareLabel" data-toggle="buttons">
+                        <label for="normal" class="btn btn-warning form-check-label col-xs-6 col-md-3 active">
+                            <input class="form-check-input" 
                                    type="radio"
                                    autocomplete="off"
                                    value="normal"
                                    name="ticketFare"
-                                   id="normal"/>TARIF NORMAL<br><br>
+                                   id="normal"
+                                   />TARIF NORMAL<br><br>
                             <span style="padding-left: 20px" id="normalFull" class="full"  value="16">16€</span>
                             <span style="padding-left: 20px" id="normalHalf"  class="half"value="8">8€</span>
                         </label>
@@ -69,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 clientsDetails">
 
             <label class="input js-input">
                 <input type="text" 
@@ -109,11 +110,6 @@
                 <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Date de naissance</span>
             </label>
             <label for="country" class="input js-input">	
-                <input type="select"  class="native champ" data-validation="length alphanumeric"
-                       value=""
-                       id="countryInput"
-                       name="country"
-                       disabled/>
                 <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
                 <span class="message" aria-role="label">Pays de résidence</span>
                 <select class="native js-native" name="country" id="country">
@@ -232,9 +228,6 @@
     <script>/////////Ajout et suppression de ticket////////
 
         //to do faire en sorte que le premier if soit pour chaque nouveau formulaire
-        //to do : On doit récupérer la variable "n" pour l'afficher après "Billet" 
-
-
         $(document).ready(function () {
             //On cache l'icone "Supprimer"
             $(".deleteTicket").hide();
@@ -242,56 +235,39 @@
             $('.addTicket').click(function (e) {
                 //To do : Il faut empêcher l'ajout d'un second ticket si le premier n'est pas rempli 
                 e.preventDefault();
-  //--------> //if (!$(".form-check-input").val() || !$('#lastname').val() || !$('#firstname').val() || !$('#dateOfBirth').val() || !$('#country').val()) {
-                //toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                 //       return;
-                //}
-                //Sinon, on ajoute un ticket
-                    var form = $(this).closest('form');
-                    var ticketList = form.find('.ticket');
-                    //Le nombre de ticket déjà présents
-                    var n = ticketList.length;
-                    //Le premier ticket que l'on va cloner
-                    var firstTicket = $(ticketList[0]);
-                    //Le dernier ticket de la liste
-                    var lastTicket = $(ticketList[n - 1]);
-                    //Un ticket cloné
-                    var clonedTicket = firstTicket.clone();
-                    //J'affiche le nombre de tickets pour vérifier
-                    var nbTickets = document.getElementsByClassName("ticket").length;
-                    console.log(nbTickets);
-           
-                    //Pour chaque ticket cloné
-                    clonedTicket.find('input', 'h3').each(function () {
-                        //On vide la valeur
-                        $(this).val('').end();
-                        //On change le nom en ajoutant le numéro
-                        $(this).attr('name', $(this).attr('name') + n);
-                        //on modifie l'id pour ne pas qu'ils soient identiques. 
-                        //????
-                        //On vide la valeur checked ------- NE FONCTIONNE PAS !!!!!
-                        $(this).prop('checked', false);
-                        //On modifie le titre en fonction de nbTickets 
-                        document.getElementById('ticketTitle').innerHTML = 'Billet n°' + nbTickets; //Ne fonctionne pas : Pas dans le bon sens. Le 1 devient 2...  
-                       //$(this).getElementsByTagName('h3', $(this).tagName('h3') + nbTickets);
-                        });
-                        
-                    //On ajoute après les autres tickets
-                    clonedTicket.insertAfter(lastTicket).hide().fadeIn('slow');
-                    //on ajoute le lien de suppression
-                    $(".deleteTicket").fadeIn("fast");
+                {#if (!$(".form-check-input").val() || !$('#lastname').val() || !$('#firstname').val() || !$('#dateOfBirth').val() || !$('#country').val()) {
+                  toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                  return;
+                }#}
                 
-                });
-                //On peut supprimer le dernier ticket
-                $(".deleteTicket").click(function () {
-                var ticket = $(".ticket:last");
-                ticket.remove();
+                var form = $('#myForm');
+                var ticketList = form.find('.ticket');
+                
+                //Un ticket cloné
+                var clonedTicket = form.find('.ticket:first').clone();
+                //On efface les données renseignées
+                clonedTicket.find('.clientsDetails input', 'select').val('');
+                //On cible le label des type de ticket et on supprime la classe active
+                clonedTicket.find('.fareLabel label').removeClass('active');
+                //On récupère le 1er label
+                clonedTicket.find('.fareLabel label:first').addClass('active');
+                //On met à jour le titre
+                clonedTicket.find('h3').text('Billet n°'+ ( ticketList.length +1));
+                //On ajoute après les autres tickets
+                clonedTicket.insertAfter(form.find('.ticket:last')).hide().fadeIn('slow');
+                //on ajoute le lien de suppression
+                $(".deleteTicket").fadeIn("fast");
+                
+            });
+            //On peut supprimer le dernier ticket
+            $(".deleteTicket").click(function () {
+                $(".ticket:last").remove();
                 toastr.warning('Le dernier formulaire a bien été supprimé.', '', {positionClass: "toast-top-center"});
-                });
-                //S'il y a 1 seul article, on cache le bouton supprimer
-                if ($(".ticket").length < 3) {
-                $(".deleteTicket").fadeOut("fast");
-                }
+            });
+            //S'il y a 1 seul article, on cache le bouton supprimer
+            if ($(".ticket").length === 1) {
+                $(".deleteTicket").hide();
+            }
         });
     </script>
 

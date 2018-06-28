@@ -34,10 +34,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12">
-                {#{% for ticket in tickets%}#}
+            <div class="col-lg-12 col-md-12 col-xs-12" >
                 {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
-                {#{% endfor %}#}
             </div>
         </div>
         <div class ="row">
@@ -79,72 +77,81 @@
             toastr["info"]("");
             });
         </script>
-
-        <script>
+        <script>//Validation du formulaire
             
-           $(document).ready(function (e) {
-               var nbTickets = document.getElementsByClassName("ticket").length;
-              
-               console.log(nbTickets - "1");
-               
-               }
-           );
-           </script>
-       
-        <script>
-            var url_post_type = "{{path('approjet4_booking_contactDetails')}}";
+            var url_post_type = "{{path('approjet4_booking_postContactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
             
             function submitForm(details) {
-                
-                //TO DO : Pour chaque ticket (foreach et enregistrer en tableau)
-                    var fareType = $(".form-check-input:checked").val();
-                    var lastname = $("#lastname").val();
-                    var firstname = $("#firstname").val();
-                    var dateOfBirth = $("#dateOfBirth").val();
-                    var country = $("#country").val();
-                    var nbTickets = document.getElementsByClassName("ticket").length;
-                    
-                $.ajax({
-                type: "POST",
-                        url: "{{ url('approjet4_booking_contactDetails') }}",
-                        // Qu'est-ce que tu m'a dit au sujet de data? 
-                        data: "fareType=" + fareType + "&firstname=" + firstname + "&lastname=" + lastname + "&dateOfBirth=" + dateOfBirth + "&country=" + country + "&nbTickets" + nbTickets,
-                        success: function(response){
-                        if (response.success){
-                        document.location = url_recap;
-                        } else {
-                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                        }
-                        }});
-                };
+            //on détermine des variables
 
+                var tickets = [];
+        
+                $('#myForm .ticket').each(function(index){
+                    tickets.push({
+                        fareType : $(this).find('.active input').val(),
+                        lastname : $(this).find('#lastname').val(),
+                        firstname : $(this).find('#firstname').val(),
+                        dateOfBirth : $(this).find('#dateOfBirth').val(),
+                        country : $(this).find('#country').val()
+                        });
+                    
+               });
+                var nbNormal = 0,
+                    nbReduct = 0,
+                    nbChild = 0,
+                    nbSenior = 0;
+            
+            
+               //pour chaque ticket on retient le faretype, on les ajoute au tableau nbPerFareType
+                 $(tickets).each(function(index,ticket) {
+                    switch(ticket.fareType){                              
+                        case 'child': 
+                          nbChild++;
+                        break;
+                      case 'normal':
+                          nbNormal++;
+                        break;
+                      case 'reduct':
+                          nbReduct++;
+                        break;
+                      case 'senior':
+                          nbSenior++;
+                        break;
+                  }                      
+                });
+                    nbPerFareType = {
+                        nbNormal : nbNormal,
+                        nbReduct : nbReduct,
+                        nbChild : nbChild,
+                        nbSenior : nbSenior,
+                    };
+               
+             console.log(nbPerFareType);
+             
+                $.post(url_post_type,{
+                    tickets,
+                    nbPerFareType
+                }, function(response){
+                    if (response.success){
+                        document.location = url_recap;
+                    } else {
+                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    }
+                    });
+               } 
+ 
+        
             $(document).ready(function (e) {
                 if ($('#envoi').click(function () {
                     if (!$(".form-check-input").val() || !$("#lastname").val() || !$("#firstname").val() || !$("#dateOfBirth").val() || !$("#country").val()){
-                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                    } else {
-                        submitForm(true);
-                    };
+                    toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                } else {
+                submitForm(true);
+                };
                 }));
             });
         </script>
-        
-        {#<script>
-        $('#envoi").click(function(e){
-            e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
-    
-            // puis on lance la fonction de vérification sur tous les champs :
-            verify($firstname);
-            verify($lastname);
-            verify($dateOfBirth);
-            verify($country);
-        });
-        
-        }
-        });
-        </script>#}
-
 
     {% endblock %}
 {% endblock %}

@@ -14,12 +14,14 @@
             <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
             <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" />
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            
+            
             <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
             <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
-
         {% endblock %}
     {% endblock %}
 
@@ -28,15 +30,33 @@
             <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
-                            <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
+                        <button type="button"
+                                class="navbar-toggle"
+                                data-toggle="collapse" data-target="#navMain">
+                            <span class="glyphicon glyphicon-menu-hamburger" 
+                                  style="color:white;"></span>
                         </button>
-                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="{{asset('images/louvre_w.png')}}" alt=""></a>
+                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/">
+                            <img src="{{asset('images/louvre_w.png')}}" alt=""></a>
                     </div>
                     <div class="collapse navbar-collapse" id="navMain">
                         <ul class="nav navbar-nav pull-right">
-                            <li><a href="#"><img src="{{asset('images/ticket_w.png')}}" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0{#Nombre de tickets dans la commande#} billet(s)</a>  </li>
-                            <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english"</a></li> 
+                            <li><a href="#">
+                                    <div class="dropdown">
+                                        <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
+                                                 alt="image_ticket" style="height: 30px;"
+                                                 class="ticket">
+                                            <span id="in-cart-tickets-num">0</span> billet(s)
+                                        </div>
+
+                                        <ul id="cart-dropdown" hidden>
+                                            <li id="empty-cart-msg"><a>Votre panier est vide</a></li>
+                                            <li class="go-to-cart hidden"><a href="#">Voir le panier</a></li>
+                                        </ul>
+                                    </div>
+                                </a>  
+                            </li>
+                            <li><a href="#" class="language" ><img src="{{asset('images/flag24.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
                         </ul>
                     </div>
                 </div>
@@ -46,7 +66,7 @@
             <section class="banner">
                 <div class="container">
                     <div class="row">
-                        <div class="cold-lg-12">
+                        <div class="col-lg-12">
                             <h1>EXPOSITIONS</h1>
                         </div>
                     </div>
@@ -61,6 +81,7 @@
                         {% block APProjet4Booking_body %}
                         {% endblock %}
                         <hr>
+                       
                         <footer>Pictapica - Openclassrooms - {{'now'|date('Y')}}</footer>
                     </div>
                 </div>
@@ -74,7 +95,7 @@
 
             <script>
                 $(window).scroll(function () {
-                    if ($(this).scrollTop() > 50)  /*height in pixels when the navbar becomes non opaque*/
+                    if ($(this).scrollTop() > 50)  /*height en pixels quand la navbar devient non-opaque*/
                     {
                         $('.opaque-navbar').addClass('opaque');
                     } else {
@@ -88,7 +109,56 @@
                         }
                 );
             </script>
-            
+            <script>
+                var timeout;
+
+                $('#cart').on({
+                  mouseenter: function() {
+                    $('#cart-dropdown').show();
+                  },
+                  mouseleave: function() {
+                    timeout = setTimeout(function() {
+                      $('#cart-dropdown').hide();
+                    }, 200);
+                  }
+                });
+
+                // laisse le contenu ouvert à son survol et le cache quand la souris sort
+                $('#cart-dropdown').on({
+                  mouseenter: function() {
+                    clearTimeout(timeout);
+                  },
+                  mouseleave: function() {
+                    $('#cart-dropdown').hide();
+                  }
+                });
+            </script>
+            <script>
+                var inCartTicketsNum;
+                // affiche/cache les éléments du panier selon s'il contient des produits
+                function cartEmptyToggle() {
+                  if (inCartTicketsNum > 0) {
+                    $('#cart-dropdown .hidden').removeClass('hidden');
+                    $('#empty-cart-msg').hide();
+                  }
+
+                  else {
+                    $('#cart-dropdown .go-to-cart').addClass('hidden');
+                    $('#empty-cart-msg').show();
+                  }
+                }
+                
+                // récupère les informations stockées en session
+                //TEST 
+                inCartTicketsNum = {{ app.session.get('nbTickets')}};
+                
+                cartEmptyToggle();
+
+                // affiche le nombre d'article du panier 
+                $('#in-cart-tickets-num').html(inCartTicketsNum);
+
+                </script>
+                
         {% endblock %}
 
     </body>

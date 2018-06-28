@@ -6,7 +6,7 @@
     <section class="banner">
         <div class="container">
             <div class="row">
-                <div class="cold-lg-12">
+                <div class="col-lg-12">
                     <h1>RECAPITULATIF</h1>
                 </div>
             </div>
@@ -40,21 +40,69 @@
             </div>
             <div class="row"> 
                 <div class="col-lg-12">
-                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket" > {{ app.session.get('Booking').getTickets().count }} billet(s) PLEIN TARIF</div>
-                    <div class="col-lg-4 col-md-4 col-xs-4 total1">16 €</div><br><br>
-                    <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{ app.session.get('Booking').getTickets().count }} billet(s) TARIF ENFANT</div>
-                    <div class="col-lg-4 col-md-4 col-xs-4 total1">4 €</span></p></div>
+
+                    {% if nbType.normal > 0 %}
+                        <div class="col-lg-12" id="recap-normal-fare">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.normal}} billet(s) PLEIN TARIF</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1 total-normal">
+                                {%if booking.fullDay == true %}
+                                    {{nbType.normal*16}} €
+                                {%endif%}
+                                {%if booking.fullDay == false %}
+                                    {{nbType.normal*8}} €
+                                {%endif%}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if nbType.reduct > 0 %}  
+                        <div class="col-lg-12" id="recap-reduct-fare">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket "> {{nbType.reduct}} billet(s) TARIF REDUIT</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1 total-reduct">
+                                {%if booking.fullDay == true %}
+                                    {{nbType.reduct*10}} €
+                                {%endif%}
+                                {%if booking.fullDay == false %}
+                                    {{nbType.reduct*5}} €</div>
+                                {%endif%}  
+                        </div>
+                    {% endif %}
+                    {% if nbType.child > 0 %}
+                        <div class="col-lg-12" id="recap-child-fare">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.child}} billet(s) TARIF ENFANT</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1">
+                                {%if booking.fullDay == true %}
+                                    {{nbType.child*8}} €
+                                {%endif%}
+                                {%if booking.fullDay == false %}
+                                    {{nbType.child*4}} € 
+                                {%endif%}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if nbType.senior > 0 %}
+                        <div class="col-lg-12" id="recap-senior-fare">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.senior}} billet(s) TARIF SENIOR</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1">
+                                {%if booking.fullDay == true %}
+                                    {{nbType.senior*12}} €
+                                {%endif%}
+                                {%if booking.fullDay == false %}
+                                    {{nbType.senior*6}} €
+                                {%endif%}
+                            </div>
+                        </div> 
+                    {% endif %}   
                 </div>
             </div>
             <div class="col-lg-12" id="total">
                 TOTAL : 20 €
             </div>  
         </div>
-        <br><br>
+                    <br><br>
         <div class="col-lg-12">
-            <p>Pour recevoir vos billets, merci de renseigner votre adresse e-mail. </p>
+            <h4>Pour recevoir vos billets, merci de renseigner votre adresse e-mail. </h4>
             <label class="input js-input">
-                <input type="text" class="native js-native" 
+                <input type="text" class="native js-native required email" 
                        placeholder="Adresse e-mail"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
@@ -63,12 +111,12 @@
                 <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
                 <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
             </label>
-            <span id="helpEmail"></span>
+            <span id="helpEmail" style="color:red;"></span><br><br>
         </div>
         <div class=" col-lg-12">
-            <p>Confirmation de votre adresse e-mail.</p>
+            <h4>Confirmation de votre adresse e-mail.</h4>
             <label class="input js-input">
-                <input type="text" class="native js-native" 
+                <input type="text" class="native js-native required email" 
                        placeholder="Confirmation e-mail"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
@@ -77,69 +125,142 @@
                 <span class="label" data-label="Confirmation e-mail" aria-role="label">Confirmation e-mail</span>
                 <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">Confirmation e-mail</span>
             </label>
-            <span id="helpVerifyEmail"></span>
+            <span id="helpVerifyEmail" style="color:red;"></span>
         </div>
+        <button type="submit" id="confirm" class="button2">Confirmer votre commande</button>
         <div class ="row">
-            <div class="col-lg-12 col-md-12 col-xs-12 ">
-                {#<button type="submit" id="payment" class="button2">Régler votre commande</button>#}
-                <form action="{{ path('approjet4_booking_payment') }}" method="POST">
-        <script
-            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
-            data-amount="2000"
-            data-name="Stripe.com"
-            data-description="Example charge"
-            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-            data-locale="auto"
-            data-zip-code="true">
-        </script>
-    </form>
+            <div class="col-lg-12 col-md-12 col-xs-12 hidden" id="payment-button">
+                <form action="{{ path('approjet4_booking_payment') }}" method="POST" >
+                    <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
+                        data-amount="2000"
+                        data-name="Billetterie du Louvre"
+                        data-description="Exemple paiement"
+                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                        data-locale="fr"
+                        data-zip-code="true">
+                    </script>
+                </form>
             </div>
         </div><br>
+        <hr>
+        <div class ="row pull-left">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour à l'accueil</button></a>
+            </div>
+        </div><br><br><br><br>
     </div>
+    
 
+         
     {% block javascript %}
         <script>
-           var url_payment = "{{path('approjet4_booking_payment')}}";
-         $(document).ready(function () {
-                $('#payment').click(function () { 
-                    document.location = url_payment;
-                });  
+            $(document).ready(function () {
+                var timeout;
+
+                $('#recap-normal-fare').on({
+                  mouseenter: function() {
+                    $('#recap-normal').show();
+                  },
+                  mouseleave: function() {
+                    timeout = setTimeout(function() {
+                      $('#recap-normal').hide();
+                    }, 200);
+                  }
+                });
+
+                // laisse le contenu ouvert à son survol et le cache quand la souris sort
+                $('#recap-normal').on({
+                  mouseenter: function() {
+                    clearTimeout(timeout);
+                  },
+                  mouseleave: function() {
+                    $('#recap-normal').hide();
+                  }
+                });
+            });
+        </script>
+        <script>//if et else
+            if ({{booking.fullDay}} == true){
+                $("#fullDay").show();
+                $("#halfDay").hide();
+            }
+            else{
+                $("#fullDay").hide();
+                $("#halfDay").show();
+            }
+        </script>
+        <script>
+            // Contrôle de l'email en fin de saisie
+            document.getElementById("email").addEventListener("blur", function (e) {
+            // Correspond à une chaîne de la forme xxx@yyy.zzz
+                var regexEmail = /.+@.+\..+/;
+                var validityEmail = "";
+                if (!regexEmail.test(e.target.value)) {
+                    validityEmail = "Adresse invalide";
+                }
+            document.getElementById("helpEmail").textContent = validityEmail;
+            });
+            document.getElementById("verifyEmail").addEventListener("blur", function (e) {
+            // Correspond à une chaîne de la forme xxx@yyy.zzz
+                var regexEmail = /.+@.+\..+/;
+                var validityEmail = "";
+                if (!regexEmail.test(e.target.value)) {
+                validityEmail = "Adresse invalide";
+                }
+                document.getElementById("helpVerifyEmail").textContent = validityEmail;
+            });
+            //contrôle si les 2 mails sont identiques. 
+            document.getElementById("verifyEmail").addEventListener("blur", function (e) {
+                var email = $('#email').val();
+                var verifyEmail = $('#verifyEmail').val();
+                if (!(email == verifyEmail)){
+                    validityEmail = "Les adresses mail ne sont pas identiques !";
+                }
+                document.getElementById("helpVerifyEmail").textContent = validityEmail;
             });
         </script>
         <script>
-                if ({{fullDay}} == true){
-                $("#fullDay").show();
-                $("#halfDay").hide();
-                }
-                if ({{fullDay}} == false){
-                $("#fullDay").hide();
-                $("#halfDay").show();
-                }
-        </script>
-        <script>
-        // Contrôle de l'email en fin de saisie
-        document.getElementById("email").addEventListener("blur", function (e) {
-            // Correspond à une chaîne de la forme xxx@yyy.zzz
-            var regexEmail = /.+@.+\..+/;
-            var validityEmail = "";
-            if (!regexEmail.test(e.target.value)) {
-                validityEmail = "Adresse invalide";
-            }
-            document.getElementById("helpEmail").textContent = validityEmail;
-        });
+            var url_recap = "{{path('approjet4_booking_showRecap')}}";
+            var url_payment = "{{path('approjet4_booking_payment')}}";
             
-        document.getElementById("verifyEmail").addEventListener("blur", function (e) {
-            // Correspond à une chaîne de la forme xxx@yyy.zzz
-            var regexEmail = /.+@.+\..+/;
-            var validityEmail = "";
-            if (!regexEmail.test(e.target.value)) {
-                validityEmail = "Adresse invalide";
-            }
-            document.getElementById("helpVerifyEmail").textContent = validityEmail;
-        });</script>
-        
-        
+            function validBooking(details) {
+                var email = $('#email').val();
+                
+                if (!$('#email').val()) {
+                    toastr.warning('Merci de renseigner votre adresse email !', '', {positionClass: "toast-top-center"});
+                } else {
+                $.post(url_recap,{
+                    email : email
+                }, function(response){
+                    if (response.success){
+                        document.location = url_payment;
+                    } else {
+                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    }
+                    });
+                }
+ 
+            $(document).ready(function (e) {
+                $('#confirm').click(function () {
+                    if (!$("#email").val() || !$("#verifyEmail").val()){
+                    toastr.warning('Merci de renseigner votre adresse email.', '', {positionClass: "toast-top-center"});
+                } else {
+                    validBooking(true);
+                };
+                });
+            });
+        }
+         </script>
+         <script>
+            $(document).ready(function () {
+                $('#confirm').on('click', function () {
+                    $('#confirm').hide(200);
+                    $('#payment-button').removeClass('hidden', 200);
+                });
+            });
+        </script>
     {% endblock %}
 {% endblock %}
 

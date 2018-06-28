@@ -74,9 +74,8 @@
 
     {% block javascript %}
         <script>
-
             var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
-            var url_contact_details = "{{path('approjet4_booking_contactDetails')}}";
+            var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
 
             function submitData(fullDay) {
                 var visitDate = $('#pick_a_date').val();
@@ -138,7 +137,7 @@
                 endDate: ("{{event.endDateReservable}}")
             });
         </script>
-        <script>//To do :Commenter
+        <script>//On empêche que les bulles d'infos s'affiche en même temps. 
             $('#dateInfo').click(function () {
                 $('#dateInfoText').show();
                 $('#typeInfoText').hide();
@@ -156,9 +155,9 @@
             });
         </script>
         <script>
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover(); 
-});
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover(); 
+            });
 </script>
     {% endblock %}
 {% endblock %}

@@ -20,13 +20,27 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
                         <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
                     </button>
-                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="../../web/images/louvre_w.png" alt=""></a>
+                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="{{asset('images/louvre_w.png')}}" alt=""></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navMain">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="#"><img src="{{asset('images/ticket_w.png')}}" alt="" class="ticket">&nbsp;&nbsp;&nbsp;Commande en cours : 0 billet(s)</a>  </li>
-                        <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english"</a></li> 
+                        <li><a href="#">
+                                    <div class="dropdown">
+                                        <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
+                                                 alt="image_ticket" style="height: 30px;"
+                                                 class="ticket">
+                                            <span id="in-cart-tickets-num">  0</span> billet(s)
+                                        </div>
+
+                                        <ul id="cart-dropdown" hidden>
+                                            <li id="empty-cart-msg"><a>Votre panier est vide</a></li>
+                                            <li class="go-to-cart hidden"><a href="/panier/">Voir le panier</a></li>
+                                        </ul>
+                                    </div>
+                                </a>  
+                            </li>
+                        <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
                     </ul>
                 </div>
             </div>
@@ -69,6 +83,31 @@
                             $(this).removeClass("hover");
                         }
                 );</script>
+                        <script>
+                var timeout;
+
+                $('#cart').on({
+                  mouseenter: function() {
+                    $('#cart-dropdown').show();
+                  },
+                  mouseleave: function() {
+                    timeout = setTimeout(function() {
+                      $('#cart-dropdown').hide();
+                    }, 200);
+                  }
+                });
+
+                // laisse le contenu ouvert à son survol
+                // le cache quand la souris sort
+                $('#cart-dropdown').on({
+                  mouseenter: function() {
+                    clearTimeout(timeout);
+                  },
+                  mouseleave: function() {
+                    $('#cart-dropdown').hide();
+                  }
+                });
+            </script>
             {% endblock %}
 
     </body>
