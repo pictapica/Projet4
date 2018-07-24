@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="cold-lg-12">
-                    <h1>BILLETTERIE</h1>
+                    <h1>{{'banner.title'|trans}}</h1>
                 </div>
             </div>
         </div>
@@ -17,19 +17,18 @@
 {% block APProjet4Booking_body %}
     <nav>
         <ul class="progress-indicator">
-            <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Coordonnées</a></li>
-            <li><span class="bubble"></span><a href="#0">Paiement</a></li>
-            <li><span class="bubble"></span><a href="#0">Confirmation</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step1'|trans}}</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step2'|trans}}</a></li>
+            <li><span class="bubble"></span><a href="#0">{{'nav.progress.step3'|trans}}</a></li>
+            <li><span class="bubble"></span><a href="#0">{{'nav.progress.step4'|trans}}</a></li>
         </ul>
     </nav>
     <div class="container form">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h2>{{event.title}}</h2> 
-                <p style="text-align:center">Visite du : {{ app.session.get('visitDate')|date('d/m/Y')}} - 
-                    <span id="fullDay">BILLET JOURNEE</span>
-                    <span id="halfDay">BILLET DEMI-JOURNEE</span></p>
+                <p style="text-align:center; font-size: 18px;">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
+                    {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
                 <hr>
             </div>
         </div>
@@ -40,29 +39,18 @@
         </div>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 ">
-                <button type="submit" id="envoi" class="button2">Finaliser votre commande</button>
-                <p>Vous pourrez continuer vos achat après confirmation</p>
+                <button type="submit" id="envoi" class="button2">{{'contactDetails.submit'|trans}}</button>
             </div>
         </div>
         <hr>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour à l'accueil</button></a>
+                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">{{'button.backToHome'|trans}}</button></a>
             </div>
         </div>
     </div>
 
     {% block javascript %}
-        <script>//On indique si le visiteur a choisi un billet journée ou demi-journée
-            if ({{fullDay}} == true){
-                $("#fullDay").show();
-                $("#halfDay").hide();
-            }
-            if ({{fullDay}} == false){
-                $("#fullDay").hide();
-                $("#halfDay").show();
-            }
-        </script>
         <script>//Affichage des tarifs journée ou demi-journée
             if ({{fullDay}} == true){
                 $(".full").show();
@@ -90,48 +78,18 @@
                 $('#myForm .ticket').each(function(index){
                     tickets.push({
                         fareType : $(this).find('.active input').val(),
+                        fare : $(this).find('.fareLabel').val(),
                         lastname : $(this).find('#lastname').val(),
                         firstname : $(this).find('#firstname').val(),
                         dateOfBirth : $(this).find('#dateOfBirth').val(),
-                        country : $(this).find('#country').val()
+                        country : $(this).find('#country').val(),
+                        visitDate : '{{ app.session.get('visitDate')}}'
                         });
                     
                });
-                var nbNormal = 0,
-                    nbReduct = 0,
-                    nbChild = 0,
-                    nbSenior = 0;
-            
-            
-               //pour chaque ticket on retient le faretype, on les ajoute au tableau nbPerFareType
-                 $(tickets).each(function(index,ticket) {
-                    switch(ticket.fareType){                              
-                        case 'child': 
-                          nbChild++;
-                        break;
-                      case 'normal':
-                          nbNormal++;
-                        break;
-                      case 'reduct':
-                          nbReduct++;
-                        break;
-                      case 'senior':
-                          nbSenior++;
-                        break;
-                  }                      
-                });
-                    nbPerFareType = {
-                        nbNormal : nbNormal,
-                        nbReduct : nbReduct,
-                        nbChild : nbChild,
-                        nbSenior : nbSenior,
-                    };
-               
-             console.log(nbPerFareType);
              
                 $.post(url_post_type,{
                     tickets,
-                    nbPerFareType
                 }, function(response){
                     if (response.success){
                         document.location = url_recap;

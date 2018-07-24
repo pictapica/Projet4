@@ -4,68 +4,67 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{% block title %}Billetterie du Louvre{% endblock %}</title>
+        <title>{% block title %}{{'home.head.title'|trans}}{% endblock %}</title>
 
         {% block stylesheets %}
             {# On charge le CSS de bootstrap depuis le site directement #}
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-            <link rel="stylesheet" href="../../web/css/booking.css" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
         {% endblock %}
     {% endblock %}
 
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
-                        <span class="glyphicon glyphicon-menu-hamburger" style="color:white;"></span>
-                    </button>
-                    <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/"><img src="{{asset('images/louvre_w.png')}}" alt=""></a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="navMain">
-                    <ul class="nav navbar-nav pull-right">
-                        <li><a href="#">
-                                    <div class="dropdown">
-                                        <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
-                                                 alt="image_ticket" style="height: 30px;"
-                                                 class="ticket">
-                                            <span id="in-cart-tickets-num">  0</span> billet(s)
-                                        </div>
-
-                                        <ul id="cart-dropdown" hidden>
-                                            <li id="empty-cart-msg"><a>Votre panier est vide</a></li>
-                                            <li class="go-to-cart hidden"><a href="/panier/">Voir le panier</a></li>
-                                        </ul>
-                                    </div>
-                                </a>  
+        {% block navbar %}
+            <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" 
+                                class="navbar-toggle" 
+                                data-toggle="collapse" 
+                                data-target="#navMain">
+                            <span class="glyphicon glyphicon-menu-hamburger" 
+                                style="color:white;">
+                            </span>
+                        </button>
+                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/fr">
+                            <img src="{{asset('images/louvre_w.png')}}" alt="">
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navMain">
+                        <ul class="nav navbar-nav pull-right">
+                            <li>{% if app.request.locale == 'fr' %}
+                                <a href="http://localhost/Projet4/web/app_dev.php/en" class="language"><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a> 
+                            {% endif %}
+                                {% if app.request.locale == 'en' %}
+                            <a href="http://localhost/Projet4/web/app_dev.php/fr" class="language"><img src="{{asset('images/fr_flag.png')}}" alt="english" style="margin-left: 35px;"></a>
+                            {% endif %}
                             </li>
-                        <li><a href="#" class="language"><img src="{{asset('images/flag24.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <section class="banner">
+        {% endblock %}            
+            <section class="banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="cold-lg-12">
+                            <h1>{{'home.banner.welcome'|trans}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
             <div class="container">
+                <div class="row" style="height: 200px"></div>
                 <div class="row">
-                    <div class="cold-lg-12">
-                        <h1>Bienvenue sur la billetterie du Louvre</h1>
-                    </div>
+                        <div class="col-lg-12">
+                            <a href="{{path('approjet4_booking_index')}}" class="btn draw-border" role="button">{{'home.container'|trans}}</a>
+                        </div>
+
+
                 </div>
-            </div>
-        </section>
-
-
-        <div class="container">
-            <div class="row" style="height: 200px"></div>
-            <div class="row">
-                    <div class="col-lg-12">
-                        <a href="{{path('approjet4_booking_index')}}" class="btn draw-border" role="button">Choisissez votre exposition</a>
-                    </div>
-                        
-                    
-            </div>
-        </div>          
+            </div>          
 
         {% block javascripts %}
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

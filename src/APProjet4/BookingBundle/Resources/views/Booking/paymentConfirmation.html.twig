@@ -7,97 +7,115 @@
         <div class="container">
             <div class="row">
                 <div class="cold-lg-12">
-                    <h1>CONFIRMATION</h1>
+                    <h1>{{'confirmation.banner.title'|trans}}</h1>
                 </div>
             </div>
         </div>
     </section>
 {% endblock %}
 {% block APProjet4Booking_body %}
-    <nav>
-        <ul class="progress-indicator">
-            <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Coordonnées</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Paiement</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Confirmation</a></li>
-        </ul>
-    </nav>
-    <div class="container form">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12"><br><br>
-                <h4>Votre réservation a bien été effectuée !</h4><br>
-                Merci d'avoir commandé sur la billetterie du Louvre<br><br><br>
+<nav>
+    <ul class="progress-indicator">
+        <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step1'|trans}}</a></li>
+        <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step2'|trans}}</a></li>
+        <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step3'|trans}}</a></li>
+        <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step4'|trans}}</a></li>
+    </ul>
+</nav>
+<div class="container form">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xs-12"><br><br>
+                <h4>{{'confirmation.done'|trans}}</h4><br>
+                {{'confirmation.thanks'|trans}}<br><br><br>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10 infoMail">Un email vient de vous être envoyé à l'adresse suivante:<br><br> 
-                <p style="text-align: center; color:">pictapica@gmail.com </p><br>
-                Merci de présenter cet email à l'entrée du musée : <br>
-                - A partir de votre téléphone portable ou tablette  (merci pour la planète !).<br>
-                - En l'imprimant sur papier libre.
+            <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10 infoMail">{{'confirmation.send'|trans}}:<br><br> 
+                <p style="text-align: center; color: #fec500; font-size: 17px;">{{booking.email}} </p><br>
+                {{'confirmation.info1'|trans}}<br>
+                - {{'confirmation.info2'|trans}}<br>
+                - {{'confirmation.info3'|trans}}
             </div>
         </div>
         <hr>
         <div class="row">
-            <h4>Récapitulatif de votre commande</h4><br>
+            <h4>{{'confirmation.recap'|trans}}</h4><br>
             <div class="row">
                 <div class="col-lg-offset-3 col-lg-3 col-md-offset-4 col-md-3  col-xs-offset-2 col-xs-5 recapTable">
                     <ul>
-                        <li>Numéro de commande</li>
-                        <li>Date de paiement</li>
-                        <li>Montant</li>
-                        <li>Numéro de paiement</li>
+                        <li>{{'confirmation.bookingNumber'|trans}}</li>
+                        <li>{{'confirmation.paymentDate'|trans}}</li>
+                        <li>{{'confirmation.amount'|trans}}</li>
+                        <li>{{'confirmation.paymentNumber'|trans}}</li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-3 col-xs-5 infoTable">
-                    <ul><li>8415K2L65B</li>
-                        <li>11/06/2018</li>
-                        <li>16€</li>
-                        <li>462512</li>
+                    <ul>
+                        <li>{{booking.orderCode}}</li>
+                        <li>{{booking.orderDate|date('d/m/Y')}}</li>
+                        <li>{{total}} €</li>
+                        <li>{{stripeToken}}</li>
                     </ul>
                 </div>
             </div>
-            <p class="save">(Merci de conserver ces informations, elles pourront vous être demandées en cas de réclamation)</p>
+            <p style="font-size: 12px;">({{'confirmation.keep'|trans}})</p>
             <br><br>
         </div>
         <div class="row">
             <div class="col-lg-offset-1 col-lg-10 table-responsive">
-                <caption>EXPOSITION DELACROIX - Votre visite JOURNEE du 25 aôut 2018</caption><br><br>
+                <caption>{{event.title}} - {{'confirmation.visite'|trans}} 
+                    {{booking.fullDay?'JOURNEE':'DEMI-JOURNEE'}} 
+                    {{'confirmation.on'|trans}} 
+                    {{visitDate|date('d/m/Y')}}</caption><br><br>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-right">Nom</th>
-                            <th class="text-right">Prenom</th>
-                            <th class="text-right">Date de naissance</th>
-                            <th class="text-right">Tarif</th>
-                            <th class="text-right">Prix du billet</th>
+                            <th class="text-right">{{'recap.lastname'|trans}}</th>
+                            <th class="text-right">{{'recap.firstname'|trans}}</th>
+                            <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
+                            <th class="text-right">{{'recap.fare'|trans}}</th>
+                            <th class="text-right">{{'recap.ticketFare'|trans}}</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th class="text-right" colspan="4" id="totalBooking">Total commande</th>
-                            <th class="text-right"> 16€</th>
+                            <th class="text-right" colspan="4" id="totalBooking">{{'recap.totalBooking'|trans}}</th>
+                            <th class="text-right"> {{total}} €</th>
                         </tr>
                     </tfoot>
+                    {% for ticket in tickets %}
                     <tbody>
-                        
                         <tr>
-                            <td class="text-right"></td>
-                            <td class="text-right"></td>
-                            <td class="text-right"></td>
-                            <td class="text-right"></td>
-                            <td class="text-right">16€</td>
+                            <td class="text-right">{{ticket.lastname}}</td>
+                            <td class="text-right">{{ticket.firstname}}</td>
+                            <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                            <td class="text-right">{{ticket.fareType}}</td>
+                            <td class="text-right">
+                                {% if ticket.fareType == 'normal' %}
+                                    {{booking.fullDay?16:8}} €
+                                {% endif %}
+                                {% if ticket.fareType == 'reduct' %}
+                                {{booking.fullDay?10:5}} €
+                                {% endif %}
+                                {% if ticket.fareType == 'child' %}
+                                {{booking.fullDay?8:4}} €
+                                {% endif %}
+                                {% if ticket.fareType == 'senior' %}
+                                {{booking.fullDay?12:6}} €
+                                {% endif %}
+                            </td>
                         </tr>
-                       
                     </tbody>
+                    {% endfor %}
                 </table>
             </div>
         </div>
         <hr>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour à l'accueil</button></a>
+                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">{{'button.backToHome'|trans}}</button></a>
             </div>
+            <br><br><br>
         </div>
     </div> 
 

@@ -18,10 +18,10 @@
     </div>
     <div class="ticket" name="billet">
         
-        <h3 id="ticketTitle">Billet n°1</h3>
+        <h3 id="ticketTitle">{{'ticketMaj'|trans}} n°1</h3>
         
         <div class="ticket-type col-lg-12">
-            <div class="row">CHOISISSEZ VOTRE TARIF : 
+            <div class="row">{{'formDetails.choice'|trans}} : 
                     <br><br> 
                 <div class="row">
                     <div class="btn-group btn-group-toggle fareLabel" data-toggle="buttons">
@@ -32,7 +32,7 @@
                                    value="normal"
                                    name="ticketFare"
                                    id="normal"
-                                   />TARIF NORMAL<br><br>
+                                   />{{'formDetails.fare.full'|trans}}<br><br>
                             <span style="padding-left: 20px" id="normalFull" class="full"  value="16">16€</span>
                             <span style="padding-left: 20px" id="normalHalf"  class="half"value="8">8€</span>
                         </label>
@@ -42,9 +42,9 @@
                                    autocomplete="off"
                                    value="reduct"
                                    name="ticketFare"
-                                   id="reduct"/>TARIF REDUIT<br><br>
-                            <span style="padding-left: 20px" id="reductFull" class="full"value="8">8€</span>
-                            <span style="padding-left: 20px" id="reductHalf" class="half" value="4">4€</span>
+                                   id="reduct"/>{{'formDetails.fare.reduct'|trans}}<br><br>
+                            <span style="padding-left: 20px" id="reductFull" class="full"value="8">10€</span>
+                            <span style="padding-left: 20px" id="reductHalf" class="half" value="4">5€</span>
                         </label>
                         <label for="child" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
@@ -52,9 +52,9 @@
                                    autocomplete="off"
                                    value="child"
                                    name="ticketFare"
-                                   id="child"/>ENFANT<br><br>
-                            <span class="full" id="childFull" value="6">6€</span>
-                            <span class="half"  id="childHalf" value="3">3€</span>
+                                   id="child"/>{{'formDetails.fare.child'|trans}}<br><br>
+                            <span class="full" id="childFull" value="6">8€</span>
+                            <span class="half"  id="childHalf" value="3">4€</span>
                         </label>
                         <label for="senior" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input" 
@@ -62,9 +62,9 @@
                                    autocomplete="off"
                                    value="senior"
                                    name="ticketFare"
-                                   id="senior"/>SENIOR<br><br>
-                            <span class="full" id="seniorFull" value="10">10€</span>
-                            <span class="half" id="seniorHalf" value="5">5€</span>
+                                   id="senior"/>{{'formDetails.fare.senior'|trans}}<br><br>
+                            <span class="full" id="seniorFull" value="10">12€</span>
+                            <span class="half" id="seniorHalf" value="5">6€</span>
                         </label>
                     </div>
                 </div>
@@ -75,28 +75,28 @@
             <label class="input js-input">
                 <input type="text" 
                        class="native js-native champ" 
-                       placeholder="Nom du visiteur" 
+                       placeholder="{{'formDetails.contact.lastname'|trans}}" 
                        data-validation="length alphanumeric" 
                        data-validation-length="2-15"
                        value=""
                        id="lastname"
                        name="lastname"/>
-                <span class="label" data-label="Nom" aria-role="label">Nom du visiteur</span>
-                <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">Nom du visiteur</span>
+                <span class="label" data-label="{{'formDetails.contact.labelLastname'|trans}}" aria-role="label">{{'formDetails.contact.lastname'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">{{'formDetails.contact.lastname'|trans}}</span>
                 {# span id="helpLastname#}
             </label>
             <label class="input js-input">
                 <input type="text" 
                        class="native js-native champ" 
-                       placeholder="Prénom du visiteur"
+                       placeholder="{{'formDetails.contact.firstname'|trans}}"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
                        data-validation-error-msg="Merci de renseigner le prénom du visiteur"
                        value=""
                        id="firstname"
                        name="firstname"/>
-                <span class="label" data-label="Prénom" aria-role="label">Prénom du visiteur</span>
-                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">Prénom du visiteur</span>
+                <span class="label" data-label="{{'formDetails.contact.labelFirstname'|trans}}" aria-role="label">{{'formDetails.contact.firstname'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">{{'formDetails.contact.firstname'|trans}}</span>
             </label>
             <label class="input js-input">
                 <input type="date" 
@@ -106,14 +106,14 @@
                        value=""
                        id="dateOfBirth"
                        name="dateOfBirth"/>
-                <span class="label" data-label="Date de naissance" aria-role="label">Date de naissance</span>
-                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">Date de naissance</span>
+                <span class="label" data-label="{{'formDetails.contact.dateOfBirth'|trans}}" aria-role="label">{{'formDetails.contact.dateOfBirth'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">{{'formDetails.contact.dateOfBirth'|trans}}</span>
             </label>
             <label for="country" class="input js-input">	
-                <span class="label" data-label="Pays de résidence" aria-role="label">Pays de résidence</span>
-                <span class="message" aria-role="label">Pays de résidence</span>
+                <span class="label" data-label="{{'formDetails.contact.country'|trans}}" aria-role="label">{{'formDetails.contact.country'|trans}}</span>
+                <span class="message" aria-role="label">{{'formDetails.contact.country'|trans}}</span>
                 <select class="native js-native" name="country" id="country">
-                    <option class="form__option" value="">Pays de résidence</option>
+                    <option class="form__option" value="">{{'formDetails.contact.country'|trans}}</option>
                     <option class="form__option" value="AR">Argentina</option>
                     <option class="form__option" value="AU">Australia</option>
                     <option class="form__option" value="AT">Austria</option>
@@ -211,9 +211,9 @@
     </div>
 
     <div id="AddDeleteTicket">
-        <button href="javascript:;"  title="Ajouter un ticket" class="addTicket"
+        <button href="javascript:;"  title="{{'formDetails.addTicket'|trans}}" class="addTicket"
                 rel="ticket"style="color:#000; text-decoration: none;">
-            Ajouter un ticket
+            {{'formDetails.addTicket'|trans}}
         </button>
 
         <a href="javascript:;" title="Supprimer un ticket" style="font-size:20px" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
@@ -271,7 +271,7 @@
         });
     </script>
 
-    <script>
+    <script>//Pop up
         $(document).ready(function () {
             $('[data-toggle="popover"]').popover();
         });

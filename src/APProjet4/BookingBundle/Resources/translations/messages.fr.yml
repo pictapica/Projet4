@@ -1,0 +1,101 @@
+home: 
+    head:
+        title: Billetterie du Louvre
+    banner:
+        welcome: Bienvenue sur la billetterie du Louvre
+    container: Choisissez votre exposition
+    
+layout:
+    banner:
+        title: EXPOSITIONS
+
+ticket: billet
+ticketMaj: Billet        
+navbar:
+    cart:
+        empty: Votre panier est vide
+        see: Voir le panier
+        
+nav:
+    progress:
+        step1: Réservation
+        step2: Coordonnées
+        step3: Paiement
+        step4: Confirmation
+        
+index:
+    booking: Réservez
+
+selectDate:
+    container:
+        step1: Choisissez une date
+        step2: Choisissez votre billet
+        fullDay : Journée
+        halfDay : Demi-journée
+        
+button:
+    back: Retour
+    backToHome: Retour à l'accueil
+    
+banner:
+        title: BILLETTERIE
+        
+contactDetails:
+    submit: Finaliser votre commande
+    
+    
+formDetails:
+    choice: CHOISISSEZ VOTRE TARIF
+    fare: 
+        full: PLEIN TARIF
+        reduct: TARIF REDUIT
+        child: ENFANT
+        senior: SENIOR
+    contact: 
+        lastname: Nom du visiteur
+        labelLastname: Nom
+        firstname: Prénom du visiteur
+        labelFirstname: Prénom
+        dateOfBirth: Date de naissance
+        country: Pays de résidence
+    addTicket: Ajouter un ticket
+    
+recap:
+    inCart: billet dans votre panier.
+    visitDate: Visite du 
+    lastname: Nom
+    firstname: Prénom  
+    dateOfBirth: Date de naissance
+    fare: Tarif
+    ticketFare: Prix du billet
+    totalBooking: Total commande
+    banner:
+        title: RECAPITULATIF
+    mail:
+        title: Pour recevoir vos billets, merci de renseigner votre adresse e-mail.
+        confirm: Confirmation de votre adresse e-mail.
+        confirmMail: Confirmation e-mail
+    submit: Confirmer votre commande
+        
+confirmation:
+    banner: 
+        title: CONFIRMATION
+    done: Votre réservation a bien été effectuée !
+    thanks: Merci d'avoir commandé sur la billetterie du Louvre
+    send: Un e-mail vient de vous être envoyé à l'adresse suivante 
+    info1: Merci de présenter cet email à l'entrée du musée 
+    info2: A partir de votre téléphone portable ou tablette  (merci pour la planète !).
+    info3: En l'imprimant sur papier libre.
+    recap: Récapitulatif de votre commande
+    bookingNumber: Numéro de commande
+    paymentDate: Date de paiement
+    amount: Montant
+    paymentNumber: Numéro de paiement
+    keep: Merci de conserver ces informations, elles pourront vous être demandées en cas de réclamation
+    visite: Votre visite
+    on: du
+ 
+mail:
+    title: Confirmation de commande
+    thanks: Merci d'avoir effectué votre commande sur la billetterie du Louvre! 
+    

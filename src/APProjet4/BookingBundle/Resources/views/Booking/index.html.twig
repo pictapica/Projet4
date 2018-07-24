@@ -17,9 +17,8 @@
                                     <img src="{{ event.image.url }}" alt="{{ event.image.alt }}">
                                 {% endif %}
                                 <figcaption>
-                                    <h3>Réserver</h3>
+                                    <h3>{{'index.booking'|trans}}</h3>
                                 </figcaption>
-
                                 <a href="{{path('approjet4_booking_selectDate',{'id': event.id})}}"></a>
                             </figure>
                         </div>
@@ -30,7 +29,7 @@
                                 <h1>{{event.title|upper}}</h1>
                                 <span>{{event.content|upper}}</span>
                                 <br><br>
-                                <button class="btn draw-border">Réserver</button>
+                                <button class="btn draw-border">{{'index.booking'|trans}}</button>
                             </a>
                         </div>
                     </div>

@@ -1,0 +1,100 @@
+home: 
+    head:
+        title: Louvre ticketing service
+    banner:
+        welcome: Welcome to the Louvre ticketing service
+    container: Choose your exhibition
+    
+layout:
+    banner:
+        title: EXHIBITIONS
+        
+ticket: ticket
+ticketMaj: Ticket
+
+navbar:
+    cart:
+        empty: Your cart is empty
+        see: Go to cart
+
+nav:
+    progress:
+        step1: Booking
+        step2: Contact Details
+        step3: Payment
+        step4: Confirmation
+        
+index:
+    booking: Booking
+    
+banner:
+        title: TICKETING SERVICE
+        
+selectDate:
+    container:
+        step1: Choose a date
+        step2: Choose your ticket
+        fullDay : Day
+        halfDay : Half-Day
+        
+button:
+    back: Back
+    backToHome: Home
+
+        
+contactDetails:
+    submit: Finalize your order
+    
+    
+formDetails:
+    choice: CHOOSE YOUR FARE
+    fare: 
+        full: FULL FARE
+        reduct: REDUCT FARE
+        child: CHILD
+        senior: SENIOR
+    contact: 
+        lastname: Visitor family name
+        labelLastname: Name
+        firstname: Visitor first name
+        labelFirstname: First name
+        dateOfBirth: Date of birth
+        country: Living country
+    addTicket: Add a ticket
+    
+recap:
+    inCart: ticket in your cart.
+    visitDate: '' 
+    lastname: Last name
+    firstname: First name  
+    dateOfBirth: Date of birth
+    fare: Fare
+    ticketFare: Ticket fare
+    totalBooking: Total order
+    banner:
+        title: RECAP
+    mail:
+        title: To receive your tickets, please enter your e-mail address.
+        confirm: Confirmation of your e-mail address.
+        confirmMail: Confirmation e-mail
+    submit: Confirm your order
+        
+confirmation:
+    banner: 
+        title: CONFIRMATION
+    done: Your reservation is confirmed!
+    thanks: Thank you for ordering at the Louvre ticket office
+    send: An e-mail has just been sent to the following address 
+    info1: Please present this email to the museum entrance 
+    info2: From your mobile phone or tablet (thanks for the planet!).
+    info3: By printing it on loose paper.
+    recap: __Récapitulatif de votre commande
+    bookingNumber: Order number
+    paymentDate: Payment date
+    amount: Amount
+    paymentNumber: Payment number
+    keep: Please keep this information, it may be requested in case of complaint
+    visite: Your visit
+    on: on
+
+

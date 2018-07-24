@@ -1,13 +1,114 @@
 {#src/APProjet4/BookingBundle/Resources/views/Booking/recap.html.twig #}
 
 {% extends "APProjet4BookingBundle::layout.html.twig" %}
+{% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle"
+                        data-toggle="collapse" data-target="#navMain">
+                    <span class="glyphicon glyphicon-menu-hamburger" 
+                          style="color:white;"></span>
+                </button>
+                <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/fr">
+                    <img src="{{asset('images/louvre_w.png')}}" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navMain">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a href="#">
+                            <div class="dropdown">
+                                <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
+                                                    alt="image_ticket" style="height: 30px;"
+                                                    class="ticket">
+                                    <span id="in-cart-tickets-num">0 </span> {{'ticket'|trans}}
+                                </div>
+                                <ul id="cart-dropdown" hidden>
+                                    <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
+                                    <li class="go-to-cart hidden"><a href="#" id="myCart">{{'navbar.cart.see'|trans}}</a></li>
+                                </ul>
+                                <!-- Modal Cart -->
+                                <div id="myModal" class="modal">
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
 
+                                        <h2>{{event.title}}</h2> 
+                                        <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
+                                            <span>
+                                                {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                                            </span>
+                                        </p>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
+                                                    <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
+                                                    <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
+                                                    <th class="text-right" style="color: white;">{{'recap.fare'|trans}}</th>
+                                                    <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th class="text-right" colspan="4" id="totalBooking" style="color: white;">{{'recap.totalBooking'|trans}}</th>
+                                                    <th class="text-right"> {{total}} €</th>
+                                                </tr>
+                                            </tfoot>
+                                            {%for ticket in tickets%}
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-right">{{ticket.lastname|upper}}</td>
+                                                        <td class="text-right">{{ticket.firstname|upper}}</td>
+                                                        <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                                                        <td class="text-right">
+                                                            {%if ticket.fareType == 'normal'%}
+                                                            {{'formDetails.fare.full'|trans}}
+                                                            {%elseif ticket.fareType == 'reduct' %}
+                                                            {{'formDetails.fare.reduct'|trans}}
+                                                            {%elseif ticket.fareType == 'child' %}
+                                                            {{'formDetails.fare.child'|trans}}
+                                                            {%elseif ticket.fareType == 'senior' %}
+                                                            {{'formDetails.fare.senior'|trans}}
+                                                            {%endif%}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {%if ticket.fareType == 'normal' %}
+                                                                {{booking.fullDay?16:8}} €
+                                                            {%endif%}
+                                                            {%if ticket.fareType == 'reduct' %}
+                                                                {{booking.fullDay?10:5}} €
+                                                            {%endif%}
+                                                            {%if ticket.fareType == 'child' %}
+                                                                {{booking.fullDay?8:4}} €
+                                                            {%endif%}
+                                                            {%if ticket.fareType == 'senior' %}
+                                                                {{booking.fullDay?12:6}} €
+                                                            {%endif%}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            {%endfor%}
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </a>  
+                    </li>
+                    <li><a href="#" class="language" ><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block title_section %}
     <section class="banner">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>RECAPITULATIF</h1>
+                    <h1>{{'recap.banner.title'|trans}}</h1>
                 </div>
             </div>
         </div>
@@ -16,10 +117,10 @@
 {% block APProjet4Booking_body %}
     <nav>
         <ul class="progress-indicator">
-            <li class="completed"><span class="bubble"></span><a href="#0">Réservation</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Coordonnées</a></li>
-            <li class="completed"><span class="bubble"></span><a href="#0">Paiement</a></li>
-            <li><span class="bubble"></span><a href="#0">Confirmation</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step1'|trans}}</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step2'|trans}}</a></li>
+            <li class="completed"><span class="bubble"></span><a href="#0">{{'nav.progress.step3'|trans}}</a></li>
+            <li><span class="bubble"></span><a href="#0">{{'nav.progress.step4'|trans}}</a></li>
         </ul>
     </nav>
     <div>
@@ -32,9 +133,10 @@
         <div class="row recap">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h2>{{event.title}}</h2> 
-                <p style="text-align:center">Visite du : {{ app.session.get('visitDate')|date('d/m/Y')}} - 
-                    <span id="fullDay">BILLET JOURNEE</span>
-                    <span id="halfDay">BILLET DEMI-JOURNEE</span>
+                <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
+                    <span>
+                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                    </span>
                 </p>
                 <hr>
             </div>
@@ -43,102 +145,111 @@
 
                     {% if nbType.normal > 0 %}
                         <div class="col-lg-12" id="recap-normal-fare">
-                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.normal}} billet(s) PLEIN TARIF</div>
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket test " 
+                                 data-toggle="tooltip" 
+                                 data-placement="right"
+                                 {%for ticket in tickets if ticket.fareType == 'normal'%}
+                                     title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
+                                 {%endfor%}> 
+                                {{nbType.normal}} {{'ticket'|trans}}{{nbType.normal>0?'':'s'}} {{'formDetails.fare.full'|trans}}
+                            </div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-normal">
-                                {%if booking.fullDay == true %}
-                                    {{nbType.normal*16}} €
-                                {%endif%}
-                                {%if booking.fullDay == false %}
-                                    {{nbType.normal*8}} €
-                                {%endif%}
+                                {{booking.fullDay?nbType.normal*16:nbType.normal*8}} €
                             </div>
                         </div>
                     {% endif %}
                     {% if nbType.reduct > 0 %}  
                         <div class="col-lg-12" id="recap-reduct-fare">
-                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket "> {{nbType.reduct}} billet(s) TARIF REDUIT</div>
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket test"
+                                 data-toggle="tooltip" 
+                                 data-placement="right"
+                                 {%for ticket in tickets if ticket.fareType == 'reduct'%}
+                                     title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
+                                 {%endfor%}> 
+                                {{nbType.reduct}} {{'ticket'|trans}}{{nbType.reduct>0?'':'s'}} {{'formDetails.fare.reduct'|trans}}</div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-reduct">
-                                {%if booking.fullDay == true %}
-                                    {{nbType.reduct*10}} €
-                                {%endif%}
-                                {%if booking.fullDay == false %}
-                                    {{nbType.reduct*5}} €</div>
-                                {%endif%}  
+                                {{booking.fullDay?nbType.reduct*10:nbType.reduct*5}} € 
+                            </div>
                         </div>
                     {% endif %}
                     {% if nbType.child > 0 %}
-                        <div class="col-lg-12" id="recap-child-fare">
-                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.child}} billet(s) TARIF ENFANT</div>
-                            <div class="col-lg-4 col-md-4 col-xs-4 total1">
-                                {%if booking.fullDay == true %}
-                                    {{nbType.child*8}} €
-                                {%endif%}
-                                {%if booking.fullDay == false %}
-                                    {{nbType.child*4}} € 
-                                {%endif%}
+                        <div class="col-lg-12" id="recap-child-fare test">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket test"
+                                 data-toggle="tooltip" 
+                                 data-placement="right" 
+                                 {%for ticket in tickets if ticket.fareType == 'child'%}
+                                     title="{{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
+                                 {%endfor%}>
+                                {{nbType.child}} {{'ticket'|trans}}{{nbType.child>0?'':'s'}} {{'formDetails.fare.child'|trans}}</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1 total-child">
+                                {{booking.fullDay?nbType.child*8:nbType.child*4}} €
                             </div>
                         </div>
                     {% endif %}
                     {% if nbType.senior > 0 %}
-                        <div class="col-lg-12" id="recap-senior-fare">
-                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket"> {{nbType.senior}} billet(s) TARIF SENIOR</div>
-                            <div class="col-lg-4 col-md-4 col-xs-4 total1">
-                                {%if booking.fullDay == true %}
-                                    {{nbType.senior*12}} €
-                                {%endif%}
-                                {%if booking.fullDay == false %}
-                                    {{nbType.senior*6}} €
-                                {%endif%}
+                        <div class="col-lg-12" id="recap-senior-fare test">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket test"
+                                 data-toggle="tooltip" 
+                                 data-placement="right" 
+                                 {%for ticket in tickets if ticket.fareType == 'senior'%}
+                                     title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
+                                 {%endfor%}>
+                                {{nbType.senior}} {{'ticket'|trans}}{{nbType.senior>0?'':'s'}} {{'formDetails.fare.senior'|trans}}</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1 total-senior">
+                                {{booking.fullDay?nbType.senior*12:nbType.senior*6}} €
                             </div>
                         </div> 
                     {% endif %}   
                 </div>
             </div>
             <div class="col-lg-12" id="total">
-                TOTAL : 20 €
+                TOTAL : {{total}} €
             </div>  
         </div>
-                    <br><br>
-        <div class="col-lg-12">
-            <h4>Pour recevoir vos billets, merci de renseigner votre adresse e-mail. </h4>
-            <label class="input js-input">
-                <input type="text" class="native js-native required email" 
-                       placeholder="Adresse e-mail"
-                       data-validation="length alphanumeric" 
-                       data-validation-length="2-12" 
-                       data-validation-error-msg="Merci de renseigner votre adresse e-mail"
-                       id="email">
-                <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
-                <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
-            </label>
-            <span id="helpEmail" style="color:red;"></span><br><br>
+        <br><br>
+        <div class="mail">
+            <div class="col-lg-12">
+                <h4>{{'recap.mail.title'|trans}} </h4>
+                <label class="input js-input">
+                    <input type="email" class="native js-native required email" 
+                           placeholder="Adresse e-mail"
+                           data-validation="length alphanumeric" 
+                           data-validation-length="2-12" 
+                           data-validation-error-msg="Merci de renseigner votre adresse e-mail"
+                           id="email">
+                    <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
+                    <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
+                </label>
+                <span id="helpEmail" style="color:red;"></span><br><br>
+            </div>
+            <div class=" col-lg-12">
+                <h4>{{'recap.mail.confirm'|trans}}</h4>
+                <label class="input js-input">
+                    <input type="email" class="native js-native required email" 
+                           placeholder="Confirmation e-mail"
+                           data-validation="length alphanumeric" 
+                           data-validation-length="2-12" 
+                           data-validation-error-msg="Merci de renseigner votre adresse email"
+                           id="verifyEmail">
+                    <span class="label" data-label="Confirmation e-mail" aria-role="label">{{'recap.mail.confirmMail'|trans}}</span>
+                    <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">{{'recap.mail.confirmMail'|trans}}</span>
+                </label>
+                <span id="helpVerifyEmail" style="color:red;"></span>
+            </div>
         </div>
-        <div class=" col-lg-12">
-            <h4>Confirmation de votre adresse e-mail.</h4>
-            <label class="input js-input">
-                <input type="text" class="native js-native required email" 
-                       placeholder="Confirmation e-mail"
-                       data-validation="length alphanumeric" 
-                       data-validation-length="2-12" 
-                       data-validation-error-msg="Merci de renseigner votre adresse email"
-                       id="verifyEmail">
-                <span class="label" data-label="Confirmation e-mail" aria-role="label">Confirmation e-mail</span>
-                <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">Confirmation e-mail</span>
-            </label>
-            <span id="helpVerifyEmail" style="color:red;"></span>
-        </div>
-        <button type="submit" id="confirm" class="button2">Confirmer votre commande</button>
+        <button type="submit" id="confirm" class="button2">{{'recap.submit'|trans}}</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 hidden" id="payment-button">
                 <form action="{{ path('approjet4_booking_payment') }}" method="POST" >
                     <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
-                        data-amount="2000"
+                        data-amount="{{total*100}}"
                         data-name="Billetterie du Louvre"
-                        data-description="Exemple paiement"
-                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                        data-locale="fr"
+                        data-description="Paiement de votre commande"
+                        data-image="{{ event.image.url }}"
+                        data-locale="auto"
+                        data-currency="eur"
                         data-zip-code="true">
                     </script>
                 </form>
@@ -147,119 +258,115 @@
         <hr>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">Retour à l'accueil</button></a>
+                <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">{{'button.backToHome'|trans}}</button></a>
             </div>
         </div><br><br><br><br>
     </div>
-    
 
-         
+
+
     {% block javascript %}
-        <script>
-            $(document).ready(function () {
-                var timeout;
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-                $('#recap-normal-fare').on({
-                  mouseenter: function() {
-                    $('#recap-normal').show();
-                  },
-                  mouseleave: function() {
-                    timeout = setTimeout(function() {
-                      $('#recap-normal').hide();
-                    }, 200);
-                  }
-                });
-
-                // laisse le contenu ouvert à son survol et le cache quand la souris sort
-                $('#recap-normal').on({
-                  mouseenter: function() {
-                    clearTimeout(timeout);
-                  },
-                  mouseleave: function() {
-                    $('#recap-normal').hide();
-                  }
-                });
-            });
-        </script>
-        <script>//if et else
-            if ({{booking.fullDay}} == true){
-                $("#fullDay").show();
-                $("#halfDay").hide();
-            }
-            else{
-                $("#fullDay").hide();
-                $("#halfDay").show();
-            }
-        </script>
         <script>
             // Contrôle de l'email en fin de saisie
             document.getElementById("email").addEventListener("blur", function (e) {
-            // Correspond à une chaîne de la forme xxx@yyy.zzz
+                // Correspond à une chaîne de la forme xxx@yyy.zzz
                 var regexEmail = /.+@.+\..+/;
                 var validityEmail = "";
                 if (!regexEmail.test(e.target.value)) {
                     validityEmail = "Adresse invalide";
                 }
-            document.getElementById("helpEmail").textContent = validityEmail;
+                document.getElementById("helpEmail").textContent = validityEmail;
             });
             document.getElementById("verifyEmail").addEventListener("blur", function (e) {
-            // Correspond à une chaîne de la forme xxx@yyy.zzz
+                // Correspond à une chaîne de la forme xxx@yyy.zzz
                 var regexEmail = /.+@.+\..+/;
                 var validityEmail = "";
                 if (!regexEmail.test(e.target.value)) {
-                validityEmail = "Adresse invalide";
-                }
-                document.getElementById("helpVerifyEmail").textContent = validityEmail;
-            });
-            //contrôle si les 2 mails sont identiques. 
-            document.getElementById("verifyEmail").addEventListener("blur", function (e) {
-                var email = $('#email').val();
-                var verifyEmail = $('#verifyEmail').val();
-                if (!(email == verifyEmail)){
-                    validityEmail = "Les adresses mail ne sont pas identiques !";
+                    validityEmail = "Adresse invalide";
                 }
                 document.getElementById("helpVerifyEmail").textContent = validityEmail;
             });
         </script>
-        <script>
-            var url_recap = "{{path('approjet4_booking_showRecap')}}";
+
+        <script>//Enregistrement de l'email 
+            var url_recap = "{{path('approjet4_booking_postEmailAndBooking')}}";
             var url_payment = "{{path('approjet4_booking_payment')}}";
-            
-            function validBooking(details) {
+
+
+            function displayPaymentButton() {
                 var email = $('#email').val();
-                
-                if (!$('#email').val()) {
-                    toastr.warning('Merci de renseigner votre adresse email !', '', {positionClass: "toast-top-center"});
-                } else {
-                $.post(url_recap,{
-                    email : email
-                }, function(response){
-                    if (response.success){
-                        document.location = url_payment;
-                    } else {
-                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                    }
-                    });
+                var verifyEmail = $('#verifyEmail').val();
+
+                //Si on n'a pas d'email ou pas d'email de vérification : message d'erreur et retour
+                if (email === '' || verifyEmail === '') {
+                    toastr.warning('Veuillez renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    return;
                 }
- 
-            $(document).ready(function (e) {
-                $('#confirm').click(function () {
-                    if (!$("#email").val() || !$("#verifyEmail").val()){
-                    toastr.warning('Merci de renseigner votre adresse email.', '', {positionClass: "toast-top-center"});
-                } else {
-                    validBooking(true);
-                };
-                });
-            });
-        }
-         </script>
-         <script>
+                //si les 2 mails saisis sont différents : message d'erreur et retour
+                if (email !== verifyEmail) {
+                    toastr.warning('Les adresses mail ne sont pas identiques !', '', {positionClass: "toast-top-center"});
+                    return;
+                }
+                //Si tout est ok : on cache le bouton de confirmation ainsi que le formaulaire de saisie d'email
+                $('#confirm').hide(200);
+                $('.mail').hide(200);
+
+                //On enregistre l'email
+
+                $.post(url_recap, {
+                    email: email
+                }, function (response) {
+                    if (response.success) {
+                        //Envoyer un mail de confirmation
+                    }
+                }
+                );
+                //On affiche le bouton de paiement
+                $('#payment-button').removeClass('hidden', 200);
+                //Message de confirmation
+                toastr.warning('Votre adresse e-mail a bien été enregistrée', '', {positionClass: "toast-top-center"});
+
+            }
+            ;
+            //Au click sur le bouton de confirmation on appelle la fonction displayPaymentButton
             $(document).ready(function () {
-                $('#confirm').on('click', function () {
-                    $('#confirm').hide(200);
-                    $('#payment-button').removeClass('hidden', 200);
-                });
+                $('#confirm').click(displayPaymentButton);
             });
+
+        </script>
+        <script>//Affichage des informations tickets
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+        <script>////////////////Affichage de la fenêtre modale du panier/////////
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var cart = document.getElementById("myCart");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal 
+            cart.onclick = function () {
+                modal.style.display = "block";
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
         </script>
     {% endblock %}
 {% endblock %}
