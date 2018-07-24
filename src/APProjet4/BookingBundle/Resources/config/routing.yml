@@ -10,7 +10,7 @@ approjet4_booking_index:
 ## Page 1 - Date de visite et type de billet (Journée/Demi-journée)    
 approjet4_booking_selectDate:
     path:    /purchase/{id}
-    defaults: { _controller: APProjet4BookingBundle:Booking:ShowSelectDate}
+    defaults: { _controller: APProjet4BookingBundle:Booking:showSelectDate}
     requirements:
         id: \d+
     
@@ -27,17 +27,32 @@ approjet4_booking_pick_a_date:
     methods: [POST]
 
  ## Page 2 - Nombre de billets et renseignements  
-approjet4_booking_contactDetails:
+approjet4_booking_showContactDetails:
     path:    /details
-    defaults: { _controller: APProjet4BookingBundle:Booking:contactDetails}
+    defaults: { _controller: APProjet4BookingBundle:Booking:showContactDetails}
+    
+approjet4_booking_postContactDetails:
+    path:   /details/postAction
+    defaults: {_controller: APProjet4BookingBundle:Booking:postContactDetails}
+    methods: [POST]
     
 ## Page3 - Récapitulatif et Adresse Email
 approjet4_booking_showRecap:
     path:   /recapitulative
     defaults: {_controller: APProjet4BookingBundle:Booking:showRecap}
+    methods: [POST, GET]
 
-
+approjet4_booking_postEmailAndBooking:
+    path:   /recapitulative/postAction
+    defaults: {_controller: APProjet4BookingBundle:Booking:postEmailAndBooking}
+    methods: [POST, GET]
+    
 approjet4_booking_payment:
     path: /payment
-    defaults: {_controller: APProjet4BookingBundle:Booking:payment}
+    defaults: {_controller: APProjet4BookingBundle:Booking:showPayment}
     methods: [POST,GET]
+    
+approjet4_booking_translation:
+    path : /translation
+    defaults: {_controller: APProjet4BookingBundle:Booking:translation}
+    methods: [GET]
