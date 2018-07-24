@@ -6,7 +6,7 @@ namespace APProjet4\BookingBundle\Controller;
 
 use APProjet4\BookingBundle\Entity\Booking;
 use APProjet4\BookingBundle\Entity\Ticket;
-use APProjet4\BookingBundle\Form\BookingType;
+use APProjet4\BookingBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,12 +17,15 @@ use Symfony\Component\HttpFoundation\Session;
 class BookingController extends Controller {
 
     const MAX_TICKETS_PER_DAY = 1000;
+    
 
     ////////////////////////////////////////////////////////////////////////////
     ///////////// Affichage de la page d'accueil////////////////////////////////
 
     public function homeAction() {
+        
         $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
+        
         return new Response($content);
     }
 
@@ -30,31 +33,30 @@ class BookingController extends Controller {
     ///////////Affichage de la liste des évènements/////////////////////////////
 
     public function indexAction() {
-        $EventRepository = $this
-                ->getDoctrine()
+        $EventRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event');
 
         $listEvents = $EventRepository->findAll();
+        
+        $nbTickets = 0;
+        $tickets = 0;
 
-//        $TicketRepository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Ticket');
-//        
-//        $allTickets = $TicketRepository->countTicketsPerDay($orderDate);
-
-
-        return $this->render('APProjet4BookingBundle:Booking:index.html.twig', array(
+        return $this->render('APProjet4BookingBundle:Booking:index.html.twig', [
                     'listEvents' => $listEvents,
-                        //'allOrders' => $allTickets
-        ));
+                    'nbTickets' => $nbTickets,
+                    'tickets' =>$tickets,
+        ]);
     }
 
     ////////////////////////////////////////////////////////////////////////////  
     ////////////////Date & type de billet///////////////////////////////////////
 
-    public function ShowSelectDateAction($id) {
+    public function showSelectDateAction($id) {
         $repository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event');
+
         $event = $repository->find($id);
 
         if (null === $event) {
@@ -62,54 +64,42 @@ class BookingController extends Controller {
         }
         //Récupération des dates complètes dans $disableDate
 
-        return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', array(
+        return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
                     'event' => $event,
-        ));
+        ]);
     }
 
     //////////////////////////////////////////////////////////////////////////// 
     //////////////////////////////Quota par jour////////////////////////////////
-    
-    public function checkMaxBookingAction(Request $request) {
-        //On récupère un tableau avec date availability = false qui va s'ajouter à datesDisabled
+
+    private function checkMaxBookingAction(Request $request) {
+        //TO DO comment on récupère un tableau avec date availability = false qui va s'ajouter à datesDisabled
         //On récupère les tickets par date de visite
         $d = new \DateTime($request->get('visitDate'));
         $tickets = $this->getDoctrine()
                 ->getRepository('APProjet4BookingBundle:Booking')
                 ->findByVisitDate($d);
-        console.log($tickets);
-        //Si pas de tickets 
-        if (!$tickets) {
-            $response = [
-                'availability' => true,
-            ];
-        } else { //Sinon on les compte (count($tickets) > MAX_TICKETS_PER_DAY
-            if (count($tickets) > MAX_TICKETS_PER_DAY) {
-                $response = [
-                    'availability' => false,
-                ];
-            } else {
-                $response = [
-                    'availability' => true,
-                ];
-            }
+
+        //Si j'ai des tickets et s'il y en a plus de 1000
+        if ($tickets && count($tickets)> MAX_TICKETS_PER_DAY){
+            return false;
         }
-        echo json_encode($response);
-        return new JsonResponse($response);
+        return true;
     }
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////Sauvegarde de la date///////////////////////////
-    
+
     public function saveDateAction(Request $request) {
 
         // Récupération de la session
         $session = $request->getSession();
 
-        if (!$request->isMethod('POST')) {
-            throw new \Exception('Méthode post attendue!');
-        }
+//        if (!$request->isMethod('POST')) {
+//            throw new \Exception('Méthode post attendue!');  C'est forcémnt une méthode post
+//        }
+        
         //Vérification de l'absence des paramètres date, fullday et id event, 
-
         if (!('visitDate') || !('fullDay') || !('id')) {
 
             $response = [
@@ -120,19 +110,34 @@ class BookingController extends Controller {
         //Vérification si date dispo
         //Vérification de la validité des paramètres ? isItAPastDay(), isItADisabledDay()
         //Vérification du billet journée pour la date actuelle (<14h) :  isHourPast() 
+       
+       
         //On met à jour les variables
         $visitDate = $request->get('visitDate');
         $id = $request->get('id');
         $fullDay = $request->get('fullDay');
+        
+        $booking = new Booking();
+        
+        
+        
+        //On renseigne les valeurs 
+        $booking->setFullDay($fullDay);        
+        
+        //On enregistre les valeurs en session
+        $session->set('booking', $booking);
+
 
         // On définit une nouvelle valeur pour ces variables et on l'ajoute à la session
-        $booking_visitDate = $session->set('visitDate', $visitDate);
-        $event_id = $session->set('id', $id);
-        $booking_fullDay = $session->set('fullDay', $fullDay);
+        $session->set('visitDate', $visitDate);
+        $session->set('id', $id);
+        $session->set('fullDay', $fullDay);
+        
+       
 
         //Vérification  si <1000 billets vendus 
         if ('checkMaxBookingAction(true)') {
-//        // On renvoie une réponse success
+            // On renvoie une réponse success
             $response = [
                 'success' => true
             ];
@@ -140,177 +145,311 @@ class BookingController extends Controller {
         }
     }
 
-    /*
-     *   Choix du nombre de billets
-     * 4  Calcul le total selon le montant de chaque billet 
-     */
-
-    ////////////////////////////////////////////////////////////////////////////
-    /////////////////Sauvegarde des informations visiteur///////////////////////
     
-    public function ContactDetailsAction(Request $request) {
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////Affichage de la page de saisie des informations visiteur/////////
+
+    public function showContactDetailsAction(Request $request) {
         // Récupération de la session
         $session = $request->getSession();
-
         //récupération des variables en session
         $visitDate = $session->get('visitDate');
         $id = $session->get('id');
         $fullDay = $session->get('fullDay');
+        $booking = $session->get('booking');
 
         $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $event = $repository->find($id);
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-
-        $booking = new Booking();
-
-        $form1 = $this->createForm(BookingType::class);
-
-        if ($request->isMethod('POST') && $form1->handleRequest($request)) {//->isValid()
-            //On renseigne les variables
-            $booking ->setStatus(Booking::STATUS_INPROGRESS);
-            
-            $ticket = new Ticket();
-            $form1->getData();
-            
-            $this->get('session')->set('Booking', $booking);
-            $this->get('session')->set('Ticket', $ticket);
-            
-
-            //Récupération des paramètres
-            $fareType = $request->get('fareType');
-            $lastname = $request->get('lastname');
-            $firstname = $request->get('firstname');
-            $dateOfBirth = $request->get('dateOfBirth');
-            $country = $request->get('country');
-            
-
-            //On renseigne les variables
-            $booking->setFullDay($fullDay);
-            $ticket->setVisitDate($visitDate);
-            $ticket->setFareType($fareType);
-            $ticket->setLastname($lastname);
-            $ticket->setFirstname($firstname);
-            $ticket->setDateOfBirth($dateOfBirth);
-            $ticket->setCountry($country);
-            
-
-            $response = [
-                'success' => true
-            ];
-            return new JsonResponse($response);
-        }
-        return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', array(
-                    'form1' => $form1->createView(),
-                    'visitDate' => $visitDate,
+        return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', [
                     'id' => $id,
+                    'visitDate' => $visitDate,
+                    'booking' => $booking,
                     'fullDay' => $fullDay,
-                    'event' => $event));
+                    'event' => $event,
+                    
+        ]);
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    //////////////Page récapitulative et saisi de l'adresse mail////////////////
+    ///////////////////////////Vérification du tarif choisi/////////////////////
     
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////////Sauvegarde des informations visiteur///////////////////////
+
+   public function postContactDetailsAction(Request $request) {
+        // Récupération de la session
+        $session = $request->getSession();
+        
+        $fullDay = $session->get('fullDay');
+        $visit = $session->get('visitDate');
+        
+        $visitDate = date_create($visit);
+        $booking = new Booking();
+        $ticket = new Ticket();
+        
+        $tickets = $request->get('tickets');
+        foreach ($tickets as $ticket) {
+                $t = new Ticket();
+                $t->setFareType($ticket['fareType']);
+                $t->setFirstname($ticket['firstname']);
+                $t->setLastname($ticket['lastname']);
+                $t->setDateOfBirth(date_create($ticket['dateOfBirth']));
+                $t->setCountry($ticket['country']);
+                $t->setBooking($booking);
+                $t->setVisitDate($visitDate);
+                $booking->addTicket($t);
+            }
+        //On compte le nombre total de billets
+        $nbTickets = count($tickets);
+            
+        //On renseigne les valeurs 
+        $booking->setFullDay($fullDay);
+        $booking->setNbTickets($nbTickets);
+
+        //On passe le statut de commande à inProgress ?
+        $booking->setStatus(Booking::STATUS_INPROGRESS);
+        $session->set('tickets', $tickets);
+        //On enregistre les valeurs en session
+        $session->set('nbTickets', $nbTickets);
+        $session->set('booking', $booking);
+
+        $response = [
+            'success' => true
+        ];
+        return new JsonResponse($response);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////Nombre de tickets par tarif////////////////   
+    
+    private function getNbPerType($tickets){
+        $ret = [
+            'normal' => 0,
+            'reduct' => 0,
+            'child' => 0,
+            'senior' => 0,
+        ];
+        
+        foreach ($tickets as $ticket){
+                    $ret[$ticket->getFaretype()]++;
+        }
+        return $ret;
+    }
+    
+    private function getTotal($nbPerType, $isFullDay){
+        return $nbPerType['normal']*($isFullDay?16:8) 
+                +$nbPerType['reduct']*($isFullDay?10:5) 
+                + $nbPerType['child']*($isFullDay?8:4) 
+                + $nbPerType['senior']*($isFullDay?12:6);
+        
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////Affichage page récapitulative et saisie de l'adresse mail////////////////
+
     public function showRecapAction(Request $request) {
         $session = $request->getSession();
 
         //Récupération de variables en session
-        $visitDate = $session->get('visitDate');
-        $id        = $session->get('id');
-        $fullDay = $session->get('fullDay');
-        $fareType      = $session->get('fareType');
-
+        $booking = $session->get('booking');
+        $id = $session->get('id');
+        
+        
         $repository = $this->getDoctrine()
-                           ->getManager()
-                           ->getRepository('APProjet4BookingBundle:Event');
-        $event = $repository->find($id);
-        
-        $ticketRepo = $this->getDoctrine()
                 ->getManager()
-                ->getRepository('APProjet4BookingBundle:Ticket');
-        $ticket = $ticketRepo->findAll();
-        
+                ->getRepository('APProjet4BookingBundle:Event');
+        $event = $repository->find($id);
+
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-        if (null === $ticket) {
-            throw new NotFoundHttpException("Le ticket d'id " . $id . " n'existe pas.");
-        }
-
-        return $this->render('APProjet4BookingBundle:Booking:recap.html.twig', array(
-                    'visitDate' => $visitDate,
-                    'fareType' => $fareType,
-                    'id' => $id,
-                    'fullDay' => $fullDay,
-                    'event' => $event,
-                    'ticket' =>$ticket));
-    }
-
-    
-    public function paymentAction() {
-        return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig');
-    }
-
-    public function checkoutAction(Request $request) {
         
+        $nbPerType = $this->getNbPerType($booking->getTickets());
+       
+        return $this->render('APProjet4BookingBundle:Booking:recap.html.twig', [
+                    'id' => $id,
+                    'event' => $event,
+                    'nbTickets'=>$booking->getNbTickets(),
+                    'booking' => $booking,
+                    'nbType' => $nbPerType,
+                    'tickets'=> $booking->getTickets(),
+                    'total' => $this->getTotal($nbPerType, $booking->getFullDay()),
+                    
+        ]);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////Enregistrement email et enregistrement booking et tickets en base de données/////////////////
+    
+    public function postEmailAndBookingAction(Request $request) {
+        //On doit enregistrer l'email en session
+        //renseigner l'orderCode ( Faut-il créer un générateur? ) 
+        //Récuperer la commande ($booking) en session 
+        //Après vérification, récupérer  les tickets
+        //Enregistrer le tout en Bdd
+        
+        //Récupération de la session
+        $session = $request->getSession();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        //On récupère les valeurs de booking en session
+        $booking = $session->get('booking');
+        //On crée les entités utilisateur
+        $user = new User();
+       
+        //Récupération de l'adresse mail saisie      
+        $email = $request->get('email');
+        
+
+       //On génère un code random pour le code commande
+        $bytes = random_bytes(5);
+        
+        //On renseigne les valeurs
+        $booking->setEmail($email);
+        $booking->setOrderCode(bin2hex($bytes));
+ 
+        //On renseigne l'adresse mail de l'utilisateur
+        $user->setEmail($email);
+        
+        if (null === $booking){
+             throw new NotFoundHttpException("La commande demandée n'existe pas.");
+        }   
+        
+        //To do : Récuperer la clé stripe : stripe_publishable_key
+  
+        //On persiste les entités booking et user 
+        $em->persist($booking);
+        $em->persist($user);
+        $em->flush();
+        
+
+        
+        //Retourner une réponse json
+        $response = [
+                'success' => true
+        ];
+        return new JsonResponse($response);
+       
+    }
+     
+    
+    ///////////////////////////////////////////////////////////////////////////
+    ////////////////////////// Page de confirmation paiement ///////////////////
+
+    public function showPaymentAction(Request $request) {
+        //On récupère les infos de la commande en bdd pour afficher la page de confirmation
+        //SELECT * FROM `booking` WHERE `orderCode` = '$orderCode' 
+        //
+        //
+        //Récupération de l'adresse mail  
+        $email = $request->get('email');
+        $session = $request->getSession();
+
+        //Récupération des variables en session
+        $booking = $session->get('booking');
+        $id = $session->get('id');
+        $tickets = $session->get('tickets');
+        $visitDate = $session->get('visitDate');
+        
+        //Récupération des variables en Bdd
+        //$BookingRepo = $this->getDoctrine()
+         //       ->getManager()
+          //      ->getRepository('APProjet4BookingBundle:Booking');
+        //$booking = $BookingRepo->find($id);
+        //
+        //On récupère la clé stripe
+        $stripeToken = $request->get('stripeToken');
+        //Et on l'enregistre en session
+        $session->set('stripeToken', $stripeToken);
+        
+        $EventRepo = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event');
+        $event = $EventRepo->find($id);
+   
+        $nbPerType = $this->getNbPerType($booking->getTickets());
+
+        ////Si erreur : On prévient l'utilisateur avec un message popup
+        //Si paiement ok : On enregistre booking en bdd status: paid
+        $booking->setStatus(Booking::STATUS_PAID);
+        
+       
+        //Si tout s'est bien passé, on envoie le mail de confirmation : BookingEmailSystem
+        //$bookingEmail = $this->get('booking.email.system');
+        //$bookingEmail->sendBookingEmail($booking);
+        $this->sendBookingEmail($request);
+        
+        //On flush la commande une dernière fois. 
+//        $em = $this->getDoctrine()->getManager();
+//       
+//        $em->flush();
+        
+        //On efface alors la session
+        //$session->clear();
+        
+
+        return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig' , [
+                    'id' => $id,
+                    'event' => $event,
+                    'visitDate' => $visitDate,
+                    'booking' => $booking,
+                    'email' => $email,
+                    'stripeToken'=> $stripeToken,
+                    'nbType' => $nbPerType,
+                    'tickets'=> $tickets,
+                    'total' => $this->getTotal($nbPerType, $booking->getFullDay())
+        ]);
+    }
+ 
+     /////////////////////////////////////////////////////////////////////////
+    /////////////////////////Email et Billet///////////////////////////////////   
+    
+   public function sendBookingEmail(Request $request) {
+        $session = $request->getSession();
+
+        //Récupération de variables en session
+        $booking = $session->get('booking');
+        $id = $session->get('id');
+        $stripeToken = $session->get('stripeToken');
+        $visitDate = $booking->getTickets()->get('visitDate');
+        
+        $bookingEmail = $booking->getEmail();
+        $bookingOrderCode = $booking->getOrderCode();
+        $tickets = $booking->getTickets()->getValues();
+  
+        
+        $EventRepo = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('APProjet4BookingBundle:Event');
+        $event = $EventRepo->find($id);
+        
+        $message = \Swift_Message::newInstance()
+                ->setSubject('Votre visite au Louvre')
+                ->setFrom(['billetterie@louvre.fr' => 'Musée du Louvre'])
+                ->setTo([$bookingEmail])
+                ->setBody(
+                        $this->renderView('@APProjet4Booking/Booking/ticket.html.twig', [
+                            'id' => $id,
+                            'booking' => $booking,
+                            'visitDate' => $visitDate,
+                            'event' => $event,
+                            'bookingEmail' => $bookingEmail,
+                            'stripeToken'=> $stripeToken,
+                            'total' => $this->getTotal($this->getNbPerType($booking->getTickets()), $booking->getFullDay()),
+                            'bookingOrderCode' => $bookingOrderCode,
+                            'tickets' => $tickets,
+                            ]
+                        ), 'text/html');
+        
+        return $this->get('mailer')->send($message);
     }
 }
 
-/**
-     *    Clic sur le champs e-mail
-     * 5  Si aucun billet rempli : message d'erreur
-     *    
-     * 
-     */
-     /**
-     *    Saisi du 2 ème email
-     * 6  Si différent du premier : message d'erreur
-      * 
-     *    $confirmation.keyup(function(){
-    if($(this).val() != $mdp.val()){ // si la confirmation est différente du mot de passe
-        $(this).css({ // on rend le champ rouge
-	    borderColor : 'red',
-	    color : 'red'
-        });
-    }
-    else{
-	$(this).css({ // si tout est bon, on le rend vert
-	    borderColor : 'green',
-	    color : 'green'
-	});
-    }
-});
 
-     * 
-     */
-     /**
-     *    Clic sur CONFIRMER
-     * 7  Vérification et enregistrement de l'adresse e-mail
-     *    Enregistre la commande dans le panier
-      *   Va au paiement
-     * 
-     */
-
-     /**
-     *    Récupération du total en euros et du détail du nombre de billets pour chaque type de billets.
-     * 8  Vérification des informations client (string, date..)
-     *    
-     * 
-     */
-     /**
-     *    Commander d'autres billets 
-     * 9  Enregistre les informations client 
-     *    $em = $this->getDoctrine()->getManager();
-            $em->persist($booking);
-            $em->persist($ticket);
-            $em->flush();
-     * 
-     */
-/**
-     *    Fina
-     * 10  
-     *    
-     * 
-     */
      

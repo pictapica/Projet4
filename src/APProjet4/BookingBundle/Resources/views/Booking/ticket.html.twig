@@ -1,0 +1,122 @@
+{#src/APProjet4/BookingBundle/Resources/views/Booking/ticket.html.twig #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Billetterie du Louvre</title>
+        <style type="text/css">
+            body {margin: 0; padding: 0; min-width: 100%!important;}
+            .content {width: 100%; max-width: 600px;}  
+        </style>
+    </head>
+    <body yahoo bgcolor="#ffffff">
+        <table width="100%" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+            <tr bgcolor="#73021b">
+                <td>
+                    <img src="{{absolute_url(asset('images/louvre_w.png'))}}" alt="logo_louvre"/>
+                </td>
+            </tr>
+            
+            <table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center">
+                        <h1>{{'confirmation.done'|trans}}</h1>
+                        <h3>   {{'confirmation.thanks'|trans}}</h3><br><br>
+                    </td>
+                </tr>
+            </table>
+            <table  align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center">
+                        <h2>{{event.title}} - {{'confirmation.visite'|trans}} 
+                        {{booking.fullDay?'JOURNEE':'DEMI-JOURNEE'}} 
+                        {{'confirmation.on'|trans}} 
+                        {{visitDate|date('d/m/Y')}}</h2>
+                    </td>
+                </tr>
+            </table>
+                    <br><br>
+            <table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center">
+                        <h4>{{'confirmation.recap'|trans}}</h4>
+                        <p style="font-size: 14px;" align="center">({{'confirmation.keep'|trans}})</p>
+                    </td>
+                </tr>
+                    <table align="center" cellpadding="4" cellspacing="5" border="1">
+
+                        <tr>
+                            <td>{{'confirmation.bookingNumber'|trans}}</td>
+                            <td>{{booking.orderCode}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'confirmation.paymentDate'|trans}}</td>
+                            <td>{{booking.orderDate|date('d/m/Y')}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'confirmation.amount'|trans}}</td>
+                            <td>{{total}} €</td>
+                        </tr><tr>
+                            <td>{{'confirmation.paymentNumber'|trans}}</td>
+                            <td>{{stripeToken}}</td>
+                        </tr>
+                    </table>  
+                                                    <br><br>
+
+                <table width="50%" align="center" border="1" cellpadding="2" cellspacing="0"> 
+                    <thead>
+                        <tr>
+                            <th class="text-right">{{'recap.lastname'|trans}}</th>
+                            <th class="text-right">{{'recap.firstname'|trans}}</th>
+                            <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
+                            <th class="text-right">{{'recap.fare'|trans}}</th>
+                            <th class="text-right">{{'recap.ticketFare'|trans}}</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="text-right" colspan="4" id="totalBooking">{{'recap.totalBooking'|trans}}</th>
+                            <th class="text-right"> {{total}} €</th>
+                        </tr>
+                    </tfoot>
+                    {% for ticket in tickets %}
+                        <tbody>
+                            <tr>
+                                <td align="center">{{ticket.lastname}}</td>
+                                <td align="center">{{ticket.firstname}}</td>
+                                <td align="center">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                                <td align="center">{{ticket.fareType}}</td>
+                                <td align="center">
+                                    {% if ticket.fareType == 'normal' %}
+                                        {{booking.fullDay?16:8}} €
+                                    {% endif %}
+                                    {% if ticket.fareType == 'reduct' %}
+                                        {{booking.fullDay?10:5}} €
+                                    {% endif %}
+                                    {% if ticket.fareType == 'child' %}
+                                        {{booking.fullDay?8:4}} €
+                                    {% endif %}
+                                    {% if ticket.fareType == 'senior' %}
+                                        {{booking.fullDay?12:6}} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </table>
+                <br><br><br>
+                <table width="100%" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+                <tr bgcolor="#73021b">
+                <td>
+                    <p fontcolor="#ffffff">OpenclassRooms - Par Alexandra Picard - Musée du Louvre<p>
+                </td>
+            </tr>
+                </table>
+        </table>
+                                                            </body>
+
+
+
+
+                                                            </html>
