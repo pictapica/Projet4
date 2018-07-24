@@ -17,8 +17,7 @@ class Booking {
 
     const STATUS_START = 1;
     const STATUS_INPROGRESS = 2;
-    const STATUS_VERIFIED = 3;
-    const STATUS_PAID = 4;
+    const STATUS_PAID = 3;
 
     /**
      * @var int
@@ -56,16 +55,14 @@ class Booking {
      * @ORM\column(name="email", type="string")
      * @Assert\Email()
      */
-    private $email = null;
+    private $email;
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="fullDay", type="boolean")
-     * @Assert\Type(type="bool")
      * 
      */
-    private $fullDay = true;
+    private $fullDay = null;
     
     /**
      * @var int
@@ -77,6 +74,8 @@ class Booking {
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
      */
     private $tickets;
+    
+    
 
     public function __construct() {
         $this->status = self::STATUS_START;
@@ -220,7 +219,7 @@ class Booking {
      * @return Booking
      */
     public function setFullDay($fullDay) {
-        $this->fullDay = $fullDay;
+        $this->fullDay = ($fullDay == 'true');
 
         return $this;
     }
@@ -258,4 +257,13 @@ class Booking {
     {
         return $this->nbTickets;
     }
+    
+    public function setNbFareType($nbFareType)
+    {
+        $this->nbFareType = $nbFareType;
+
+        return $this;
+    }
+
+ 
 }

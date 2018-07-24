@@ -56,6 +56,8 @@ class Event {
      */
     private $image;
 
+    
+    
     /**
      * Get id
      *
