@@ -10,7 +10,7 @@ section
 .banner
 {
     background:#73021b;
-    min-height:200px;
+    min-height:180px;
 }
 .banner .row
 {
@@ -24,11 +24,13 @@ section
 }
 
 .ticket{
-    margin-top: 4px;
+   margin-right: 10px;
 }
 
 .language{
     margin-top: 15px;
+    
+    
 }
 
 .navbar-brand{
@@ -108,6 +110,7 @@ footer {
     background:#000;
     color: #fff;
     padding-top: 10px;
+    margin-top: 50px;
 }
 
 
@@ -908,7 +911,9 @@ a:hover{
     background: #fff;
     box-shadow: 0px 0px 8px -1px #555;
 }
-
+/**********************************************
+*page récapitulatif 
+**********************************************/
 .recap {
     margin:  10px 0 0 0;
     padding : 1.2em;
@@ -919,6 +924,7 @@ a:hover{
 }
 .recapticket{
     text-align:left;
+    padding-bottom: 1.2em;
 }
 
 .total1{
@@ -931,6 +937,7 @@ a:hover{
     font-size: 1.3em;
     background-color: #73021b;
 }
+
 
 fieldset{
     border: 1px solid #fff;
@@ -1055,10 +1062,6 @@ table.index  {border : 1px solid black;}
     text-align: left;
    list-style:none;
 }
-.save{
-    font-size: 10px;
-}
-
 table tbody tr{
     border: 1px solid #fff; 
 }
@@ -1080,3 +1083,78 @@ table tfoot tr {
 .tableTitle{
     font-size: 18px;
 }
+
+/**********************************************************
+*Panier
+*********************************************************/
+.dropdown:hover > #cart-dropdown{
+  display: block;
+}
+
+/**********************************************************
+*Tooltip
+*********************************************************/
+
+/* Tooltip */
+ .tooltip .tooltip-inner {
+      background-color: #ffffff; 
+      color: #000000; 
+      border: 1px solid black; 
+      padding: 5px;
+      margin-left: -300px;
+      margin-top: -20px;
+      width: auto;
+      font-size: 13px;
+}
+
+/* Tooltip on right */
+.tooltip-arrow {
+    border-right: 5px solid black;
+    margin-left: -300px;
+}
+
+
+/**********************************************************
+*Modal pour panier
+*********************************************************/
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
