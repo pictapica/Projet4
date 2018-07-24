@@ -4,6 +4,7 @@ namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Event
  *
@@ -36,16 +37,16 @@ class Event {
     private $content;
 
     /**
-     * @var dateTime
+     * @var date
      * 
-     * @ORM\Column(name="startDate", type="datetime")
+     * @ORM\Column(name="startDate", type="date")
      */
     private $startDate;
 
     /**
-     * @var dateTime
+     * @var date
      * 
-     * @ORM\Column(name="endDate", type="datetime")
+     * @ORM\Column(name="endDate", type="date")
      */
     private $endDate;
 
@@ -55,6 +56,13 @@ class Event {
      */
     private $image;
 
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="event", cascade={"persist"})
+     * 
+     */
+    private $bookings;
+    
     /**
      * Get id
      *
@@ -128,6 +136,59 @@ class Event {
      */
     public function getImage() {
         return $this->image;
+    }
+
+    /**
+     * Set startDate
+     *
+     * @param \Date $startDate
+     *
+     * @return Event
+     */
+    public function setStartDate($startDate) {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    /**
+     * Get startDate
+     *
+     * @return \Date
+     */
+    public function getStartDate() {
+
+        return $this->startDate;
+    }
+
+    /**
+     * Set endDate
+     *
+     * @param \Date $endDate
+     *
+     * @return Event
+     */
+    public function setEndDate($endDate) {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return \Date
+     */
+    public function getEndDate() {
+        return $this->endDate;
+    }
+
+    public function GetStartDateReservable($format = 'Y/m/d') {
+        return $this->startDate->format($format);
+    }
+
+    public function GetEndDateReservable($format = 'Y/m/d') {
+        return $this->endDate->format($format);
     }
 
 }

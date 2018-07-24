@@ -25,7 +25,7 @@ class User {
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=255)
      * @Assert\Email(
      *     message = "L'email '{{ value }}' n'est pas valide.",
      *     checkMX = true

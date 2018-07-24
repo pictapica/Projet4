@@ -25,11 +25,10 @@ class Ticket {
     private $id;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="visitDate", type="datetime")
-     * @Assert\NotBlank()
-     * @Assert\Date()
+     * @ORM\Column(name="visitDate", type="date")
+     * 
      */
     private $visitDate;
 
@@ -52,11 +51,10 @@ class Ticket {
     private $lastname;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="dateOfBirth", type="datetime")
-     * @Assert\NotBlank()
-     * @Assert\Date()
+     * @ORM\Column(name="dateOfBirth", type="date")
+     * 
      */
     private $dateOfBirth;
 
@@ -77,19 +75,12 @@ class Ticket {
     private $fareType;
     
     /**
-     *
-     * @var int
-     * @ORM\Column(name="fare", type="integer")
-         
-     */
-    private $fare;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
      * @ORM\JoinColumn(name="booking_id", referencedColumnName="id")
      */
     private $booking;
-
+    
+    
     /**
      * Get id
      *
@@ -102,7 +93,7 @@ class Ticket {
     /**
      * Set visitDate
      *
-     * @param \DateTime $visitDate
+     * @param \Date $visitDate
      *
      * @return Ticket
      */
@@ -115,7 +106,7 @@ class Ticket {
     /**
      * Get visitDate
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getVisitDate() {
         return $this->visitDate;
@@ -168,7 +159,7 @@ class Ticket {
     /**
      * Set dateOfBirth
      *
-     * @param \DateTime $dateOfBirth
+     * @param \Date $dateOfBirth
      *
      * @return Ticket
      */
@@ -181,7 +172,7 @@ class Ticket {
     /**
      * Get dateOfBirth
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getDateOfBirth() {
         return $this->dateOfBirth;
@@ -267,27 +258,4 @@ class Ticket {
         return $this->fareType;
     }
 
-    /**
-     * Set fare
-     *
-     * @param integer $fare
-     *
-     * @return Ticket
-     */
-    public function setFare($fare)
-    {
-        $this->fare = $fare;
-
-        return $this;
-    }
-
-    /**
-     * Get fare
-     *
-     * @return integer
-     */
-    public function getFare()
-    {
-        return $this->fare;
-    }
 }
