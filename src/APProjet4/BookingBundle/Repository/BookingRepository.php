@@ -10,4 +10,15 @@ namespace APProjet4\BookingBundle\Repository;
  */
 class BookingRepository extends \Doctrine\ORM\EntityRepository
 {
+    public static function countTicketsforVisitDay($orderDate) {
+        $qb = $this->createQueryBuilder('t');
+        
+        // nbTickets en fonction du fareType
+        // On doit retourner un tableau du type:
+        // { 1 billet Plein tarif
+        // 2 billets tarif enfant
+        // 0 billet tarif reduit
+        // 0 billet tarif senior} 
+        
+    }
 }

@@ -12,7 +12,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository {
     
     //To do : ecrire la fonction permettant de récuperer le nombre de tickets vendu pour le jour de la commande ($orderDate)
     
-    public static function countTicketsforVisitDay($orderDate) {
+    public static function countTickets($orderDate) {
 //        $qb = $this->createQueryBuilder('t');
 //
 //        $qb     ->select('count(t.id)')// On compte le nombre d'id de tickets
