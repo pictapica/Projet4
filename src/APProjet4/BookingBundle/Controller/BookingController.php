@@ -28,16 +28,38 @@ class BookingController extends Controller {
         
         return new Response($content);
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //////////// Choix de la langue ////////////////////////////////////////////
+    
+    public function setLocaleAction(Request $request) {
+        $session = $request->getSession();
+        
+        //On récupère la locale
+        $locale = $request->get('locale');
+        
+        //On enregistre la locale en session
+        $session->set('_locale', $locale);
+            
+        //on redirige vers la page d'origine
+        $url = $request->headers->get('referer');
+//        if (empty($url)) {
+//            $url = $this->container->get('router')->generate('index');
+//        }
+        return $this->redirect($url);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
-    ///////////Affichage de la liste des évènements/////////////////////////////
+    /////////// Affichage de la liste des évènements////////////////////////////
 
-    public function indexAction() {
+    public function indexAction(Request $request) {
         $EventRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event');
 
         $listEvents = $EventRepository->findAll();
+        
+        //echo '<div>'.$request->getLocale().'</div>';
         
         $nbTickets = 0;
         $tickets = 0;
@@ -50,7 +72,7 @@ class BookingController extends Controller {
     }
 
     ////////////////////////////////////////////////////////////////////////////  
-    ////////////////Date & type de billet///////////////////////////////////////
+    //////////////// Date & type de billet//////////////////////////////////////
 
     public function showSelectDateAction($id) {
         $repository = $this->getDoctrine()
@@ -95,10 +117,6 @@ class BookingController extends Controller {
         // Récupération de la session
         $session = $request->getSession();
 
-//        if (!$request->isMethod('POST')) {
-//            throw new \Exception('Méthode post attendue!');  C'est forcémnt une méthode post
-//        }
-        
         //Vérification de l'absence des paramètres date, fullday et id event, 
         if (!('visitDate') || !('fullDay') || !('id')) {
 
@@ -118,23 +136,19 @@ class BookingController extends Controller {
         $fullDay = $request->get('fullDay');
         
         $booking = new Booking();
-        
-        
-        
+ 
         //On renseigne les valeurs 
-        $booking->setFullDay($fullDay);        
+        $booking->setFullDay($fullDay);
+        $booking->setEvent($id);
         
         //On enregistre les valeurs en session
         $session->set('booking', $booking);
 
-
-        // On définit une nouvelle valeur pour ces variables et on l'ajoute à la session
+        // TO CLEAN ///// On définit une nouvelle valeur pour ces variables et on l'ajoute à la session
         $session->set('visitDate', $visitDate);
         $session->set('id', $id);
         $session->set('fullDay', $fullDay);
-        
-       
-
+   
         //Vérification  si <1000 billets vendus 
         if ('checkMaxBookingAction(true)') {
             // On renvoie une réponse success
@@ -154,9 +168,9 @@ class BookingController extends Controller {
         $session = $request->getSession();
         //récupération des variables en session
         $visitDate = $session->get('visitDate');
+        $booking = $session->get('booking');
         $id = $session->get('id');
         $fullDay = $session->get('fullDay');
-        $booking = $session->get('booking');
 
         $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $event = $repository->find($id);
@@ -169,13 +183,36 @@ class BookingController extends Controller {
                     'booking' => $booking,
                     'fullDay' => $fullDay,
                     'event' => $event,
-                    
         ]);
     }
 
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////////Vérification du tarif choisi/////////////////////
     
+    public function ckeckFareAction($dateOfBirth){
+        //now - 4ans
+        //if (dateOfBirth > now - 4ans)
+        //->true
+        //if (dateOfBirth > now - 12 ans)
+        //->true
+        //if (dateOfBirth > now - 60 ans)
+        //->true
+        //else error
+                
+//        $now = new \DateTime();
+//        $minus = date_diff($now, $dateOfBirth);
+//        $age = $minus->format('%y');
+        
+        
+        if ($dateOfBirth > (mktime(0, 0, 0, date("m"),   date("d"),   date("Y")-4))){
+            return true;
+        }if ($dateOfBirth > (mktime(0, 0, 0, date("m"),   date("d"),   date("Y")-12))){
+            return true; 
+        }if ($dateOfBirth < (mktime(0, 0, 0, date("m"),   date("d"),   date("Y")-60))){
+            return true;
+        }else {
+            return false;}
+    }
     
     
     ////////////////////////////////////////////////////////////////////////////
@@ -189,7 +226,7 @@ class BookingController extends Controller {
         $visit = $session->get('visitDate');
         
         $visitDate = date_create($visit);
-        $booking = new Booking();
+        $booking = $session->get('booking');
         $ticket = new Ticket();
         
         $tickets = $request->get('tickets');
@@ -211,7 +248,7 @@ class BookingController extends Controller {
         $booking->setFullDay($fullDay);
         $booking->setNbTickets($nbTickets);
 
-        //On passe le statut de commande à inProgress ?
+        //On passe le statut de commande à inProgress 
         $booking->setStatus(Booking::STATUS_INPROGRESS);
         $session->set('tickets', $tickets);
         //On enregistre les valeurs en session
@@ -255,7 +292,7 @@ class BookingController extends Controller {
     public function showRecapAction(Request $request) {
         $session = $request->getSession();
 
-        //Récupération de variables en session
+        //Récupération de booking en session
         $booking = $session->get('booking');
         $id = $session->get('id');
         
@@ -287,11 +324,6 @@ class BookingController extends Controller {
     /////////////Enregistrement email et enregistrement booking et tickets en base de données/////////////////
     
     public function postEmailAndBookingAction(Request $request) {
-        //On doit enregistrer l'email en session
-        //renseigner l'orderCode ( Faut-il créer un générateur? ) 
-        //Récuperer la commande ($booking) en session 
-        //Après vérification, récupérer  les tickets
-        //Enregistrer le tout en Bdd
         
         //Récupération de la session
         $session = $request->getSession();
@@ -306,8 +338,7 @@ class BookingController extends Controller {
         //Récupération de l'adresse mail saisie      
         $email = $request->get('email');
         
-
-       //On génère un code random pour le code commande
+        //On génère un code random pour le code commande
         $bytes = random_bytes(5);
         
         //On renseigne les valeurs
@@ -327,46 +358,37 @@ class BookingController extends Controller {
         $em->persist($booking);
         $em->persist($user);
         $em->flush();
-        
-
-        
+   
         //Retourner une réponse json
         $response = [
                 'success' => true
         ];
         return new JsonResponse($response);
-       
     }
      
     
     ///////////////////////////////////////////////////////////////////////////
     ////////////////////////// Page de confirmation paiement ///////////////////
 
-    public function showPaymentAction(Request $request) {
-        //On récupère les infos de la commande en bdd pour afficher la page de confirmation
-        //SELECT * FROM `booking` WHERE `orderCode` = '$orderCode' 
-        //
-        //
+    public function showPaymentAction(Request $request, $orderCode) {
+
         //Récupération de l'adresse mail  
         $email = $request->get('email');
-        $session = $request->getSession();
-
-        //Récupération des variables en session
-        $booking = $session->get('booking');
-        $id = $session->get('id');
-        $tickets = $session->get('tickets');
-        $visitDate = $session->get('visitDate');
         
-        //Récupération des variables en Bdd
-        //$BookingRepo = $this->getDoctrine()
-         //       ->getManager()
-          //      ->getRepository('APProjet4BookingBundle:Booking');
-        //$booking = $BookingRepo->find($id);
-        //
-        //On récupère la clé stripe
-        $stripeToken = $request->get('stripeToken');
-        //Et on l'enregistre en session
-        $session->set('stripeToken', $stripeToken);
+        $session = $request->getSession();
+        
+        //Récupération des variables de commande en Bdd pour afficher la page de confirmation
+        $BookingRepo = $this->getDoctrine()
+               ->getManager()
+               ->getRepository('APProjet4BookingBundle:Booking');
+        $booking = $BookingRepo->findOneByOrderCode(
+            $orderCode);
+        $id = $booking->getEvent();
+        
+//        //On récupère la clé stripe
+//        $stripeToken = $request->get('stripeToken');
+//        //Et on l'enregistre en session
+//        $session->set('stripeToken', $stripeToken);
         
         $EventRepo = $this->getDoctrine()
                 ->getManager()
@@ -375,55 +397,59 @@ class BookingController extends Controller {
    
         $nbPerType = $this->getNbPerType($booking->getTickets());
 
-        ////Si erreur : On prévient l'utilisateur avec un message popup
+        //TO DO//Si erreur : On prévient l'utilisateur avec un message popup
         //Si paiement ok : On enregistre booking en bdd status: paid
         $booking->setStatus(Booking::STATUS_PAID);
         
        
-        //Si tout s'est bien passé, on envoie le mail de confirmation : BookingEmailSystem
-        //$bookingEmail = $this->get('booking.email.system');
-        //$bookingEmail->sendBookingEmail($booking);
+        //Si tout s'est bien passé, on envoie le mail de confirmation 
         $this->sendBookingEmail($request);
         
         //On flush la commande une dernière fois. 
-//        $em = $this->getDoctrine()->getManager();
-//       
-//        $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
         
         //On efface alors la session
-        //$session->clear();
+        $session->clear();
         
-
         return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig' , [
                     'id' => $id,
                     'event' => $event,
-                    'visitDate' => $visitDate,
+                    'visitDate' => $booking->getTickets()->get('visitDate'),
                     'booking' => $booking,
+                    'orderCode' => $orderCode,
                     'email' => $email,
                     'stripeToken'=> $stripeToken,
                     'nbType' => $nbPerType,
-                    'tickets'=> $tickets,
+                    'tickets'=> $booking->getTickets(),
                     'total' => $this->getTotal($nbPerType, $booking->getFullDay())
         ]);
     }
  
      /////////////////////////////////////////////////////////////////////////
     /////////////////////////Email et Billet///////////////////////////////////   
-    
+    //$id, $booking, $stripeToken en arguments
    public function sendBookingEmail(Request $request) {
         $session = $request->getSession();
 
-        //Récupération de variables en session
-        $booking = $session->get('booking');
-        $id = $session->get('id');
+        //Récupération de variables en session 
         $stripeToken = $session->get('stripeToken');
+        $orderCode = $session->get('booking')->getOrderCode();
+        
+        //Récupération des variables de commande en Bdd pour compléter le mail
+        $BookingRepo = $this->getDoctrine()
+               ->getManager()
+               ->getRepository('APProjet4BookingBundle:Booking');
+        $booking = $BookingRepo->findOneByOrderCode(
+            $orderCode);
+        $id = $booking->getEvent();
+        
         $visitDate = $booking->getTickets()->get('visitDate');
         
         $bookingEmail = $booking->getEmail();
         $bookingOrderCode = $booking->getOrderCode();
         $tickets = $booking->getTickets()->getValues();
   
-        
         $EventRepo = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('APProjet4BookingBundle:Event');
