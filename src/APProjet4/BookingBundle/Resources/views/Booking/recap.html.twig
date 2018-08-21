@@ -11,7 +11,7 @@
                     <span class="glyphicon glyphicon-menu-hamburger" 
                           style="color:white;"></span>
                 </button>
-                <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/fr">
+                <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php">
                     <img src="{{asset('images/louvre_w.png')}}" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="navMain">
@@ -240,7 +240,7 @@
         <button type="submit" id="confirm" class="button2">{{'recap.submit'|trans}}</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 hidden" id="payment-button">
-                <form action="{{ path('approjet4_booking_payment') }}" method="POST" >
+                <form action="{{ path('approjet4_booking_payment',{'orderCode': 3})}}" method="POST">
                     <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
@@ -249,9 +249,13 @@
                         data-description="Paiement de votre commande"
                         data-image="{{ event.image.url }}"
                         data-locale="auto"
-                        data-currency="eur"
-                        data-zip-code="true">
+                        data-currency="eur">
                     </script>
+                    <script>
+        // Hide default stripe button
+        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+    </script>
+    <button type="submit" class="button2">Payer</button>
                 </form>
             </div>
         </div><br>
@@ -291,8 +295,9 @@
         </script>
 
         <script>//Enregistrement de l'email 
+           
             var url_recap = "{{path('approjet4_booking_postEmailAndBooking')}}";
-            var url_payment = "{{path('approjet4_booking_payment')}}";
+            var url_payment = "{{path('approjet4_booking_payment', {'orderCode': 5})}}";
 
 
             function displayPaymentButton() {

@@ -225,6 +225,28 @@
 </form>
 
 {% block javascript %}
+    <script>
+   function checkAge(){
+    //Date du jour - date de naissance = age  
+    //Si la date de naissance est comprise entre maintenant et - 4ans : gratuit
+    //if dateOfBirth > now - 4ans{
+    //true}
+    //if dateOfBIrth > now - 12 ans {
+    //true}
+    //if dateOfBirth < now - 60 ans {
+    //true}
+    //else error
+    var now = new Date();
+    var dateOfBirth = $(this).find('#dateOfBirth').val();
+    var difference = date_diff($now, $dateOfBirth);
+    var age = $difference->format('%y');
+    
+    if (age<4){
+   
+       
+}
+    
+    </script>
     <script>/////////Ajout et suppression de ticket////////
 
         //to do faire en sorte que le premier if soit pour chaque nouveau formulaire

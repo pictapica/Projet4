@@ -9,16 +9,23 @@ namespace APProjet4\BookingBundle\Repository;
  * repository methods below.
  */
 class BookingRepository extends \Doctrine\ORM\EntityRepository
-{
-    public static function countTicketsforVisitDay($orderDate) {
-        $qb = $this->createQueryBuilder('t');
+{   
+    //On retourne les tickets ayant le même jour de visite
+    public static function countTicketsforVisitDay($visitDate) {
+        $qb = $this->createQueryBuilder('b')
+            ->where('b.visitDate = ...')
+            ->setParameter(//en fonction du fareType
+            )
+            ->getQuery();
+        return $nbBooking = $qb->getresult();
+        
         
         // nbTickets en fonction du fareType
         // On doit retourner un tableau du type:
         // { 1 billet Plein tarif
         // 2 billets tarif enfant
         // 0 billet tarif reduit
-        // 0 billet tarif senior} 
+        // 0 billet tarif senior} ????????
         
     }
 }

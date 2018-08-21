@@ -27,8 +27,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository {
 //                ->getResult()
 //        ;
 //    
-    //getCompleteDays($event)
-    //->select('date')
+
     
     //doit renvoyer un tableau de dates
     //On met tout dans attributs Tickets

@@ -86,7 +86,7 @@
                     $.post(url_post_date, {
                         visitDate: visitDate,
                         fullDay: fullDay,
-                        id: "{{event.id}}"
+                        id: {{event.id}}
                     }, function (response) {
                         if (response.success) {
                             document.location = url_contact_details;

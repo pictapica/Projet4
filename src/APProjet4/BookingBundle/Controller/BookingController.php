@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session;
+
 
 class BookingController extends Controller {
 
@@ -30,26 +30,6 @@ class BookingController extends Controller {
     }
     
     ////////////////////////////////////////////////////////////////////////////
-    //////////// Choix de la langue ////////////////////////////////////////////
-    
-    public function setLocaleAction(Request $request) {
-        $session = $request->getSession();
-        
-        //On récupère la locale
-        $locale = $request->get('locale');
-        
-        //On enregistre la locale en session
-        $session->set('_locale', $locale);
-            
-        //on redirige vers la page d'origine
-        $url = $request->headers->get('referer');
-//        if (empty($url)) {
-//            $url = $this->container->get('router')->generate('index');
-//        }
-        return $this->redirect($url);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
     /////////// Affichage de la liste des évènements////////////////////////////
 
     public function indexAction(Request $request) {
@@ -58,8 +38,6 @@ class BookingController extends Controller {
                 ->getRepository('APProjet4BookingBundle:Event');
 
         $listEvents = $EventRepository->findAll();
-        
-        //echo '<div>'.$request->getLocale().'</div>';
         
         $nbTickets = 0;
         $tickets = 0;

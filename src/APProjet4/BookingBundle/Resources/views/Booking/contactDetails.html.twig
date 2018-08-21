@@ -52,13 +52,7 @@
 
     {% block javascript %}
         <script>//Affichage des tarifs journée ou demi-journée
-            if ({{fullDay}} == true){
-                $(".full").show();
-                $(".half").hide();
-            } else{
-                $(".full").hide();
-                $(".half").show();
-            }
+            {{booking.fullDay?'$(".full").show();$(".half").hide();':'$(".full").hide();$(".half").show();'}}
         </script>
         <script>//Messages info
             $("#alert-target").click(function () {
@@ -89,7 +83,7 @@
                });
              
                 $.post(url_post_type,{
-                    tickets,
+                    tickets
                 }, function(response){
                     if (response.success){
                         document.location = url_recap;

@@ -5,7 +5,6 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use APProjet4\BookingBundle\Validator\Constraints\IsHourPast;
 
 /**
  * Booking
@@ -75,7 +74,13 @@ class Booking {
      */
     private $tickets;
     
-    
+    /**
+     * 
+     * @ORM\OneToOne(targetEntity="Event", mappedBy="booking", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false) 
+     * @ORM\Column(unique=false)
+     */
+    private $event;
 
     public function __construct() {
         $this->status = self::STATUS_START;
@@ -265,5 +270,30 @@ class Booking {
         return $this;
     }
 
- 
+
+
+
+    /**
+     * Set event
+     *
+     * @param string $event
+     *
+     * @return Booking
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return string
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
 }
