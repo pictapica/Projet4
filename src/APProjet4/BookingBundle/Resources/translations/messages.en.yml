@@ -64,7 +64,7 @@ formDetails:
     
 recap:
     inCart: ticket in your cart.
-    visitDate: '' 
+    visitDate: Your visit 
     lastname: Last name
     firstname: First name  
     dateOfBirth: Date of birth

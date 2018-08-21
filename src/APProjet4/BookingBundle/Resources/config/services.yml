@@ -1,4 +1,9 @@
 services:
-   ap_projet4_booking.StripePaymentSystem:
+    ap_projet4_booking.StripePaymentSystem:
        class: APProjet4\BookingBundle\Services\StripePaymentSystem
-
+       
+    ap_projet4_booking.localeSubscriber:
+       class: APProjet4\BookingBundle\EventSubscriber\LocaleSubscriber
+       arguments: ["%kernel.default_locale%"]
+       tags:
+            - {name: kernel.event_subscriber}

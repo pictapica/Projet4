@@ -90,7 +90,7 @@ confirmation:
     bookingNumber: Numéro de commande
     paymentDate: Date de paiement
     amount: Montant
-    paymentNumber: Numéro de paiement
+    paymentNumber: Référence de paiement
     keep: Merci de conserver ces informations, elles pourront vous être demandées en cas de réclamation
     visite: Votre visite
     on: du
