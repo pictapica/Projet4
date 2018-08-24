@@ -4,100 +4,91 @@
 {% block navbar %}
     <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button"
-                        class="navbar-toggle"
-                        data-toggle="collapse" data-target="#navMain">
-                    <span class="glyphicon glyphicon-menu-hamburger" 
-                          style="color:white;"></span>
-                </button>
-                <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php">
-                    <img src="{{asset('images/louvre_w.png')}}" alt=""></a>
-            </div>
+            
+            {% block navbar_header %}
+                {{ parent() }}
+            {% endblock navbar_header %}
+            
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a href="#">
-                            <div class="dropdown">
-                                <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
-                                                    alt="image_ticket" style="height: 30px;"
-                                                    class="ticket">
-                                    <span id="in-cart-tickets-num">0 </span> {{'ticket'|trans}}
-                                </div>
-                                <ul id="cart-dropdown" hidden>
-                                    <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
-                                    <li class="go-to-cart hidden"><a href="#" id="myCart">{{'navbar.cart.see'|trans}}</a></li>
-                                </ul>
-                                <!-- Modal Cart -->
-                                <div id="myModal" class="modal">
-                                    <!-- Modal content -->
-                                    <div class="modal-content">
-                                        <span class="close">&times;</span>
-                                        <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
+                    
+                    {% block cart %}
+                        {{ parent() }}
+                        <!-- Modal Cart -->
+                        <div id="myModal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
 
-                                        <h2>{{event.title}}</h2> 
-                                        <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
-                                            <span>
-                                                {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
-                                            </span>
-                                        </p>
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
-                                                    <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
-                                                    <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
-                                                    <th class="text-right" style="color: white;">{{'recap.fare'|trans}}</th>
-                                                    <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th class="text-right" colspan="4" id="totalBooking" style="color: white;">{{'recap.totalBooking'|trans}}</th>
-                                                    <th class="text-right"> {{total}} €</th>
-                                                </tr>
-                                            </tfoot>
-                                            {%for ticket in tickets%}
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-right">{{ticket.lastname|upper}}</td>
-                                                        <td class="text-right">{{ticket.firstname|upper}}</td>
-                                                        <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
-                                                        <td class="text-right">
-                                                            {%if ticket.fareType == 'normal'%}
-                                                            {{'formDetails.fare.full'|trans}}
-                                                            {%elseif ticket.fareType == 'reduct' %}
-                                                            {{'formDetails.fare.reduct'|trans}}
-                                                            {%elseif ticket.fareType == 'child' %}
-                                                            {{'formDetails.fare.child'|trans}}
-                                                            {%elseif ticket.fareType == 'senior' %}
-                                                            {{'formDetails.fare.senior'|trans}}
-                                                            {%endif%}
-                                                        </td>
-                                                        <td class="text-right">
-                                                            {%if ticket.fareType == 'normal' %}
-                                                                {{booking.fullDay?16:8}} €
-                                                            {%endif%}
-                                                            {%if ticket.fareType == 'reduct' %}
-                                                                {{booking.fullDay?10:5}} €
-                                                            {%endif%}
-                                                            {%if ticket.fareType == 'child' %}
-                                                                {{booking.fullDay?8:4}} €
-                                                            {%endif%}
-                                                            {%if ticket.fareType == 'senior' %}
-                                                                {{booking.fullDay?12:6}} €
-                                                            {%endif%}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            {%endfor%}
-                                        </table>
-                                    </div>
-
-                                </div>
+                                <h2>{{event.title}}</h2> 
+                                <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
+                                    <span>
+                                        {% if app.request.locale == 'fr' %}
+                                            {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                                        {% endif %}
+                                        {% if app.request.locale == 'en' %}
+                                            {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                                        {% endif %}
+                                    </span>
+                                </p>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
+                                            <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
+                                            <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
+                                            <th class="text-right" style="color: white;">{{'recap.fare'|trans}}</th>
+                                            <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-right" colspan="4" id="totalBooking" style="color: white;">{{'recap.totalBooking'|trans}}</th>
+                                            <th class="text-right"> {{total}} €</th>
+                                        </tr>
+                                    </tfoot>
+                                    {%for ticket in tickets%}
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-right">{{ticket.lastname|upper}}</td>
+                                                <td class="text-right">{{ticket.firstname|upper}}</td>
+                                                <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                                                <td class="text-right">
+                                                    {%if ticket.fareType == 'normal'%}
+                                                    {{'formDetails.fare.full'|trans}}
+                                                    {%elseif ticket.fareType == 'reduct' %}
+                                                    {{'formDetails.fare.reduct'|trans}}
+                                                    {%elseif ticket.fareType == 'child' %}
+                                                    {{'formDetails.fare.child'|trans}}
+                                                    {%elseif ticket.fareType == 'senior' %}
+                                                    {{'formDetails.fare.senior'|trans}}
+                                                    {%endif%}
+                                                </td>
+                                                <td class="text-right">
+                                                    {%if ticket.fareType == 'normal' %}
+                                                        {{booking.fullDay?16:8}} €
+                                                    {%endif%}
+                                                    {%if ticket.fareType == 'reduct' %}
+                                                        {{booking.fullDay?10:5}} €
+                                                    {%endif%}
+                                                    {%if ticket.fareType == 'child' %}
+                                                        {{booking.fullDay?8:4}} €
+                                                    {%endif%}
+                                                    {%if ticket.fareType == 'senior' %}
+                                                        {{booking.fullDay?12:6}} €
+                                                    {%endif%}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    {%endfor%}
+                                </table>
                             </div>
-                        </a>  
-                    </li>
-                    <li><a href="#" class="language" ><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
+                        </div>
+                    {% endblock cart%}
+                    {% block locale %}
+                        {{ parent() }}
+                    {% endblock locale %}
                 </ul>
             </div>
         </div>
@@ -123,19 +114,19 @@
             <li><span class="bubble"></span><a href="#0">{{'nav.progress.step4'|trans}}</a></li>
         </ul>
     </nav>
-    <div>
-        {# On affiche tous les messages flash dont le nom est « info » #}
-        {% for message in app.session.flashbag.get('info') %}
-            <p>Message flash : {{ message }}</p>
-        {% endfor %}
-    </div>
+    
     <div class="container form">
         <div class="row recap">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h2>{{event.title}}</h2> 
                 <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
                     <span>
-                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                        {% if app.request.locale == 'fr' %}
+                            {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                        {% endif %}
+                        {% if app.request.locale == 'en' %}
+                            {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                        {% endif %}
                     </span>
                 </p>
                 <hr>
@@ -240,7 +231,7 @@
         <button type="submit" id="confirm" class="button2">{{'recap.submit'|trans}}</button>
         <div class ="row">
             <div class="col-lg-12 col-md-12 col-xs-12 hidden" id="payment-button">
-                <form action="{{ path('approjet4_booking_payment',{'orderCode': 3})}}" method="POST">
+                <form action="{{ path('approjet4_booking_payment')}}" method="POST">
                     <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="pk_test_iX9RsTXeebvywOXG1dBH3fOy"
@@ -297,9 +288,8 @@
         <script>//Enregistrement de l'email 
            
             var url_recap = "{{path('approjet4_booking_postEmailAndBooking')}}";
-            var url_payment = "{{path('approjet4_booking_payment', {'orderCode': 5})}}";
-
-
+          
+    
             function displayPaymentButton() {
                 var email = $('#email').val();
                 var verifyEmail = $('#verifyEmail').val();
@@ -319,33 +309,34 @@
                 $('.mail').hide(200);
 
                 //On enregistre l'email
-
                 $.post(url_recap, {
                     email: email
-                }, function (response) {
-                    if (response.success) {
-                        //Envoyer un mail de confirmation
-                    }
-                }
-                );
+                });
+                
                 //On affiche le bouton de paiement
                 $('#payment-button').removeClass('hidden', 200);
                 //Message de confirmation
                 toastr.warning('Votre adresse e-mail a bien été enregistrée', '', {positionClass: "toast-top-center"});
-
-            }
-            ;
+            };
             //Au click sur le bouton de confirmation on appelle la fonction displayPaymentButton
             $(document).ready(function () {
                 $('#confirm').click(displayPaymentButton);
             });
-
+        </script>
+        <script>
+            //Redirection vers la page du récapitulatif de la commande
+            function response(){
+                if(response.success){
+                    document.location = url_paymentValid;
+                }
+            }
         </script>
         <script>//Affichage des informations tickets
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
+        
         <script>////////////////Affichage de la fenêtre modale du panier/////////
             // Get the modal
             var modal = document.getElementById('myModal');

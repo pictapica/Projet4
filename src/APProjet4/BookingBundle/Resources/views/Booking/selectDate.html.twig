@@ -34,12 +34,9 @@
         <div class="row"> 
             <div class="col-lg-offset-1 col-lg-4 col-md-offset-1 col-md-5 col-xs-12 ">
                 <div class="form_datetime">
-                    <h4>1 - {{'selectDate.container.step1'|trans}} : 
+                    <h4>1 - {{'selectDate.container.step1'|trans}}
                         <a href="#" data-toggle="popover" data-placement="auto right"
-                           data-content="Le musée est ouvert tout les jours, de 9h à 18h, 
-                           sauf le mardi, les 1er mai, 1er novembre et 25 décembre. 
-                           Pour commander pour les dimanches et jours 
-                           fériés merci de vous rendre directement au guichet.">
+                           type="button" data-container="body"data-html="true" id="opening">
                             <i alt="info_icon" class="material-icons info" id="dateInfo">&#xe88f;</i>
                         </a>
                     </h4>
@@ -49,15 +46,24 @@
                             type="hidden" 
                             name="pick_a_date" 
                             value=""/>
+                    <div id="popover-content-opening" class="hide">
+                        <ul class="list-group">
+                            <li class="list-group-item">{{ 'opening1' | trans}}</li>
+                            <li class="list-group-item">{{ 'opening2' | trans}}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class=" col-lg-offset-2 col-lg-4 col-md-4  col-xs-12">
-                <h4>2 - {{'selectDate.container.step2'|trans}} : 
+                <h4>2 - {{'selectDate.container.step2'|trans}}
                     <a href="#" data-toggle="popover" data-placement="auto left"
-                       data-content="Le billet demi-journée vous permet d'entrer au musée à partir de 14h.">
+                       data-container="body" type="button" data-html="true" id="halfDay">
                         <i alt="info_icon" class="material-icons info" id="typeInfo">&#xe88f;</i>
                     </a>
                 </h4>
+                <div id="popover-content-halfDay" class="hide">
+                    <p class="list-group-item">{{ 'halfDay' | trans}}</p>
+                </div>
                 <button id="daySelect"  class="button">{{'selectDate.container.fullDay'|trans}}</button>
                 <button id="halfDaySelect"  class="button">{{'selectDate.container.halfDay'|trans}}</button>
             </div>
@@ -72,106 +78,86 @@
     </div>
 
 
-    {% block javascript %}
-        <script>
-            var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
-            var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
+{% block javascript %}
+    <script>
+        var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
+        var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
 
-            function submitData(fullDay) {
-                var visitDate = $('#pick_a_date').val();
+        function submitData(fullDay) {
+            var visitDate = $('#pick_a_date').val();
 
-                if (!$('#pick_a_date').val()) {
-                    toastr.warning('Vous devez renseigner une date !', '', {positionClass: "toast-top-center"});
-                } else {
-                    $.post(url_post_date, {
-                        visitDate: visitDate,
-                        fullDay: fullDay,
-                        id: {{event.id}}
-                    }, function (response) {
-                        if (response.success) {
-                            document.location = url_contact_details;
-                        } else {
-                            toastr.warning('Merci de renseigner une date et de choisir un type de visite.', '', {positionClass: "toast-top-center"});
-                        }
-                    });
-                }
+            if (!$('#pick_a_date').val()) {
+                toastr.warning('Vous devez renseigner une date !', '', {positionClass: "toast-top-center"});
+            } else {
+                $.post(url_post_date, {
+                    visitDate: visitDate,
+                    fullDay: fullDay,
+                    event_id: {{event.id}}
+                }, function (response) {
+                    if (response.success) {
+                        document.location = url_contact_details;
+                    } else {
+                        toastr.warning('Merci de renseigner une date et de choisir un type de visite.', '', {positionClass: "toast-top-center"});
+                    }
+                });
             }
-            $(document).ready(function () {
-                $('#daySelect').click(function () {
-                    submitData(true);
-                });
-
-                $('#halfDaySelect').click(function () {
-                    submitData(false);
-                });
+        }
+        $(document).ready(function () {
+            $('#daySelect').click(function () {
+                submitData(true);
             });
 
-            $.fn.datepicker.dates['fr'] = {
-                days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-                daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-                daysMin: ["D", "L", "M", "M", "J", "V", "S"],
-                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
-                monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
-                
-                titleFormat: "MM yyyy",
-                weekStart: 1,
-                today: "Aujourd'hui"
+            $('#halfDaySelect').click(function () {
+                submitData(false);
+            });
+        });
+        {% if app.request.locale == 'fr' %} 
+        $.fn.datepicker.dates['fr'] = {
+            days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+            daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+            daysMin: ["D", "L", "M", "M", "J", "V", "S"],
+            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
+            monthsShort: ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Dec."],
 
-            };
-            $.fn.datepicker.dates['en'] = {
-                days: ["Sunday", "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday"],
-                daysShort: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"],
-                daysMin: ["D", "L", "M", "M", "J", "V", "S"],
-                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
-                monthsShort: ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
-                
-                titleFormat: "MM yyyy",
-                weekStart: 1,
-                today: "Aujourd'hui"
+            titleFormat: "MM yyyy",
+            weekStart: 1,
+            today: "Aujourd'hui"
+        };
+        {% endif %}
+        {% if app.request.locale == 'en' %} 
+        $.fn.datepicker.dates['en'] = {
+            days: ["Sunday", "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday"],
+            daysShort: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"],
+            daysMin: ["S", "M", "T", "W", "T", "F", "S"],
+            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            monthsShort: ["Jan", "Feb", "Mar", "Abr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
 
-            };
-            $(".form_datetime").datepicker({
-                input:"date",
-                format: "yyyy/mm/dd",
-                language: 'fr',
-                todayBtn: "linked",
-                daysOfWeekDisabled: [0, 2],
-                datesDisabled: [
-                    ("2018-05-01"),
-                    ("2018-11-01"),
-                    ("2018-12-25")
-                ],
-                //beforeShowDay:
-                //// on doit récupérer les dates pour lesquelles 
-                //on a déjà dépassé 1000 tickets donc pour lesquelles availability = false
-                //ex: var daysDIsabled = [On a pls dates],
+            titleFormat: "MM yyyy",
+            weekStart: 7,
+            today: "Today"
+        };
+        {% endif %}
+        $(".form_datetime").datepicker({
+            input:"date",
+            format: "yyyy/mm/dd",
+            language: '{{app.request.locale}}',
+            todayBtn: "linked",
+            daysOfWeekDisabled: [0, 2],
+            datesDisabled: [
+                ("2018-05-01"),
+                ("2018-11-01"),
+                ("2018-12-25")
+            ],
+            //beforeShowDay:
+            //// on doit récupérer les dates pour lesquelles 
+            //on a déjà dépassé 1000 tickets donc pour lesquelles availability = false
+            //ex: var daysDIsabled = [On a pls dates],
 
-                startDate: ("{{event.startDateReservable}}", new Date()),
-                endDate: ("{{event.endDateReservable}}")
-            });
-        </script>
-        <script>//On empêche que les bulles d'infos s'affiche en même temps. 
-            $('#dateInfo').click(function () {
-                $('#dateInfoText').show();
-                $('#typeInfoText').hide();
-            });
-            $('#dateInfoCloseCross').click(function () {
-                $('#dateInfoText').hide();
-                $('#dateInfoSpace').show();
-            });
-            $('#typeInfo').click(function () {
-                $('#typeInfoText').show();
-                $('#dateInfoText').hide();
-            });
-            $('#typeInfoCloseCross').click(function () {
-                $('#typeInfoText').hide();
-            });
-        </script>
-        <script>
-            $(document).ready(function(){
-                $('[data-toggle="popover"]').popover(); 
-            });
-        </script>
-    {% endblock %}
+            startDate: ("{{event.startDateReservable}}", new Date()),
+            endDate: ("{{event.endDateReservable}}")
+        });
+    </script>
+    
+{% endblock %}
 {% endblock %}
 

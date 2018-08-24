@@ -29,6 +29,7 @@
         {% block navbar %}
             <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
                 <div class="container">
+                    {% block navbar_header %}
                     <div class="navbar-header">
                         <button type="button"
                                 class="navbar-toggle"
@@ -38,18 +39,26 @@
                                 style="color:white;">
                             </span>
                         </button>
-                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php/fr">
-                            <img src="{{asset('images/louvre_w.png')}}" alt="">
+                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php">
+                            <img src="{{asset('images/louvre_w.png')}}" alt="logo">
                         </a>
                     </div>
+                    <div>
+                        {# On affiche tous les messages flash dont le nom est « info » #}
+                        {% for message in app.session.flashbag.get('info') %}
+                            <p  class="alert alert-success">{{ message }} {{'at'|trans}}{{booking.email}}</p>
+                        {% endfor %}
+                    </div>
+                    {% endblock navbar_header %}
                     <div class="collapse navbar-collapse" id="navMain">
                         <ul class="nav navbar-nav pull-right">
+                            {% block cart %}
                             <li><a href="#">
                                     <div class="dropdown">
                                         <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
                                                             alt="image_ticket" style="height: 30px;"
                                                             class="ticket">
-                                            <span id="in-cart-tickets-num">0</span> {{'ticket'|trans}}
+                                            <span id="in-cart-tickets-num">0</span> {{'navbar.cart.ticket'|trans}}
                                         </div>
                                         <ul id="cart-dropdown" hidden>
                                             <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
@@ -58,12 +67,21 @@
                                     </div>
                                 </a>  
                             </li>
-                            <li><a href="http://localhost/Projet4/web/app_dev.php/en/" class="language" ><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a></li> 
+                            {% endblock cart %}
+                            {% block locale %}
+                            <li>{% if app.request.locale == 'fr' %}
+                                <a href="{{path('approjet4_booking_setLocale', {'locale': 'en'})}}" class="language"><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a> 
+                            {% endif %}
+                                {% if app.request.locale == 'en' %}
+                            <a href="{{path('approjet4_booking_setLocale', {'locale': 'fr'})}}" class="language"><img src="{{asset('images/fr_flag.png')}}" alt="français" style="margin-left: 35px;"></a>
+                            {% endif %}
+                            </li> 
+                            {% endblock locale %}
                         </ul>
                     </div>
                 </div>
             </div>
-        {% endblock %}
+        {% endblock navbar%}
         {% block title_section %}
             <section class="banner">
                 <div class="container">
@@ -74,7 +92,7 @@
                     </div>
                 </div>
             </section>
-        {% endblock %}
+        {% endblock title_section%}
         
         <div class="container">
             <div class="row" style="height:800px;">
@@ -82,9 +100,9 @@
                     <div class="col-lg-12">
                         {% block APProjet4Booking_body %}
                         {% endblock %}
-                        <hr>
-
-                        <footer>Pictapica - Openclassrooms - {{'now'|date('Y')}}</footer>
+                        {% block Footer %}
+                            <footer>Pictapica - Openclassrooms - {{'now'|date('Y')}}</footer>
+                            {% endblock Footer %}
                     </div>
                 </div>
             </div>
@@ -182,8 +200,21 @@
                     }
                 };
             </script>
+            <script>
+                $(document).ready(function(){
+                    $('[data-toggle="popover"]').each(function(i, obj) {
+
+                        $(this).popover({
+                            html: true,
+                            content: function() {
+                            var id = $(this).attr('id');
+                            return $('#popover-content-' + id).html();
+                            }
+                        });
+
+                    });
+                });
+            </script>
         {% endblock %}
-
     </body>
-
 </html>

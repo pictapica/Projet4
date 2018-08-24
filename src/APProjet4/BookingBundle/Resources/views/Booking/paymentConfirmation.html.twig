@@ -1,7 +1,6 @@
 {#src/APProjet4/BookingBundle/Resources/views/Booking/payment.html.twig #}
 
 {% extends "APProjet4BookingBundle::layout.html.twig" %}
-
 {% block title_section %}
     <section class="banner">
         <div class="container">
@@ -30,8 +29,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10 infoMail">{{'confirmation.send'|trans}}:<br><br> 
-                <p style="text-align: center; color: #fec500; font-size: 17px;">{{booking.email}} </p><br>
+            <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10 infoMail">
                 {{'confirmation.info1'|trans}}<br>
                 - {{'confirmation.info2'|trans}}<br>
                 - {{'confirmation.info3'|trans}}
@@ -46,7 +44,6 @@
                         <li>{{'confirmation.bookingNumber'|trans}}</li>
                         <li>{{'confirmation.paymentDate'|trans}}</li>
                         <li>{{'confirmation.amount'|trans}}</li>
-                        <li>{{'confirmation.paymentNumber'|trans}}</li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-3 col-xs-5 infoTable">
@@ -54,7 +51,6 @@
                         <li>{{booking.orderCode}}</li>
                         <li>{{booking.orderDate|date('d/m/Y')}}</li>
                         <li>{{total}} €</li>
-                        <li>{{stripeToken}}</li>
                     </ul>
                 </div>
             </div>
@@ -64,7 +60,12 @@
         <div class="row">
             <div class="col-lg-offset-1 col-lg-10 table-responsive">
                 <caption>{{event.title}} - {{'confirmation.visite'|trans}} 
-                    {{booking.fullDay?'JOURNEE':'DEMI-JOURNEE'}} 
+                    {% if app.request.locale == 'fr' %}
+                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                    {% endif %}
+                    {% if app.request.locale == 'en' %}
+                        {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                    {% endif %}
                     {{'confirmation.on'|trans}} 
                     {{visitDate|date('d/m/Y')}}</caption><br><br>
                 <table class="table">
@@ -118,9 +119,5 @@
             <br><br><br>
         </div>
     </div> 
-
-{% endblock %}
-
-{% block javascript %}
 
 {% endblock %}

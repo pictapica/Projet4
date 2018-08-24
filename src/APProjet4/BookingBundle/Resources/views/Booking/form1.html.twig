@@ -3,17 +3,21 @@
 <form id="myForm">
     <div class="pull-right"
     <span>
-        <a href="#" 
-           data-toggle="popover" 
-           data-content=" - Gratuit pour les - de 4 ans.-------------------------------------------
-           - Tarif enfant de 4 à 11 ans. -------------------------------------------
-           - Tarif réduit sous certaines conditions 
-           (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)-------------------------
-           - Tarif sénior s'applique dès 60 ans. ------------------------------
-           Un justificatif pourra vous être demandé à l'entrée du musée"
+        <a href="#" data-toggle="popover" data-placement="auto right"
+                           type="button" data-container="body"data-html="true" id="fareInfo"
            data-placement="left">
-            <i alt="info_icon" class="material-icons info" id="fareInfo">&#xe88f;</i>
+            <i alt="info_icon" class="material-icons info">&#xe88f;</i>
         </a>
+        <div id="popover-content-fareInfo" class="hide">
+                        <ul class="list-group">
+                            <li class="list-group-item">{{ 'selectDate.info.free' | trans}}</li>
+                            <li class="list-group-item">{{ 'selectDate.info.child' | trans}}</li>
+                            <li class="list-group-item">{{ 'selectDate.info.normal' | trans}}</li>
+                            <li class="list-group-item">{{ 'selectDate.info.reduct' | trans}}</li>
+                            <li class="list-group-item">{{ 'selectDate.info.senior' | trans}}</li>
+                        </ul>
+                            <p style="padding: 12px;">{{ 'selectDate.info.warning' | trans}}</p>
+        </div>
     </span>
     </div>
     <div class="ticket" name="billet">
@@ -292,11 +296,4 @@
             }
         });
     </script>
-
-    <script>//Pop up
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
-    </script>
-    
 {% endblock %}

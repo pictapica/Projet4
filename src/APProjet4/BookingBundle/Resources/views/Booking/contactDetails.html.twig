@@ -27,8 +27,13 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h2>{{event.title}}</h2> 
-                <p style="text-align:center; font-size: 18px;">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
-                    {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                <p style="text-align:center; font-size: 18px;">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} | 
+                    {% if app.request.locale == 'fr' %}
+                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                    {% endif %}
+                    {% if app.request.locale == 'en' %}
+                        {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                    {% endif %}
                 <hr>
             </div>
         </div>
