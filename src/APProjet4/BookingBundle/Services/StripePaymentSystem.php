@@ -16,7 +16,7 @@ class StripePaymentSystem {
                     'amount' => 20*100, 
                     'currency' => 'eur',
                     'source' => '$token',
-                    'receipt_email' => 'alesk.picard@gmail.com',
+                    'receipt_email' => 'pictapica@gmail.com',
         ]);
         return $charge;
     }

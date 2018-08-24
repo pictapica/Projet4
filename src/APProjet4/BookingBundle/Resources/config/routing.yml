@@ -6,11 +6,17 @@ approjet4_booking_home:
 approjet4_booking_index:
     path:     /events
     defaults: { _controller: APProjet4BookingBundle:Booking:index}
-       
+
+## Changement de locale
+approjet4_booking_setLocale:
+    path: /locale
+    defaults: { _controller: APProjet4BookingBundle:Session:setLocale}
+    methods: [GET]
+
 ## Page 1 - Date de visite et type de billet (Journée/Demi-journée)    
 approjet4_booking_selectDate:
     path:    /purchase/{id}
-    defaults: { _controller: APProjet4BookingBundle:Booking:showSelectDate}
+    defaults: { _controller: APProjet4BookingBundle:Booking:showSelectDate , format: html}
     requirements:
         id: \d+
     
@@ -46,13 +52,15 @@ approjet4_booking_postEmailAndBooking:
     path:   /recapitulative/postAction
     defaults: {_controller: APProjet4BookingBundle:Booking:postEmailAndBooking}
     methods: [POST, GET]
-    
+
 approjet4_booking_payment:
     path: /payment
-    defaults: {_controller: APProjet4BookingBundle:Booking:showPayment}
-    methods: [POST,GET]
+    defaults: {_controller: APProjet4BookingBundle:Booking:ValidatePayment}
+    methods: [POST, GET]
     
-approjet4_booking_translation:
-    path : /translation
-    defaults: {_controller: APProjet4BookingBundle:Booking:translation}
+##Ajouter/ {orderCode}
+approjet4_booking_showPayment:
+    path: /paymentConfirmed/{orderCode}
+    defaults: {_controller: APProjet4BookingBundle:Booking:showPayment , format: html  }
     methods: [GET]
+    

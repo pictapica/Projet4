@@ -4,11 +4,8 @@ parameters:
     #parameter_name: value
 
 services:
-
-    booking.email.system:
-        class : APProjet4\BookingBundle\Services\BookingEmailSystem
-        arguments: ["@mailer", "@twig"]
     
     stripe.payment.system:
         class : APProjet4\BookingBundle\Services\StripePaymentSystem
-        
+    
+
