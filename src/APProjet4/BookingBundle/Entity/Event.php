@@ -30,11 +30,24 @@ class Event {
     
     /**
      * @var string
+     * @ORM\Column(name="titleEn", type="string", length=255)
+     */
+    private $titleEn;
+    
+    /**
+     * @var string
      *
      * @ORM\Column(name="content", type="string", length=255)
      */
     private $content;
-
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contentEn", type="string", length=255)
+     */
+    private $contentEn;
+    
     /**
      * @var date
      * 
@@ -231,5 +244,53 @@ class Event {
     public function getBookings()
     {
         return $this->bookings;
+    }
+
+    /**
+     * Set titleEn
+     *
+     * @param string $titleEn
+     *
+     * @return Event
+     */
+    public function setTitleEn($titleEn)
+    {
+        $this->titleEn = $titleEn;
+
+        return $this;
+    }
+
+    /**
+     * Get titleEn
+     *
+     * @return string
+     */
+    public function getTitleEn()
+    {
+        return $this->titleEn;
+    }
+
+    /**
+     * Set contentEn
+     *
+     * @param string $contentEn
+     *
+     * @return Event
+     */
+    public function setContentEn($contentEn)
+    {
+        $this->contentEn = $contentEn;
+
+        return $this;
+    }
+
+    /**
+     * Get contentEn
+     *
+     * @return string
+     */
+    public function getContentEn()
+    {
+        return $this->contentEn;
     }
 }

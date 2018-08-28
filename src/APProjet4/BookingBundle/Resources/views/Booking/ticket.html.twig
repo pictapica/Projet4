@@ -25,11 +25,13 @@
                 <h4>{{'confirmation.recap'|trans}}</h4>
             </div>
             <div style="text-align: center">
-                <h2>{{event.title}} - {{'confirmation.visite'|trans}} 
+                <h2>{#{{event.title}} - {{'confirmation.visite'|trans}} #}
                 {% if app.request.locale == 'fr' %}
+                    {{event.title}}
                     {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
                 {% endif %}
                 {% if app.request.locale == 'en' %}
+                    {{event.titleEn}}
                     {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
                 {% endif %} 
                 {{'confirmation.on'|trans}} 

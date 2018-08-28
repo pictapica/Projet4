@@ -61,11 +61,13 @@
         </div>
         <div class="row">
             <div class="col-lg-offset-1 col-lg-10 table-responsive">
-                <caption>{{event.title}} - {{'confirmation.visite'|trans}} 
+                <caption>{#{{event.title}} - {{'confirmation.visite'|trans}} #}
                     {% if app.request.locale == 'fr' %}
+                        {{event.title}} - 
                         {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
                     {% endif %}
                     {% if app.request.locale == 'en' %}
+                        {{event.titleEn}} - 
                         {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
                     {% endif %}
                     {{'confirmation.on'|trans}} 

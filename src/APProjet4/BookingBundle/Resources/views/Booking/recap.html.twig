@@ -20,8 +20,12 @@
                             <div class="modal-content">
                                 <span class="close">&times;</span>
                                 <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
-
-                                <h2>{{event.title}}</h2> 
+                                {% if app.request.locale == 'fr' %}
+                                    <h2>{{event.title}}</h2> 
+                                {% endif %}
+                                {% if app.request.locale == 'en' %}
+                                    <h2>{{event.titleEn}}</h2>
+                                {% endif %}
                                 <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
                                     <span>
                                         {% if app.request.locale == 'fr' %}
@@ -118,7 +122,12 @@
     <div class="container form">
         <div class="row recap">
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <h2>{{event.title}}</h2> 
+                {% if app.request.locale == 'fr' %}
+                    <h2>{{event.title}}</h2> 
+                {% endif %}
+                {% if app.request.locale == 'en' %}
+                    <h2>{{event.titleEn}}</h2> 
+                {% endif %}
                 <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
                     <span>
                         {% if app.request.locale == 'fr' %}
