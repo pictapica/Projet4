@@ -14,10 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Booking {
 
-    const STATUS_START = 1;
-    const STATUS_INPROGRESS = 2;
-    const STATUS_PAID = 3;
-
     /**
      * @var int
      *
@@ -42,12 +38,7 @@ class Booking {
      */
     private $orderCode = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="status", type="integer")
-     */
-    private $status;
+    
 
     /**
      * @var string
@@ -70,20 +61,22 @@ class Booking {
     private $nbTickets;
     
     /**
+     * @var string
+     * @ORM\Column(name="stripeToken", type="string")
+     */
+    private $stripeToken = null;
+    /**
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
      */
     private $tickets;
     
     /**
-     * 
-     * @ORM\OneToOne(targetEntity="Event", mappedBy="booking", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false) 
-     * @ORM\Column(unique=false)
+     * @ORM\ManyToOne(targetEntity="APProjet4\BookingBundle\Entity\Event", inversedBy="bookings",cascade={"persist"} )
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      */
     private $event;
 
     public function __construct() {
-        $this->status = self::STATUS_START;
         $this->orderDate = new \Datetime();
         $this->tickets = new ArrayCollection();
     }
@@ -139,28 +132,6 @@ class Booking {
      */
     public function getOrderCode() {
         return $this->orderCode;
-    }
-
-    /**
-     * Set status
-     *
-     * @param integer $status
-     *
-     * @return Booking
-     */
-    public function setStatus($status) {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return int
-     */
-    public function getStatus() {
-        return $this->status;
     }
 
     /**
@@ -271,16 +242,39 @@ class Booking {
     }
 
 
+    /**
+     * Set stripeToken
+     *
+     * @param string $stripeToken
+     *
+     * @return Booking
+     */
+    public function setStripeToken($stripeToken = null)
+    {
+        $this->stripeToken = $stripeToken;
+
+        return $this;
+    }
+
+    /**
+     * Get stripeToken
+     *
+     * @return string
+     */
+    public function getStripeToken()
+    {
+        return $this->stripeToken;
+    }
 
 
     /**
      * Set event
      *
-     * @param string $event
+     * @param \APProjet4\BookingBundle\Entity\Event $event
      *
      * @return Booking
      */
-    public function setEvent($event)
+    public function setEvent(\APProjet4\BookingBundle\Entity\Event $event)
     {
         $this->event = $event;
 
@@ -290,7 +284,7 @@ class Booking {
     /**
      * Get event
      *
-     * @return string
+     * @return \APProjet4\BookingBundle\Entity\Event
      */
     public function getEvent()
     {

@@ -44,6 +44,7 @@
                         <li>{{'confirmation.bookingNumber'|trans}}</li>
                         <li>{{'confirmation.paymentDate'|trans}}</li>
                         <li>{{'confirmation.amount'|trans}}</li>
+                        <li>{{'confirmation.paymentNumber'|trans}}</li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-3 col-xs-5 infoTable">
@@ -51,6 +52,7 @@
                         <li>{{booking.orderCode}}</li>
                         <li>{{booking.orderDate|date('d/m/Y')}}</li>
                         <li>{{total}} €</li>
+                        <li>{{stripeToken}}</li>
                     </ul>
                 </div>
             </div>

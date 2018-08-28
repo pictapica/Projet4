@@ -4,7 +4,6 @@ namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * Event
  *
@@ -28,7 +27,7 @@ class Event {
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
-
+    
     /**
      * @var string
      *
@@ -51,13 +50,16 @@ class Event {
     private $endDate;
 
     /**
-     * 
      * @ORM\OneToOne(targetEntity="APProjet4\BookingBundle\Entity\Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="APProjet4\BookingBundle\Entity\Booking", mappedBy="event", cascade={"persist","remove"})
+     */
+    private $bookings;
 
-    
-    
     /**
      * Get id
      *
@@ -111,27 +113,6 @@ class Event {
         return $this->content;
     }
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return Event
-     */
-    public function setImage(Image $image = null) {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage() {
-        return $this->image;
-    }
 
     /**
      * Set startDate
@@ -186,4 +167,69 @@ class Event {
         return $this->endDate->format($format);
     }
 
+
+    /**
+     * Set image
+     *
+     * @param \APProjet4\BookingBundle\Entity\Image $image
+     *
+     * @return Event
+     */
+    public function setImage(\APProjet4\BookingBundle\Entity\Image $image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \APProjet4\BookingBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add booking
+     *
+     * @param \APProjet4\BookingBundle\Entity\Booking $booking
+     *
+     * @return Event
+     */
+    public function addBooking(\APProjet4\BookingBundle\Entity\Booking $booking)
+    {
+        $this->bookings[] = $booking;
+
+        return $this;
+    }
+
+    /**
+     * Remove booking
+     *
+     * @param \APProjet4\BookingBundle\Entity\Booking $booking
+     */
+    public function removeBooking(\APProjet4\BookingBundle\Entity\Booking $booking)
+    {
+        $this->bookings->removeElement($booking);
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
+    }
 }

@@ -42,13 +42,14 @@
                         <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php">
                             <img src="{{asset('images/louvre_w.png')}}" alt="logo">
                         </a>
-                    </div>
-                    <div>
+                        <div class="col-lg-offset-1 col-lg-7">
                         {# On affiche tous les messages flash dont le nom est « info » #}
                         {% for message in app.session.flashbag.get('info') %}
-                            <p  class="alert alert-success">{{ message }} {{'at'|trans}}{{booking.email}}</p>
+                            <p  class="alert message-alert">{{ message }}</p>
                         {% endfor %}
+                        </div>
                     </div>
+                    
                     {% endblock navbar_header %}
                     <div class="collapse navbar-collapse" id="navMain">
                         <ul class="nav navbar-nav pull-right">

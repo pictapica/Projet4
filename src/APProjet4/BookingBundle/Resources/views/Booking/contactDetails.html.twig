@@ -71,7 +71,6 @@
             
             function submitForm(details) {
             //on détermine des variables
-
                 var tickets = [];
         
                 $('#myForm .ticket').each(function(index){
@@ -84,8 +83,7 @@
                         country : $(this).find('#country').val(),
                         visitDate : '{{ app.session.get('visitDate')}}'
                         });
-                    
-               });
+                });
              
                 $.post(url_post_type,{
                     tickets
@@ -109,7 +107,51 @@
                 }));
             });
         </script>
+        <script>
+            function checkAgeAndFare(c){
+             //Date du jour - date de naissance = age  
+             //Si la date de naissance est comprise entre maintenant et - 4ans : gratuit
+             //if dateOfBirth > now - 4ans{
+             //true}
+             //if dateOfBIrth > now - 12 ans {
+             //true}
+             //if dateOfBirth < now - 60 ans {
+             //true}
+             //else error
+                var visitDate = {{ app.session.get('visitDate')|date('d-m-Y')}};
+                var dateOfBirth = $(this).find('#dateOfBirth').val();
+                var fareType = $(this).find('.active input').val();
 
+                var difference = date_diff(visitDate, dateOfBirth);
+                var age = difference->format('%y');
+
+                if((fareType ==='child') & (age <'4')){
+                    toastr.warning
+                    ('L\'entrée au musée est gratuite pour les moins de 4 ans. Un billet n\'est pas nécessaire.','', 
+                    {positionClass: "toast-top-center"});
+                };
+                if ((fareType === 'child') & (age >'11')){
+                    toastr.warning
+                    ('Attention ! Seuls les enfants de 4 à 11 ans peuvent bénéficier du tarif ENFANT.', '', 
+                    {positionClass: "toast-top-center"});
+                };
+                if ((fareType === 'normal') & (age >'60')){
+                    toastr.warning('A partir de 60 ans, le visiteur peut profiter du tarif SENIOR.','', 
+                    {positionClass: "toast-top-center"});'
+                };
+                if ((fareType === 'normal') & (age< '12')){
+                    toastr.warning('Pour les enfants de 4 à 11 ans, le tarif ENFANT s\'applique.'', 
+                    {positionClass: "toast-top-center"});
+                };
+                if ((faretype === 'senior') & (age < '60')){
+                    toastr.warning('Attention ! Le tarif sénior ne s\'applique qu\'à partir de 60 ans','', 
+                    {positionClass: "toast-top-center"});'
+                };
+                if ((fareType === 'child') & (age > '4') & (age < '12')){
+
+                }
+         }
+        </script>
     {% endblock %}
 {% endblock %}
 

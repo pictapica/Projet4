@@ -12,8 +12,15 @@ layout:
 ticket: ticket
 ticketMaj: Ticket
 
+opening1: The museum is open every day, from 9am to 6pm, except Tuesday, May 1st, November 1st and December 25th.
+
+opening2: To order for Sundays and public holidays, please go directly to the counter.
+
+halfDay: The half-day ticket allows you to enter the museum from 2pm.
+
 navbar:
     cart:
+        ticket: ticket
         empty: Your cart is empty
         see: Go to cart
 
@@ -32,19 +39,25 @@ banner:
         
 selectDate:
     container:
-        step1: Choose a date
-        step2: Choose your ticket
-        fullDay : Day
-        halfDay : Half-Day
+        step1: "Choose a date:"
+        step2: "Choose your ticket:"
+        fullDay: Day
+        halfDay: Half-Day
+    info:
+        free: "Free for children under 4: A ticket is not required."
+        child: Rates for children from 4 to 11 years old (included).
+        normal: Normal rate from 12 to 59 years old.
+        reduct: Reduced rate under certain conditions. 
+           (student, museum employee, department of the Ministry of Culture, military...).
+        senior: Senior rate from 60 years old. 
+        warning: Identification can be requested at the museum entrance..  
         
 button:
     back: Back
     backToHome: Home
 
-        
 contactDetails:
     submit: Finalize your order
-    
     
 formDetails:
     choice: CHOOSE YOUR FARE
@@ -78,17 +91,20 @@ recap:
         confirm: Confirmation of your e-mail address.
         confirmMail: Confirmation e-mail
     submit: Confirm your order
+    day: DAY Ticket
+    halfDay: HALFDAY Ticket
         
 confirmation:
     banner: 
         title: CONFIRMATION
+    at: "at:"
     done: Your reservation is confirmed!
     thanks: Thank you for ordering at the Louvre ticket office
     send: An e-mail has just been sent to the following address 
-    info1: Please present this email to the museum entrance 
+    info1: Please present the email that was sent to you at the entrance of the museum 
     info2: From your mobile phone or tablet (thanks for the planet!).
     info3: By printing it on loose paper.
-    recap: __Récapitulatif de votre commande
+    recap: Order summary
     bookingNumber: Order number
     paymentDate: Payment date
     amount: Amount
@@ -97,4 +113,6 @@ confirmation:
     visite: Your visit
     on: on
 
-
+mail:
+    title: Booking confirmation
+    thanks: Thank you for your order at the Louvre ticket office! 

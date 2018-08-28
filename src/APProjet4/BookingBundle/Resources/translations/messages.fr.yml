@@ -10,9 +10,17 @@ layout:
         title: EXPOSITIONS
 
 ticket: billet
-ticketMaj: Billet        
+ticketMaj: Billet  
+
+opening1: Le musée est ouvert tout les jours, de 9h à 18h, sauf le mardi, les 1er mai, 1er novembre et 25 décembre. 
+            
+opening2: Pour commander pour les dimanches et jours fériés, merci de vous rendre directement au guichet.
+             
+halfDay: Le billet demi-journée vous permet d'entrer au musée à partir de 14h.
+
 navbar:
     cart:
+        ticket: billet
         empty: Votre panier est vide
         see: Voir le panier
         
@@ -26,23 +34,30 @@ nav:
 index:
     booking: Réservez
 
+banner:
+        title: BILLETTERIE
+        
 selectDate:
     container:
-        step1: Choisissez une date
-        step2: Choisissez votre billet
+        step1: "Choisissez une date :"
+        step2: "Choisissez votre billet :"
         fullDay : Journée
         halfDay : Demi-journée
+    info:
+        free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
+        child: Tarif enfant de 4 à 11 ans(inclus).
+        normal: Tarif normal de 12 à 59 ans.
+        reduct: Tarif réduit sous certaines conditions. 
+           (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…).
+        senior:  Tarif sénior dès 60 ans.
+        warning: Un justificatif pourra vous être demandé à l'entrée du musée.   
         
 button:
     back: Retour
     backToHome: Retour à l'accueil
     
-banner:
-        title: BILLETTERIE
-        
 contactDetails:
     submit: Finaliser votre commande
-    
     
 formDetails:
     choice: CHOISISSEZ VOTRE TARIF
@@ -76,14 +91,17 @@ recap:
         confirm: Confirmation de votre adresse e-mail.
         confirmMail: Confirmation e-mail
     submit: Confirmer votre commande
+    day: Billet JOURNEE
+    halfDay: Billet DEMI-JOURNEE
         
 confirmation:
     banner: 
         title: CONFIRMATION
+    at: "à :"
     done: Votre réservation a bien été effectuée !
     thanks: Merci d'avoir commandé sur la billetterie du Louvre
     send: Un e-mail vient de vous être envoyé à l'adresse suivante 
-    info1: Merci de présenter cet email à l'entrée du musée 
+    info1: Merci de présenter le mail qui vous a été envoyé à l'entrée du musée 
     info2: A partir de votre téléphone portable ou tablette  (merci pour la planète !).
     info3: En l'imprimant sur papier libre.
     recap: Récapitulatif de votre commande

@@ -758,8 +758,6 @@ a:hover{
     float: left;
 }
 
-
-
 .button {
     text-align: center;
     cursor: pointer;
@@ -963,7 +961,7 @@ btn2::hover {
 
 /* Info*/
 
-#dateInfoText{
+/*#dateInfoText{
     position: absolute; 
     font-size: 0.9em;
     padding: 15px;
@@ -1005,16 +1003,16 @@ btn2::hover {
 #typeInfoCloseCross{
     cursor: pointer;
     pointer-events: auto;
-}
+}*/
 
 .popover-content{
     color:#000;
     font-size: 0.9em;
     background-color: #DADADA;
-    padding: 15px;
+    padding: 5px;
     text-align: justify;
     border-radius: 8px;
-    width: 200px;
+    max-width: 270px;
 }
 
 /*ok pour largeur 480 */
@@ -1095,7 +1093,7 @@ table tfoot tr {
 *Tooltip
 *********************************************************/
 
-/* Tooltip */
+ /*Tooltip */
  .tooltip .tooltip-inner {
       background-color: #ffffff; 
       color: #000000; 
@@ -1104,10 +1102,11 @@ table tfoot tr {
       margin-left: -300px;
       margin-top: -20px;
       width: auto;
+      height: auto;
       font-size: 13px;
 }
 
-/* Tooltip on right */
+ /*Tooltip on right */
 .tooltip-arrow {
     border-right: 5px solid black;
     margin-left: -300px;
@@ -1158,3 +1157,10 @@ table tfoot tr {
     cursor: pointer;
 }
 
+.message-alert {
+    background-color: #ec971f;
+    margin-top: 0px;
+    margin-left: 210px;
+    width: 80%;
+    
+}
