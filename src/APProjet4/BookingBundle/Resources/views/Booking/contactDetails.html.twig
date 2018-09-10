@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12" >
-                {{include("APProjet4BookingBundle:Booking:form1.html.twig")}}
+                {{include("APProjet4BookingBundle:Booking:DetailsForm.html.twig")}}
             </div>
         </div>
         <div class ="row">
@@ -73,6 +73,29 @@
             
             var url_post_type = "{{path('approjet4_booking_postContactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
+            var visitDate = '{{ app.session.get('visitDate')}}';
+            var dateFormat = "Y-M-D";
+            
+
+            $(document).ready(function (e) {
+                //Si on clique sur le bouton "Finaliser votre commande"
+                if ($('#envoi').click(function () {
+                    //On vérifie chaque ticket
+                        $('#myForm .ticket').each(function(check){
+                            //Si un des champs est vide: message d'erreur
+                            if (!$(".form-check-input").val() || !$("#lastname").val() 
+                                    || !$("#firstname").val() || !$("#dateOfBirth").val() 
+                                    || !$("#country").val()){
+                                displayWarningToast('{{'contactDetails.fields'|trans}}');
+                            }
+                            if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
+                               preventDefault(); 
+                            }
+                        });
+                        
+                        submitForm(true);
+                }));
+            });
             
             function submitForm(details) {
             //on détermine des variables
@@ -81,7 +104,6 @@
                 $('#myForm .ticket').each(function(index){
                     tickets.push({
                         fareType : $(this).find('.active input').val(),
-                        fare : $(this).find('.fareLabel').val(),
                         lastname : $(this).find('#lastname').val(),
                         firstname : $(this).find('#firstname').val(),
                         dateOfBirth : $(this).find('#dateOfBirth').val(),
@@ -96,66 +118,61 @@
                     if (response.success){
                         document.location = url_recap;
                     } else {
-                        toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                        displayWarningToast('{{'contactDetails.fields'|trans}}');
                     }
                     });
                } 
- 
-        
-            $(document).ready(function (e) {
-                if ($('#envoi').click(function () {
-                    if (!$(".form-check-input").val() || !$("#lastname").val() || !$("#firstname").val() || !$("#dateOfBirth").val() || !$("#country").val()){
-                    toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                } else {
-                submitForm(true);
-                };
-                }));
-            });
-        </script>
-        <script>
-            function checkAgeAndFare(c){
-             //Date du jour - date de naissance = age  
-             //Si la date de naissance est comprise entre maintenant et - 4ans : gratuit
-             //if dateOfBirth > now - 4ans{
-             //true}
-             //if dateOfBIrth > now - 12 ans {
-             //true}
-             //if dateOfBirth < now - 60 ans {
-             //true}
-             //else error
-                var visitDate = {{ app.session.get('visitDate')|date('d-m-Y')}};
-                var dateOfBirth = $(this).find('#dateOfBirth').val();
-                var fareType = $(this).find('.active input').val();
-
-                var difference = date_diff(visitDate, dateOfBirth);
-                var age = difference->format('%y');
-
-                if((fareType ==='child') & (age <'4')){
-                    toastr.warning
-                    ('L\'entrée au musée est gratuite pour les moins de 4 ans. Un billet n\'est pas nécessaire.','', 
-                    {positionClass: "toast-top-center"});
-                };
-                if ((fareType === 'child') & (age >'11')){
-                    toastr.warning
-                    ('Attention ! Seuls les enfants de 4 à 11 ans peuvent bénéficier du tarif ENFANT.', '', 
-                    {positionClass: "toast-top-center"});
-                };
-                if ((fareType === 'normal') & (age >'60')){
-                    toastr.warning('A partir de 60 ans, le visiteur peut profiter du tarif SENIOR.','', 
-                    {positionClass: "toast-top-center"});'
-                };
-                if ((fareType === 'normal') & (age< '12')){
-                    toastr.warning('Pour les enfants de 4 à 11 ans, le tarif ENFANT s\'applique.'', 
-                    {positionClass: "toast-top-center"});
-                };
-                if ((faretype === 'senior') & (age < '60')){
-                    toastr.warning('Attention ! Le tarif sénior ne s\'applique qu\'à partir de 60 ans','', 
-                    {positionClass: "toast-top-center"});'
-                };
-                if ((fareType === 'child') & (age > '4') & (age < '12')){
-
+               
+             function checkAgeAndFare(fareType, dateOfBirth){
+             // on vérifie la correspondance entre le tarif choisi et la date de naissance
+                 switch (fareType) {
+                     case 'child': 
+                         return isChild(dateOfBirth);//Verifie age entre 4 et 12
+                     case 'normal':
+                         return isNormal(dateOfBirth);//Vérifie age entre 12 et <60
+                     case 'senior':
+                         return isSenior(dateOfBirth);// Vérifie age >59
+                 }
+             }
+             
+            /**
+            * Renvoie true si la date correspond à un enfant
+            * @param {string} dateOfBirth
+            * @returns {Boolean}             
+            */ 
+            function isChild(dateOfBirth) {
+                if (moment(visitDate, dateFormat).isBefore((moment(dateOfBirth).add(4, 'y')))){
+                    displayWarningToast('{{'contactDetails.childBefore'|trans}}');
+                    return false;
                 }
-         }
+                if (moment(visitDate,dateFormat).isAfter((moment(dateOfBirth).add(12, 'y')))){
+                    displayWarningToast('{{'contactDetails.childAfter'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+            
+            function isNormal(dateOfBirth) {
+                if (moment(visitDate, dateFormat).isAfter(moment(dateOfBirth).add(60, 'y'))){
+                    displayWarningToast('{{'contactDetails.normalAfter'|trans}}');
+                    return false;
+                    
+                }
+                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(12, 'y'))){
+                    displayWarningToast('{{'contactDetails.normalBefore'|trans}}');
+                    return false;
+                }
+                return true;
+
+            }
+
+            function isSenior(dateOfBirth){
+                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(60, 'y'))){
+                    displayWarningToast('{{'contactDetails.seniorBefore'|trans}}');
+                    return false;
+                }
+                return true;
+            }
         </script>
     {% endblock %}
 {% endblock %}
