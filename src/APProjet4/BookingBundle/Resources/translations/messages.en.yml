@@ -20,7 +20,7 @@ halfDay: The half-day ticket allows you to enter the museum from 2pm.
 
 navbar:
     cart:
-        ticket: ticket
+        ticket: ticket(s)
         empty: Your cart is empty
         see: Go to cart
 
@@ -43,6 +43,10 @@ selectDate:
         step2: "Choose your ticket:"
         fullDay: Day
         halfDay: Half-Day
+        warning1: You must enter a date!
+        warning2: Please enter a date and choose a type of visit.
+        14h: It's after 2:00! You can therefore no longer order DAY tickets.
+        18h: The museum is now closed. Please order a pure ticket another day.
     info:
         free: "Free for children under 4: A ticket is not required."
         child: Rates for children from 4 to 11 years old (included).
@@ -58,8 +62,14 @@ button:
 
 contactDetails:
     submit: Finalize your order
+    fields: Please fill in all fields.
+    childBefore: Admission to the museum is free for children under 4. A ticket is not necessary.
+    childAfter: Attention! Only children from 4 to 11 years old can benefit from the CHILD rate.
+    normalAfter: From the age of 60, visitors can enjoy the SENIOR rate.
+    normalBefore: For children from 4 to 11 years old, the CHILD rate applies.
+    seniorBefore: Attention! The senior rate only applies from the age of 60.
     
-formDetails:
+detailsForm:
     choice: CHOOSE YOUR FARE
     fare: 
         full: FULL FARE
@@ -74,14 +84,15 @@ formDetails:
         dateOfBirth: Date of birth
         country: Living country
     addTicket: Add a ticket
+    deleteForm : The last form has been deleted.
     
 recap:
-    inCart: ticket in your cart.
+    inCart: ticket(s) in your cart.
     visitDate: Your visit 
     lastname: Last name
     firstname: First name  
     dateOfBirth: Date of birth
-    fare: Fare
+    fareType: Fare
     ticketFare: Ticket fare
     totalBooking: Total order
     banner:
@@ -90,6 +101,8 @@ recap:
         title: To receive your tickets, please enter your e-mail address.
         confirm: Confirmation of your e-mail address.
         confirmMail: Confirmation e-mail
+        identical: Email addresses are not identical!
+        registered: Your e-mail address has been registered. 
     submit: Confirm your order
     day: DAY Ticket
     halfDay: HALFDAY Ticket

@@ -20,7 +20,7 @@ halfDay: Le billet demi-journée vous permet d'entrer au musée à partir de 14h
 
 navbar:
     cart:
-        ticket: billet
+        ticket: billet(s)
         empty: Votre panier est vide
         see: Voir le panier
         
@@ -35,7 +35,7 @@ index:
     booking: Réservez
 
 banner:
-        title: BILLETTERIE
+    title: BILLETTERIE
         
 selectDate:
     container:
@@ -43,6 +43,11 @@ selectDate:
         step2: "Choisissez votre billet :"
         fullDay : Journée
         halfDay : Demi-journée
+        warning1: Vous devez renseigner une date !
+        warning2: Merci de renseigner une date et de choisir un type de visite.
+        14h: Il est plus de 14h ! Vous ne pouvez donc plus commander de billets JOURNEE.
+        18h: Le musée est maintenant fermé. Merci de commander un billet pur un autre jour.
+        
     info:
         free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
         child: Tarif enfant de 4 à 11 ans(inclus).
@@ -58,8 +63,15 @@ button:
     
 contactDetails:
     submit: Finaliser votre commande
+    fields: Merci de renseigner tous les champs.
+    childBefore: L'entrée au musée est gratuite pour les moins de 4 ans. Un billet n'est pas nécessaire.
+    childAfter: Attention ! Seuls les enfants de 4 à 11 ans peuvent bénéficier du tarif ENFANT.
+    normalAfter: A partir de 60 ans, le visiteur peut profiter du tarif SENIOR.
+    normalBefore: Pour les enfants de 4 à 11 ans, le tarif ENFANT s'applique.
+    seniorBefore: Attention ! Le tarif sénior ne s'applique qu'à partir de 60 ans.
     
-formDetails:
+    
+detailsForm:
     choice: CHOISISSEZ VOTRE TARIF
     fare: 
         full: PLEIN TARIF
@@ -74,14 +86,15 @@ formDetails:
         dateOfBirth: Date de naissance
         country: Pays de résidence
     addTicket: Ajouter un ticket
+    deleteForm : Le dernier formulaire a bien été supprimé.
     
 recap:
-    inCart: billet dans votre panier.
+    inCart: billet(s) dans votre panier.
     visitDate: Visite du 
     lastname: Nom
     firstname: Prénom  
     dateOfBirth: Date de naissance
-    fare: Tarif
+    fareType: Tarif
     ticketFare: Prix du billet
     totalBooking: Total commande
     banner:
@@ -90,13 +103,16 @@ recap:
         title: Pour recevoir vos billets, merci de renseigner votre adresse e-mail.
         confirm: Confirmation de votre adresse e-mail.
         confirmMail: Confirmation e-mail
+        identical: Les adresses mail ne sont pas identiques !
+        registered: Votre adresse e-mail a bien été enregistrée.
     submit: Confirmer votre commande
     day: Billet JOURNEE
     halfDay: Billet DEMI-JOURNEE
+    
         
 confirmation:
     banner: 
-        title: CONFIRMATION
+    title: CONFIRMATION
     at: "à :"
     done: Votre réservation a bien été effectuée !
     thanks: Merci d'avoir commandé sur la billetterie du Louvre

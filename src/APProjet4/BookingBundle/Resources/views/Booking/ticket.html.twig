@@ -27,11 +27,11 @@
             <div style="text-align: center">
                 <h2>{#{{event.title}} - {{'confirmation.visite'|trans}} #}
                 {% if app.request.locale == 'fr' %}
-                    {{event.title}}
+                    {{event.title}} -
                     {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
                 {% endif %}
                 {% if app.request.locale == 'en' %}
-                    {{event.titleEn}}
+                    {{event.titleEn}} - 
                     {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
                 {% endif %} 
                 {{'confirmation.on'|trans}} 
@@ -63,7 +63,7 @@
                             <th class="text-right">{{'recap.lastname'|trans}}</th>
                             <th class="text-right">{{'recap.firstname'|trans}}</th>
                             <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
-                            <th class="text-right">{{'recap.fare'|trans}}</th>
+                            <th class="text-right">{{'recap.fareType'|trans}}</th>
                             <th class="text-right">{{'recap.ticketFare'|trans}}</th>
                         </tr>
                     </thead>
@@ -79,18 +79,25 @@
                                 <td align="center">{{ticket.lastname}}</td>
                                 <td align="center">{{ticket.firstname}}</td>
                                 <td align="center">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
-                                <td align="center">{{ticket.fareType}}</td>
+                                <td align="center">
+                                    {%if ticket.fareType == 'normal'%}
+                                        {{'detailsForm.fare.full'|trans}}
+                                    {%elseif ticket.fareType == 'reduct' %}
+                                        {{'detailsForm.fare.reduct'|trans}}
+                                    {%elseif ticket.fareType == 'child' %}
+                                        {{'detailsForm.fare.child'|trans}}
+                                    {%elseif ticket.fareType == 'senior' %}
+                                        {{'detailsForm.fare.senior'|trans}}
+                                    {%endif%}
+                                </td>
                                 <td align="center">
                                     {% if ticket.fareType == 'normal' %}
                                         {{booking.fullDay?16:8}} €
-                                    {% endif %}
-                                    {% if ticket.fareType == 'reduct' %}
+                                    {% elseif ticket.fareType == 'reduct' %}
                                         {{booking.fullDay?10:5}} €
-                                    {% endif %}
-                                    {% if ticket.fareType == 'child' %}
+                                    {% elseif ticket.fareType == 'child' %}
                                         {{booking.fullDay?8:4}} €
-                                    {% endif %}
-                                    {% if ticket.fareType == 'senior' %}
+                                    {% elseif ticket.fareType == 'senior' %}
                                         {{booking.fullDay?12:6}} €
                                     {% endif %}
                                 </td>
