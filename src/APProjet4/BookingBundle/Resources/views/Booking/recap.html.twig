@@ -42,7 +42,7 @@
                                             <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
                                             <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
                                             <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
-                                            <th class="text-right" style="color: white;">{{'recap.fare'|trans}}</th>
+                                            <th class="text-right" style="color: white;">{{'recap.fareType'|trans}}</th>
                                             <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
                                         </tr>
                                     </thead>
@@ -60,13 +60,13 @@
                                                 <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
                                                 <td class="text-right">
                                                     {%if ticket.fareType == 'normal'%}
-                                                    {{'formDetails.fare.full'|trans}}
+                                                    {{'detailsForm.fare.full'|trans}}
                                                     {%elseif ticket.fareType == 'reduct' %}
-                                                    {{'formDetails.fare.reduct'|trans}}
+                                                    {{'detailsForm.fare.reduct'|trans}}
                                                     {%elseif ticket.fareType == 'child' %}
-                                                    {{'formDetails.fare.child'|trans}}
+                                                    {{'detailsForm.fare.child'|trans}}
                                                     {%elseif ticket.fareType == 'senior' %}
-                                                    {{'formDetails.fare.senior'|trans}}
+                                                    {{'detailsForm.fare.senior'|trans}}
                                                     {%endif%}
                                                 </td>
                                                 <td class="text-right">
@@ -151,7 +151,7 @@
                                  {%for ticket in tickets if ticket.fareType == 'normal'%}
                                      title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
                                  {%endfor%}> 
-                                {{nbType.normal}} {{'ticket'|trans}}{{nbType.normal>0?'':'s'}} {{'formDetails.fare.full'|trans}}
+                                {{nbType.normal}} {{'ticket'|trans}}{{nbType.normal>0?'':'s'}} {{'detailsForm.fare.full'|trans}}
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-normal">
                                 {{booking.fullDay?nbType.normal*16:nbType.normal*8}} €
@@ -166,7 +166,7 @@
                                  {%for ticket in tickets if ticket.fareType == 'reduct'%}
                                      title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
                                  {%endfor%}> 
-                                {{nbType.reduct}} {{'ticket'|trans}}{{nbType.reduct>0?'':'s'}} {{'formDetails.fare.reduct'|trans}}</div>
+                                {{nbType.reduct}} {{'ticket'|trans}}{{nbType.reduct>0?'':'s'}} {{'detailsForm.fare.reduct'|trans}}</div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-reduct">
                                 {{booking.fullDay?nbType.reduct*10:nbType.reduct*5}} € 
                             </div>
@@ -180,7 +180,7 @@
                                  {%for ticket in tickets if ticket.fareType == 'child'%}
                                      title="{{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
                                  {%endfor%}>
-                                {{nbType.child}} {{'ticket'|trans}}{{nbType.child>0?'':'s'}} {{'formDetails.fare.child'|trans}}</div>
+                                {{nbType.child}} {{'ticket'|trans}}{{nbType.child>0?'':'s'}} {{'detailsForm.fare.child'|trans}}</div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-child">
                                 {{booking.fullDay?nbType.child*8:nbType.child*4}} €
                             </div>
@@ -194,7 +194,7 @@
                                  {%for ticket in tickets if ticket.fareType == 'senior'%}
                                      title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
                                  {%endfor%}>
-                                {{nbType.senior}} {{'ticket'|trans}}{{nbType.senior>0?'':'s'}} {{'formDetails.fare.senior'|trans}}</div>
+                                {{nbType.senior}} {{'ticket'|trans}}{{nbType.senior>0?'':'s'}} {{'detailsForm.fare.senior'|trans}}</div>
                             <div class="col-lg-4 col-md-4 col-xs-4 total1 total-senior">
                                 {{booking.fullDay?nbType.senior*12:nbType.senior*6}} €
                             </div>
@@ -260,12 +260,12 @@
                 </form>
             </div>
         </div><br>
-        <hr>
+        {#<hr>
         <div class ="row pull-left">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <a href="{{path('approjet4_booking_index')}}"><button class="btn draw-border">{{'button.backToHome'|trans}}</button></a>
             </div>
-        </div><br><br><br><br>
+        </div><br><br><br><br>#}
     </div>
 
 
@@ -301,17 +301,17 @@
           
     
             function displayPaymentButton() {
-                var email = $('#email').val();
-                var verifyEmail = $('#verifyEmail').val();
+                var email = (String($('#email').val()).toLowerCase());
+                var verifyEmail = (String($('#verifyEmail').val()).toLowerCase());
 
                 //Si on n'a pas d'email ou pas d'email de vérification : message d'erreur et retour
                 if (email === '' || verifyEmail === '') {
-                    toastr.warning('Veuillez renseigner tous les champs.', '', {positionClass: "toast-top-center"});
+                    displayWarningToast('{{'contactDetails.fields'|trans}}');
                     return;
                 }
                 //si les 2 mails saisis sont différents : message d'erreur et retour
                 if (email !== verifyEmail) {
-                    toastr.warning('Les adresses mail ne sont pas identiques !', '', {positionClass: "toast-top-center"});
+                    displayWarningToast('{{'recap.mail.identical'|trans}}');
                     return;
                 }
                 //Si tout est ok : on cache le bouton de confirmation ainsi que le formaulaire de saisie d'email
@@ -326,7 +326,7 @@
                 //On affiche le bouton de paiement
                 $('#payment-button').removeClass('hidden', 200);
                 //Message de confirmation
-                toastr.warning('Votre adresse e-mail a bien été enregistrée', '', {positionClass: "toast-top-center"});
+                displayWarningToast('{{'recap.mail.registered'|trans}}');
             };
             //Au click sur le bouton de confirmation on appelle la fonction displayPaymentButton
             $(document).ready(function () {

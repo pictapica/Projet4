@@ -7,7 +7,6 @@
         <title>{% block title %}{{'home.head.title'|trans}}{% endblock %}</title>
 
         {% block stylesheets %}
-            {# On charge le CSS de bootstrap depuis le site directement #}
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
             <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
@@ -18,10 +17,11 @@
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <script src="//code.jquery.com/jquery-1.12.4.js"></script>
             <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
+            <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
             <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}"></script>
             <script src="{{asset('datepicker/locales/bootstrap-datepicker.fr.min.js')}}" charset="UTF-8"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+            <script src="{{asset('js/script.js')}}"></script>
         {% endblock %}
     {% endblock %}
 
@@ -113,6 +113,7 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
             <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            
 
             <script>/////////Navbar/////////////
                 $(window).scroll(function () {
@@ -127,8 +128,7 @@
             <script>
                 $(".hover").mouseleave(function () {
                     $(this).removeClass("hover");
-                }
-                );
+                });
             </script>
             <script>////////Panier/////////////
                 var timeout;

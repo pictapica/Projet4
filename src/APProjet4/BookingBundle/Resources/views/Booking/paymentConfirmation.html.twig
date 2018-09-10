@@ -78,7 +78,7 @@
                             <th class="text-right">{{'recap.lastname'|trans}}</th>
                             <th class="text-right">{{'recap.firstname'|trans}}</th>
                             <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
-                            <th class="text-right">{{'recap.fare'|trans}}</th>
+                            <th class="text-right">{{'recap.fareType'|trans}}</th>
                             <th class="text-right">{{'recap.ticketFare'|trans}}</th>
                         </tr>
                     </thead>
@@ -94,19 +94,26 @@
                             <td class="text-right">{{ticket.lastname}}</td>
                             <td class="text-right">{{ticket.firstname}}</td>
                             <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
-                            <td class="text-right">{{ticket.fareType}}</td>
+                            <td class="text-right">
+                                {%if ticket.fareType == 'normal'%}
+                                    {{'detailsForm.fare.full'|trans}}
+                                {%elseif ticket.fareType == 'reduct' %}
+                                    {{'detailsForm.fare.reduct'|trans}}
+                                {%elseif ticket.fareType == 'child' %}
+                                    {{'detailsForm.fare.child'|trans}}
+                                {%elseif ticket.fareType == 'senior' %}
+                                    {{'detailsForm.fare.senior'|trans}}
+                                {%endif%}
+                            </td>
                             <td class="text-right">
                                 {% if ticket.fareType == 'normal' %}
                                     {{booking.fullDay?16:8}} €
-                                {% endif %}
-                                {% if ticket.fareType == 'reduct' %}
-                                {{booking.fullDay?10:5}} €
-                                {% endif %}
-                                {% if ticket.fareType == 'child' %}
-                                {{booking.fullDay?8:4}} €
-                                {% endif %}
-                                {% if ticket.fareType == 'senior' %}
-                                {{booking.fullDay?12:6}} €
+                                {% elseif ticket.fareType == 'reduct' %}
+                                    {{booking.fullDay?10:5}} €
+                                {% elseif ticket.fareType == 'child' %}
+                                    {{booking.fullDay?8:4}} €
+                                {% elseif ticket.fareType == 'senior' %}
+                                    {{booking.fullDay?12:6}} €
                                 {% endif %}
                             </td>
                         </tr>

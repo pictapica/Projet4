@@ -25,7 +25,7 @@
         <h3 id="ticketTitle">{{'ticketMaj'|trans}} n°1</h3>
         
         <div class="ticket-type col-lg-12">
-            <div class="row">{{'formDetails.choice'|trans}} : 
+            <div class="row">{{'detailsForm.choice'|trans}} : 
                     <br><br> 
                 <div class="row">
                     <div class="btn-group btn-group-toggle fareLabel" data-toggle="buttons">
@@ -36,9 +36,9 @@
                                    value="normal"
                                    name="ticketFare"
                                    id="normal"
-                                   />{{'formDetails.fare.full'|trans}}<br><br>
+                                   />{{'detailsForm.fare.full'|trans}}<br><br>
                             <span style="padding-left: 20px" id="normalFull" class="full"  value="16">16€</span>
-                            <span style="padding-left: 20px" id="normalHalf"  class="half"value="8">8€</span>
+                            <span style="padding-left: 20px" id="normalHalf"  class="half" value="8">8€</span>
                         </label>
                         <label for="reduct" class="btn btn-warning form-check-label col-xs-6 col-md-3">
                             <input class="form-check-input"  
@@ -46,7 +46,7 @@
                                    autocomplete="off"
                                    value="reduct"
                                    name="ticketFare"
-                                   id="reduct"/>{{'formDetails.fare.reduct'|trans}}<br><br>
+                                   id="reduct"/>{{'detailsForm.fare.reduct'|trans}}<br><br>
                             <span style="padding-left: 20px" id="reductFull" class="full"value="8">10€</span>
                             <span style="padding-left: 20px" id="reductHalf" class="half" value="4">5€</span>
                         </label>
@@ -56,7 +56,7 @@
                                    autocomplete="off"
                                    value="child"
                                    name="ticketFare"
-                                   id="child"/>{{'formDetails.fare.child'|trans}}<br><br>
+                                   id="child"/>{{'detailsForm.fare.child'|trans}}<br><br>
                             <span class="full" id="childFull" value="6">8€</span>
                             <span class="half"  id="childHalf" value="3">4€</span>
                         </label>
@@ -66,7 +66,7 @@
                                    autocomplete="off"
                                    value="senior"
                                    name="ticketFare"
-                                   id="senior"/>{{'formDetails.fare.senior'|trans}}<br><br>
+                                   id="senior"/>{{'detailsForm.fare.senior'|trans}}<br><br>
                             <span class="full" id="seniorFull" value="10">12€</span>
                             <span class="half" id="seniorHalf" value="5">6€</span>
                         </label>
@@ -79,45 +79,47 @@
             <label class="input js-input">
                 <input type="text" 
                        class="native js-native champ" 
-                       placeholder="{{'formDetails.contact.lastname'|trans}}" 
+                       placeholder="{{'detailsForm.contact.lastname'|trans}}" 
                        data-validation="length alphanumeric" 
                        data-validation-length="2-15"
                        value=""
                        id="lastname"
                        name="lastname"/>
-                <span class="label" data-label="{{'formDetails.contact.labelLastname'|trans}}" aria-role="label">{{'formDetails.contact.lastname'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">{{'formDetails.contact.lastname'|trans}}</span>
+                <span class="label" data-label="{{'detailsForm.contact.labelLastname'|trans}}" aria-role="label">{{'detailsForm.contact.lastname'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">{{'detailsForm.contact.lastname'|trans}}</span>
                 {# span id="helpLastname#}
             </label>
             <label class="input js-input">
                 <input type="text" 
                        class="native js-native champ" 
-                       placeholder="{{'formDetails.contact.firstname'|trans}}"
+                       placeholder="{{'detailsForm.contact.firstname'|trans}}"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
                        data-validation-error-msg="Merci de renseigner le prénom du visiteur"
                        value=""
                        id="firstname"
                        name="firstname"/>
-                <span class="label" data-label="{{'formDetails.contact.labelFirstname'|trans}}" aria-role="label">{{'formDetails.contact.firstname'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">{{'formDetails.contact.firstname'|trans}}</span>
+                <span class="label" data-label="{{'detailsForm.contact.labelFirstname'|trans}}" aria-role="label">{{'detailsForm.contact.firstname'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">{{'detailsForm.contact.firstname'|trans}}</span>
             </label>
             <label class="input js-input">
                 <input type="date" 
                        class="native champ" 
                        data-validation="length alphanumeric" 
                        data-validation-error-msg="Merci de renseigner la date de naissance du visiteur"
+                       min="1920-01-01"
+                       max="{{ "now"|date("Y-m-d") }}"
                        value=""
                        id="dateOfBirth"
                        name="dateOfBirth"/>
-                <span class="label" data-label="{{'formDetails.contact.dateOfBirth'|trans}}" aria-role="label">{{'formDetails.contact.dateOfBirth'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">{{'formDetails.contact.dateOfBirth'|trans}}</span>
+                <span class="label" data-label="{{'detailsForm.contact.dateOfBirth'|trans}}" aria-role="label">{{'detailsForm.contact.dateOfBirth'|trans}}</span>
+                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">{{'detailsForm.contact.dateOfBirth'|trans}}</span>
             </label>
             <label for="country" class="input js-input">	
-                <span class="label" data-label="{{'formDetails.contact.country'|trans}}" aria-role="label">{{'formDetails.contact.country'|trans}}</span>
-                <span class="message" aria-role="label">{{'formDetails.contact.country'|trans}}</span>
+                <span class="label" data-label="{{'detailsForm.contact.country'|trans}}" aria-role="label">{{'detailsForm.contact.country'|trans}}</span>
+                <span class="message" aria-role="label">{{'detailsForm.contact.country'|trans}}</span>
                 <select class="native js-native" name="country" id="country">
-                    <option class="form__option" value="">{{'formDetails.contact.country'|trans}}</option>
+                    <option class="form__option" value="">{{'detailsForm.contact.country'|trans}}</option>
                     <option class="form__option" value="AR">Argentina</option>
                     <option class="form__option" value="AU">Australia</option>
                     <option class="form__option" value="AT">Austria</option>
@@ -215,9 +217,9 @@
     </div>
 
     <div id="AddDeleteTicket">
-        <button href="javascript:;"  title="{{'formDetails.addTicket'|trans}}" class="addTicket"
+        <button href="javascript:;"  title="{{'detailsForm.addTicket'|trans}}" class="addTicket"
                 rel="ticket"style="color:#000; text-decoration: none;">
-            {{'formDetails.addTicket'|trans}}
+            {{'detailsForm.addTicket'|trans}}
         </button>
 
         <a href="javascript:;" title="Supprimer un ticket" style="font-size:20px" class="deleteTicket btn btn-danger btn-lg" rel="ticket">
@@ -231,7 +233,6 @@
 {% block javascript %}
     <script>/////////Ajout et suppression de ticket////////
 
-        //to do faire en sorte que le premier if soit pour chaque nouveau formulaire
         $(document).ready(function () {
             //On cache l'icone "Supprimer"
             $(".deleteTicket").hide();
@@ -239,10 +240,6 @@
             $('.addTicket').click(function (e) {
                 //To do : Il faut empêcher l'ajout d'un second ticket si le premier n'est pas rempli 
                 e.preventDefault();
-                {#if (!$(".form-check-input").val() || !$('#lastname').val() || !$('#firstname').val() || !$('#dateOfBirth').val() || !$('#country').val()) {
-                  toastr.warning('Merci de renseigner tous les champs.', '', {positionClass: "toast-top-center"});
-                  return;
-                }#}
                 
                 var form = $('#myForm');
                 var ticketList = form.find('.ticket');
@@ -261,12 +258,11 @@
                 clonedTicket.insertAfter(form.find('.ticket:last')).hide().fadeIn('slow');
                 //on ajoute le lien de suppression
                 $(".deleteTicket").fadeIn("fast");
-                
             });
             //On peut supprimer le dernier ticket
             $(".deleteTicket").click(function () {
                 $(".ticket:last").remove();
-                toastr.warning('Le dernier formulaire a bien été supprimé.', '', {positionClass: "toast-top-center"});
+                displayWarningToast('{{'detailsForm.deleteForm'|trans}}');
             });
             //S'il y a 1 seul article, on cache le bouton supprimer
             if ($(".ticket").length === 1) {
