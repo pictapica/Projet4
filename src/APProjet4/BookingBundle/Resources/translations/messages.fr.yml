@@ -15,6 +15,7 @@ ticketMaj: Billet
 opening1: Le musée est ouvert tout les jours, de 9h à 18h, sauf le mardi, les 1er mai, 1er novembre et 25 décembre. 
             
 opening2: Pour commander pour les dimanches et jours fériés, merci de vous rendre directement au guichet.
+opening3: Le musée est fermé le mardi. 
              
 halfDay: Le billet demi-journée vous permet d'entrer au musée à partir de 14h.
 
@@ -46,7 +47,7 @@ selectDate:
         warning1: Vous devez renseigner une date !
         warning2: Merci de renseigner une date et de choisir un type de visite.
         14h: Il est plus de 14h ! Vous ne pouvez donc plus commander de billets JOURNEE.
-        18h: Le musée est maintenant fermé. Merci de commander un billet pur un autre jour.
+        18h: Le musée est maintenant fermé. Merci de commander un billet pour un autre jour.
         
     info:
         free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
@@ -112,7 +113,7 @@ recap:
         
 confirmation:
     banner: 
-    title: CONFIRMATION
+        title: CONFIRMATION
     at: "à :"
     done: Votre réservation a bien été effectuée !
     thanks: Merci d'avoir commandé sur la billetterie du Louvre
