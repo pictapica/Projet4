@@ -76,27 +76,77 @@
             var visitDate = '{{ app.session.get('visitDate')}}';
             var dateFormat = "Y-M-D";
             
-
-            $(document).ready(function (e) {
-                //Si on clique sur le bouton "Finaliser votre commande"
-                if ($('#envoi').click(function () {
-                    //On vérifie chaque ticket
-                        $('#myForm .ticket').each(function(check){
-                            //Si un des champs est vide: message d'erreur
-                            if (!$(".form-check-input").val() || !$("#lastname").val() 
-                                    || !$("#firstname").val() || !$("#dateOfBirth").val() 
-                                    || !$("#country").val()){
-                                displayWarningToast('{{'contactDetails.fields'|trans}}');
-                            }
-                            if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
-                               preventDefault(); 
-                            }
-                        });
-                        
-                        submitForm(true);
-                }));
-            });
+            /**
+             * on vérifie la correspondance entre le tarif choisi et la date de naissance
+             * @param {string} fareType
+             * @param {string} dateOfBirth
+             * @returns {Boolean}             
+             */   
+             function checkAgeAndFare(fareType, dateOfBirth){
+                 switch (fareType) {
+                     case 'child': 
+                         return isChild(dateOfBirth);//Verifie age entre 4 et 12
+                     case 'normal':
+                         return isNormal(dateOfBirth);//Vérifie age entre 12 et <60
+                     case 'senior':
+                         return isSenior(dateOfBirth);// Vérifie age >59
+                     case 'reduct':
+                         return true;
+                 }
+             }
+             
+            /**
+            * Renvoie true si la date correspond à un enfant
+            * @param {string} dateOfBirth
+            * @returns {Boolean}             
+            */ 
+            function isChild(dateOfBirth) {
+                if (moment(visitDate, dateFormat).isBefore((moment(dateOfBirth).add(4, 'y')))){
+                    displayWarningToast('{{'contactDetails.childBefore'|trans}}');
+                    return false;
+                }
+                if (moment(visitDate,dateFormat).isAfter((moment(dateOfBirth).add(12, 'y')))){
+                    displayWarningToast('{{'contactDetails.childAfter'|trans}}');
+                    return false;
+                }
+                return true;
+            }
             
+            /**
+            * Renvoie true si la date correspond à un adulte entre 12 et 60 ans
+            * @param {string} dateOfBirth
+            * @returns {Boolean}             
+            */
+            function isNormal(dateOfBirth) {
+                if (moment(visitDate, dateFormat).isAfter(moment(dateOfBirth).add(60, 'y'))){
+                    displayWarningToast('{{'contactDetails.normalAfter'|trans}}');
+                    return false;
+                }
+                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(12, 'y'))){
+                    displayWarningToast('{{'contactDetails.normalBefore'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+            
+            /**
+            * Renvoie true si la date correspond à un adulte de plus de 60 ans
+            * @param {string} dateOfBirth
+            * @returns {Boolean}             
+            */
+            function isSenior(dateOfBirth){
+                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(60, 'y'))){
+                    displayWarningToast('{{'contactDetails.seniorBefore'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+            
+            /**
+             * 
+             * @param {type} details
+             * @returns {undefined}             
+             */
             function submitForm(details) {
             //on détermine des variables
                 var tickets = [];
@@ -122,57 +172,26 @@
                     }
                     });
                } 
-               
-             function checkAgeAndFare(fareType, dateOfBirth){
-             // on vérifie la correspondance entre le tarif choisi et la date de naissance
-                 switch (fareType) {
-                     case 'child': 
-                         return isChild(dateOfBirth);//Verifie age entre 4 et 12
-                     case 'normal':
-                         return isNormal(dateOfBirth);//Vérifie age entre 12 et <60
-                     case 'senior':
-                         return isSenior(dateOfBirth);// Vérifie age >59
-                 }
-             }
-             
-            /**
-            * Renvoie true si la date correspond à un enfant
-            * @param {string} dateOfBirth
-            * @returns {Boolean}             
-            */ 
-            function isChild(dateOfBirth) {
-                if (moment(visitDate, dateFormat).isBefore((moment(dateOfBirth).add(4, 'y')))){
-                    displayWarningToast('{{'contactDetails.childBefore'|trans}}');
-                    return false;
-                }
-                if (moment(visitDate,dateFormat).isAfter((moment(dateOfBirth).add(12, 'y')))){
-                    displayWarningToast('{{'contactDetails.childAfter'|trans}}');
-                    return false;
-                }
-                return true;
-            }
-            
-            function isNormal(dateOfBirth) {
-                if (moment(visitDate, dateFormat).isAfter(moment(dateOfBirth).add(60, 'y'))){
-                    displayWarningToast('{{'contactDetails.normalAfter'|trans}}');
-                    return false;
-                    
-                }
-                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(12, 'y'))){
-                    displayWarningToast('{{'contactDetails.normalBefore'|trans}}');
-                    return false;
-                }
-                return true;
 
-            }
-
-            function isSenior(dateOfBirth){
-                if (moment(visitDate, dateFormat).isBefore(moment(dateOfBirth).add(60, 'y'))){
-                    displayWarningToast('{{'contactDetails.seniorBefore'|trans}}');
-                    return false;
-                }
-                return true;
-            }
+            $(document).ready(function (e) {
+                //Si on clique sur le bouton "Finaliser votre commande"
+                if ($('#envoi').click(function () {
+                    //On vérifie chaque ticket
+                        $('#myForm .ticket').each(function(check){
+                            //Si un des champs est vide: message d'erreur
+                            if (!$(".form-check-input").val() || !$("#lastname").val() 
+                                    || !$("#firstname").val() || !$("#dateOfBirth").val() 
+                                    || !$("#country").val()){
+                                displayWarningToast('{{'contactDetails.fields'|trans}}');
+                            }
+                            if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
+                               preventDefault(); 
+                            }
+                        });
+                        
+                        submitForm(true);
+                }));
+            });
         </script>
     {% endblock %}
 {% endblock %}
