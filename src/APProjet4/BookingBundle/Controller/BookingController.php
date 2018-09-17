@@ -17,56 +17,74 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class BookingController extends Controller {
 
     const MAX_TICKETS_PER_DAY = 1000;
+    const HEURE_MAX = 12;// 14h heure de Paris
     
     ////////////////////////////////////////////////////////////////////////////
-    ///////////// Affichage de la page d'accueil////////////////////////////////
-
-    public function homeAction() {
-        
-        $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
-        
-        return new Response($content);
-    }
+    /////////////////////////////Mardi ou dimanche ? ///////////////////////////
     
-    ////////////////////////////////////////////////////////////////////////////
-    /////////// Affichage de la liste des évènements////////////////////////////
-
-    public function indexAction() {
-        $EventRepository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
-        $listEvents = $EventRepository->findAll();
+    public function isADisabledDay($visitDate){
         
-        $nbTickets = 0;
-        $tickets = 0;
-
-        return $this->render('APProjet4BookingBundle:Booking:index.html.twig', [
-                    'listEvents' => $listEvents,
-                    'nbTickets' => $nbTickets,
-                    'tickets' =>$tickets,
-        ]);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////  
-    //////////////// Affichage choix Date & type de billet//////////////////////
-
-    public function showSelectDateAction($id) {
-        $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
-        $event = $repository->findOneById($id);
-
-        if (null === $event) {
-            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
+        $visitDay = new \DateTime($visitDate);
+        $day = $visitDay->format('l');
+        if ($day == 'Mardi' || $day == 'Dimanche'|| 
+                $day == "Tuesday" || $day == "Sunday"){
+            return true;
         }
-        //TO DO///Récupération des dates complètes dans $disableDate
-
-        return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
-                    'event' => $event,
-        ]);
+        return false;
     }
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// Jour passé ? //////////////////////////////////
+    
+    public function isAPastDay($visitDate){
+        
+        $now = new \DateTime();
+        $d = new \DateTime($visitDate);
+        //Si le jour de visite choisi est antérieur à aujourd'hui
+        if ($d->format('Y-m-d') < $now->format('Y-m-d')){
+            return true;
+        }
+        return false;
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// Jour fériés? //////////////////////////////////
+    
+    public function isHolidaysDay($visitDate){
+        
+        $visitDay = new \DateTime($visitDate);
+        $year = $visitDay->format('Y');
+        
+        $easterDate  = easter_date($year);
+        $easterDay   = date('j', $easterDate);
+        $easterMonth = date('n', $easterDate);
+        $easterYear   = date('Y', $easterDate);
 
+        $holidays = array(
+            // Dates fixes
+            mktime(0, 0, 0, 1,  1,  $year),  // 1er janvier
+            mktime(0, 0, 0, 5,  1,  $year),  // Fête du travail
+            mktime(0, 0, 0, 5,  8,  $year),  // Victoire 45
+            mktime(0, 0, 0, 7,  14, $year),  // Fête nationale
+            mktime(0, 0, 0, 8,  15, $year),  // Assomption
+            mktime(0, 0, 0, 11, 1,  $year),  // Toussaint
+            mktime(0, 0, 0, 11, 11, $year),  // Armistice
+            mktime(0, 0, 0, 12, 25, $year),  // Noel
+
+            // Dates variables
+            mktime(0, 0, 0, $easterMonth, $easterDay + 1,  $easterYear),
+            mktime(0, 0, 0, $easterMonth, $easterDay + 39, $easterYear),
+            mktime(0, 0, 0, $easterMonth, $easterDay + 50, $easterYear),
+        );
+        
+        if (in_array($visitDate,$holidays)){
+            return true;
+        } 
+        return false;
+    }
     //////////////////////////////////////////////////////////////////////////// 
     //////////////////////////////Quota par jour////////////////////////////////
 
     private function checkMaxBookingAction(Request $request) {
-        //TO DO comment on récupère un tableau avec date availability = false qui va s'ajouter à datesDisabled
+        
         //On récupère les tickets par date de visite
         $d = new \DateTime($request->get('visitDate'));
         $tickets = $this->getDoctrine()->getRepository('APProjet4BookingBundle:Booking')
@@ -78,10 +96,44 @@ class BookingController extends Controller {
         }
         return true;
     }
+    
+    ////////////////////////////////////////////////////////////////////////////  
+    //////////////// Affichage choix Date & type de billet//////////////////////
+
+    public function showSelectDateAction($id) {
+        $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
+        $event = $repository->findOneById($id);
+
+        if (null === $event) {
+            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
+        }
+        //TO DO///Récupération des dates complètes dans $holidaysDay
+        
+//        if($holidaysDays{
+//            return $holidaysDays;
+//        }
+
+        return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
+                    'event' => $event,
+//                    'disabledDay' => $disabledDay,
+        ]);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////Vérification de l'heure///////////////////////////
+    public function isHourPast($visitDate) {
+        
+        $now = new \DateTime();
+        
+        //Si la date de visite est aujourd'hui et qu'il est plus de 14h 
+        if ($visitDate == $now && $now->format('H') >= self::HEURE_MAX) {
+          return true;  
+        }
+        return false;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////Sauvegarde de la date///////////////////////////
-
     public function saveDateAction(Request $request) {
 
         // Récupération de la session
@@ -95,11 +147,8 @@ class BookingController extends Controller {
             ];
             return new JsonResponse($response);
         }
-        //Vérification si date dispo
-        //Vérification de la validité des paramètres ? isItAPastDay(), isItADisabledDay()
-        //Vérification du billet journée pour la date actuelle (<14h) :  isHourPast() 
-       
-       
+        //Vérification si date dispo mardi, dimanche et jours fériés
+        
         //On récupère les variables
         $visitDate = $request->get('visitDate');
         $event_id = $request->get('event_id');
@@ -115,7 +164,28 @@ class BookingController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $event_id . " n'existe pas.");
         }
-
+        
+        //Si le jour est un mardi ou un dimanche
+        if ($this->isADisabledDay($visitDate)){
+            throw new NotFoundHttpException("Le musée est fermé tous les mardis. "
+        . "Pour acheter un billet pour le dimanche, merci de vous rendre aux guichets du musée");
+        }
+        
+        if ($this->isHolidaysDay($visitDate)){
+             throw new NotFoundHttpException("Le musée est fermé les 1er mai, 1er novembre et 25 décembre. "
+            . "Pour commander pour les autres jours fériés de l'année, "
+            . "merci de vous rendre aux guichets du musée");
+        }
+        
+        if ($this->isAPastDay($visitDate)){
+            throw new NotFoundHttpException("Acheter pour un jour passé? Quelle drôle d'idée !");
+        }
+        
+        //Si le client clique sur billet journée alors que la date de visite est aujourd'hui et qu'il est plus de 14h
+        if ($fullDay === "true" && $this->isHourPast($visitDate)) {
+            throw new NotFoundHttpException("Il est impossible d'acheter un billet pour la journée après 14h");
+        }
+           
         //On renseigne les valeurs 
         $booking->setFullDay($fullDay);
 
@@ -134,6 +204,7 @@ class BookingController extends Controller {
             ];
             return new JsonResponse($response);
         }
+        
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -166,7 +237,7 @@ class BookingController extends Controller {
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////////Vérification du tarif choisi/////////////////////
     
-    public function ckeckFareAction($dateOfBirth){
+    public function ckeckAgeAndFare($dateOfBirth){
         
         if ($dateOfBirth > (mktime(0, 0, 0, date("m"),   date("d"),   date("Y")-4))){
             return true;
@@ -191,6 +262,9 @@ class BookingController extends Controller {
         $visitDate = date_create($visit);
         $booking = $session->get('booking');
         $ticket = new Ticket();
+        $validator = $this->get('validator');
+        $listErrors = [];
+       
         
         $tickets = $request->get('tickets');
         foreach ($tickets as $ticket) {
@@ -202,19 +276,31 @@ class BookingController extends Controller {
                 $t->setCountry($ticket['country']);
                 $t->setBooking($booking);
                 $t->setVisitDate($visitDate);
+                $errors = $validator->validate($tickets);
+                if(count($errors)>0){
+                    $listErrors[] = $errors;
+                }
                 $booking->addTicket($t);
             }
+
+        // Si $listErrors n'est pas vide, on affiche les erreurs
+        if(count($listErrors) > 0) {
+          // $listErrors est un objet, sa méthode __toString permet de lister joliement les erreurs
+          return new Response((string) $listErrors);
+        } else {
+  
         //On compte le nombre total de billets
         $nbTickets = count($tickets);
-            
+        
         //On renseigne les valeurs 
         $booking->setNbTickets($nbTickets);
 
         //On enregistre les valeurs en session
         $session->set('booking', $booking);
+        $session->set('nbTickets', $nbTickets);
         
         //Si tarif choisi correspond à la date de naissance
-        if ('ckeckFareAction(true)') {
+        if ('ckeckAgeAndFare(true)') {
             // On renvoie une réponse success
             $response = [
                 'success' => true
@@ -222,6 +308,7 @@ class BookingController extends Controller {
             return new JsonResponse($response);
         }
     }
+   }
     
     ////////////////////////////////////////////////////////////////////////////
     //////////////Nombre de tickets par tarif////////////////   
@@ -339,12 +426,12 @@ class BookingController extends Controller {
     ///////////////////// Enregistrement Paiement //////////////////////////////
     
     public function validatePaymentAction(Request $request) {
-        
+        //TO do toto
         $session = $request->getSession();
-        $booking = $session->get('booking');
+        $toto = $session->get('booking');
         
         //Récupèration du code commande : orderCode
-        $orderCode = $booking->getOrderCode();
+        $orderCode = $toto->getOrderCode();
         
         //Récupèration de la clé stripe
         $stripeToken = $request->get('stripeToken');
@@ -353,37 +440,38 @@ class BookingController extends Controller {
         if ($stripeToken == null){
         $session->getFlashBag()->add('info', 'Oups, un problème est survenu lors de votre paiement !'); 
         return $this->redirectToRoute('approjet4_booking_recap');
-        } else {
-            //Si tout s'est bien passé,
-            //Récupération de la commande déjà créée
-            $BookingRepo = $this->getDoctrine()
-               ->getManager()
-               ->getRepository('APProjet4BookingBundle:Booking');
-            $booking = $BookingRepo->findOneByOrderCode(
-            $orderCode);
-            //Enregistrement du numéro de paiement
-            $booking->setStripeToken($stripeToken);
-            //Flush de la commande pour enregistrer stripeToken en bdd 
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            
-            //Envoi du mail de confirmation
-            $this->sendBookingEmail($request);
-            
-            //Effaçage de toutes les infos session sauf la locale
-            $session->remove('booking');
-            $session->remove('event_id');
-            $session->remove('nbTickets');
-            $session->remove('visitDate');
-
-            $session->getFlashBag()->add('info', 'Un mail vient de vous être envoyé !');
-
+        } 
+        //Si tout s'est bien passé,
+        //Récupération de la commande déjà créée
+        $BookingRepo = $this->getDoctrine()
+           ->getManager()
+           ->getRepository('APProjet4BookingBundle:Booking');
+        $booking = $BookingRepo->findOneByOrderCode($orderCode);
         
-            return $this->redirectToRoute('approjet4_booking_showPayment', ['orderCode' => $orderCode]);
-        }
+        if (null === $booking){
+             throw new NotFoundHttpException("La commande demandée n'existe pas.");
+        } 
+        
+        //Enregistrement du numéro de paiement
+        $booking->setStripeToken($stripeToken);
+        //Flush de la commande pour enregistrer stripeToken en bdd 
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        //Envoi du mail de confirmation
+        $this->sendBookingEmail($request);
+
+        //Effaçage de toutes les infos session sauf la locale
+        $session->remove('booking');
+        $session->remove('event_id');
+        $session->remove('nbTickets');
+        $session->remove('visitDate');
+
+        $session->getFlashBag()->add('info', 'Un mail vient de vous être envoyé !');
+
+        return $this->redirectToRoute('approjet4_booking_showPayment', ['orderCode' => $orderCode]);
+        
     }
-    
-    
     
     ////////////////////////////////////////////////////////////////////////////
     ///////////////// Affichage page de confirmation paiement //////////////////
@@ -394,19 +482,15 @@ class BookingController extends Controller {
         $BookingRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Booking');
         $booking = $BookingRepo->findOneByOrderCode($orderCode);
         
-        //Récupération de l'id de l'événement
-        $id = $booking->getEvent();
-        
-        //Récupération de lévénement
-        $EventRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
-        $event = $EventRepo->find($id);
-        
+        if (null === $booking){
+             throw new NotFoundHttpException("La commande demandée n'existe pas.");
+        } 
+
         //Récupération du nombre de tickets
         $nbPerType = $this->getNbPerType($booking->getTickets());
 
         return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig' , [
-                    'id' => $id,
-                    'event' => $event,
+                    'event' => $booking->getEvent(),
                     'visitDate' => $booking->getTickets()->first()->getVisitDate(),
                     'booking' => $booking,
                     'orderCode' => $orderCode,
@@ -420,18 +504,21 @@ class BookingController extends Controller {
  
      /////////////////////////////////////////////////////////////////////////
     /////////////////////////Email et Billet///////////////////////////////////   
-    //$id, $booking en arguments ??
-    // 
+
    public function sendBookingEmail(Request $request) {
        
         $session = $request->getSession();
-//
+
         //Récupération du numéro de commande en session 
         $orderCode = $session->get('booking')->getOrderCode();
         
         //Récupération des variables de commande en Bdd pour compléter le mail
         $BookingRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Booking');
         $booking = $BookingRepo->findOneByOrderCode($orderCode);
+        
+        if (null === $booking){
+             throw new NotFoundHttpException("La commande demandée n'existe pas.");
+        } 
         
         //Récupération de l'id de l'événement
         $id = $booking->getEvent();
@@ -443,6 +530,9 @@ class BookingController extends Controller {
         $EventRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $event = $EventRepo->find($id);
         
+        if (null === $event){
+             throw new NotFoundHttpException("L'événement demandé n'existe pas.");
+        } 
         //Envoie du mail avec SwiftMailer
         $message = \Swift_Message::newInstance()
                 ->setSubject('Votre visite au Louvre')
