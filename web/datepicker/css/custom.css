@@ -17,5 +17,13 @@
    margin-left: 50px;
 }
 
+.datepicker table tr td.active.active, 
+.datepicker table tr td.active.highlighted.active, 
+.datepicker table tr td.active.highlighted:active, 
+.datepicker table tr td.active:active {
+    background-color: #f39c12;
+    color: #000;
+}
+
 
 
