@@ -1155,7 +1155,8 @@ table tfoot tr {
     text-decoration: none;
     cursor: pointer;
 }
-
+/****************************
+*/
 .message-alert {
     background-color: #ec971f;
     margin-top: 0px;
