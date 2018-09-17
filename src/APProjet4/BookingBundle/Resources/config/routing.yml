@@ -1,11 +1,11 @@
 approjet4_booking_home:
     path:    /
-    defaults: { _controller: APProjet4BookingBundle:Booking:home}
+    defaults: { _controller: APProjet4BookingBundle:Home:home}
 
 ## Accueil
 approjet4_booking_index:
     path:     /events
-    defaults: { _controller: APProjet4BookingBundle:Booking:index}
+    defaults: { _controller: APProjet4BookingBundle:Home:index}
 
 ## Changement de locale
 approjet4_booking_setLocale:
