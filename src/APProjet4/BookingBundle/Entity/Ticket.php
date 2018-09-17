@@ -5,7 +5,6 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Ticket
  *
@@ -28,7 +27,7 @@ class Ticket {
      * @var \Date
      *
      * @ORM\Column(name="visitDate", type="date")
-     * 
+     * @Assert\Date()
      */
     private $visitDate;
 
@@ -38,6 +37,10 @@ class Ticket {
      * @ORM\Column(name="firstname", type="string", length=50)
      * @Assert\NotBlank()
      * @Assert\Length(min=2)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]+$/",
+     *     match=false,
+     *     message="Your first name cannot contain a number or other character")
      */
     private $firstname;
 
@@ -47,6 +50,10 @@ class Ticket {
      * @ORM\Column(name="lastname", type="string", length=50)
      * @Assert\NotBlank()
      * @Assert\Length(min=2)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]+$/",
+     *     match=false,
+     *     message="Your last name cannot contain a number or other character")
      */
     private $lastname;
 
@@ -54,7 +61,10 @@ class Ticket {
      * @var \Date
      *
      * @ORM\Column(name="dateOfBirth", type="date")
-     * 
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = "1920-01-01",
+     *      max = "now")
      */
     private $dateOfBirth;
 
@@ -63,20 +73,23 @@ class Ticket {
      *
      * @ORM\Column(name="country", type="string", length=50)
      * @Assert\NotBlank()
+     * @Assert\Country()
      */
     private $country;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fareType", type="string")
+     * @ORM\Column(name="fareType", type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=7)
      */
-    
     private $fareType;
     
     /**
      * @ORM\ManyToOne(targetEntity="Booking", inversedBy="tickets", cascade={"persist"})
      * @ORM\JoinColumn(name="booking_id", referencedColumnName="id")
+     * @Assert\Valid()
      */
     private $booking;
     

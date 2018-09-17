@@ -3,6 +3,7 @@
 namespace APProjet4\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Event
@@ -25,6 +26,7 @@ class Event {
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * 
      */
     private $title;
     
@@ -52,6 +54,7 @@ class Event {
      * @var date
      * 
      * @ORM\Column(name="startDate", type="date")
+     * @Assert\Date()
      */
     private $startDate;
 
@@ -59,17 +62,20 @@ class Event {
      * @var date
      * 
      * @ORM\Column(name="endDate", type="date")
+     * @Assert\Date()
      */
     private $endDate;
 
     /**
      * @ORM\OneToOne(targetEntity="APProjet4\BookingBundle\Entity\Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $image;
     
     /**
      * @ORM\OneToMany(targetEntity="APProjet4\BookingBundle\Entity\Booking", mappedBy="event", cascade={"persist","remove"})
+     * @Assert\Valid()
      */
     private $bookings;
 

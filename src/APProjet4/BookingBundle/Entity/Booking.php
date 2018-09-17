@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Booking
  *
@@ -34,16 +35,18 @@ class Booking {
     /**
      * @var string
      *
-     * @ORM\Column(name="orderCode", type="string", length=12, unique=true)
+     * @ORM\Column(name="orderCode", type="string", length=12, unique=true, nullable=true)
+     * @Assert\Length(max=10)
      */
     private $orderCode = null;
-
-    
 
     /**
      * @var string
      * @ORM\column(name="email", type="string")
      * @Assert\Email()
+     * @Assert\Regex(
+     *     pattern="/.+@.+\..+/",
+     *     message="Votre email n'est pas valide")
      */
     private $email;
 
@@ -57,22 +60,26 @@ class Booking {
     /**
      * @var int
      * @ORM\Column(name="nbTickets", type="integer")
+     * @Assert\Length(max=1)
      */
     private $nbTickets;
     
     /**
      * @var string
      * @ORM\Column(name="stripeToken", type="string")
+     * @Assert\Length(max=30)
      */
     private $stripeToken = null;
     /**
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="booking",cascade={"persist"})
+     * @Assert\Valid()
      */
     private $tickets;
     
     /**
      * @ORM\ManyToOne(targetEntity="APProjet4\BookingBundle\Entity\Event", inversedBy="bookings",cascade={"persist"} )
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
+     * @Assert\Valid()
      */
     private $event;
 
