@@ -6,119 +6,119 @@
         <title>Billetterie du Louvre</title>
         <style type="text/css">
             body {margin: 0; padding: 0; min-width: 100%!important; background-color: #003d50}
-            .content {width: 80%; max-width: 600px;}  
         </style>
     </head>
     <body yahoo bgcolor="#fff">
-        <div align="center" style=" margin-top: 7%; margin-left: 15%; margin-right: 15%; margin-bottom: 5%; background-color: #f2eff0">
-            <div align="left" style="background-color: #73021b; padding: 1%">
-                <td>
-                    <img src="{{absolute_url(asset('images/louvre_w.png'))}}" alt="logo_louvre"/>
-                </td>
-            </div>
-            <div>
-                <h1>{{'confirmation.done'|trans}}</h1>
-                <h3>   {{'confirmation.thanks'|trans}}</h3>
-            </div>
-            <hr>
-            <div style="font-size: 22px;">
-                <h4>{{'confirmation.recap'|trans}}</h4>
-            </div>
-            <div style="text-align: center">
-                <h2>{#{{event.title}} - {{'confirmation.visite'|trans}} #}
-                {% if app.request.locale == 'fr' %}
-                    {{event.title}} -
-                    {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
-                {% endif %}
-                {% if app.request.locale == 'en' %}
-                    {{event.titleEn}} - 
-                    {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
-                {% endif %} 
-                {{'confirmation.on'|trans}} 
-                {{visitDate|date('d/m/Y')}}</h2>
-            </div>
-            <div>
-                <p style="font-size: 15px;">({{'confirmation.keep'|trans}})</p><br>
-                <table align="center" cellpadding="4" cellspacing="5" border="1">
-                    <tr>
-                        <td>{{'confirmation.bookingNumber'|trans}}</td>
-                        <td>{{booking.orderCode}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'confirmation.paymentDate'|trans}}</td>
-                        <td>{{booking.orderDate|date('d/m/Y')}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{'confirmation.amount'|trans}}</td>
-                        <td>{{total}} €</td>
-                    </tr>
-                    <tr>
-                        <td>{{'confirmation.paymentNumber'|trans}}</td>
-                        <td>{{stripeToken}}</td>
-                </table>  
-                <br><br>
-                <table width="50%" align="center" border="1" cellpadding="2" cellspacing="0"> 
-                    <thead>
-                        <tr>
-                            <th class="text-right">{{'recap.lastname'|trans}}</th>
-                            <th class="text-right">{{'recap.firstname'|trans}}</th>
-                            <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
-                            <th class="text-right">{{'recap.fareType'|trans}}</th>
-                            <th class="text-right">{{'recap.ticketFare'|trans}}</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th class="text-right" colspan="4" id="totalBooking">{{'recap.totalBooking'|trans}}</th>
-                            <th class="text-right"> {{total}} €</th>
-                        </tr>
-                    </tfoot>
-                    {% for ticket in tickets %}
-                        <tbody>
-                            <tr>
-                                <td align="center">{{ticket.lastname}}</td>
-                                <td align="center">{{ticket.firstname}}</td>
-                                <td align="center">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
-                                <td align="center">
-                                    {%if ticket.fareType == 'normal'%}
-                                        {{'detailsForm.fare.full'|trans}}
-                                    {%elseif ticket.fareType == 'reduct' %}
-                                        {{'detailsForm.fare.reduct'|trans}}
-                                    {%elseif ticket.fareType == 'child' %}
-                                        {{'detailsForm.fare.child'|trans}}
-                                    {%elseif ticket.fareType == 'senior' %}
-                                        {{'detailsForm.fare.senior'|trans}}
-                                    {%endif%}
-                                </td>
-                                <td align="center">
-                                    {% if ticket.fareType == 'normal' %}
-                                        {{booking.fullDay?16:8}} €
-                                    {% elseif ticket.fareType == 'reduct' %}
-                                        {{booking.fullDay?10:5}} €
-                                    {% elseif ticket.fareType == 'child' %}
-                                        {{booking.fullDay?8:4}} €
-                                    {% elseif ticket.fareType == 'senior' %}
-                                        {{booking.fullDay?12:6}} €
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        </tbody>
-                    {% endfor %}
-                </table>
-                <br>
-                <div style="text-align: center;">
-                  <td>
-                      <p> Consulter votre commande en ligne 
-                          <a href="http://localhost/Projet4/web/app_dev.php/paymentConfirmed/{{booking.orderCode}}" alt="lien">ici</a>
-                  </td>
-                </div>  
-                <br><br>
-                <div style="background-color: #73021b; padding: 1%; text-align: center; color: #fff">
+            <div align="center" style="max-width: 680px; margin: 0 auto; background-color: #f2eff0" >
+                <div align="left" style="background-color: #73021b; padding: 1%">
                     <td>
-                        <p> Openclassrooms - Alexandra Picard <p>
+                        <img src="{{absolute_url(asset('images/louvre_w.png'))}}" alt="logo_louvre"/>
                     </td>
                 </div>
+                <div>
+                    <h1>{{'confirmation.done'|trans}}</h1>
+                    <h3>   {{'confirmation.thanks'|trans}}</h3>
+                </div>
+                <hr>
+                <div style="font-size: 22px;">
+                    <h4>{{'confirmation.recap'|trans}}</h4>
+                </div>
+                <div style="text-align: center">
+                    <h2>{#{{event.title}} - {{'confirmation.visite'|trans}} #}
+                    {% if app.request.locale == 'fr' %}
+                        {{event.title}} -
+                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                    {% endif %}
+                    {% if app.request.locale == 'en' %}
+                        {{event.titleEn}} - 
+                        {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                    {% endif %} 
+                    {{'confirmation.on'|trans}} 
+                    {{visitDate|date('d/m/Y')}}</h2>
+                </div>
+                <div>
+                    <p style="font-size: 15px;">({{'confirmation.keep'|trans}})</p><br>
+                    <table width="50%" align="center" cellpadding="4" cellspacing="5" border="1">
+                        <tr>
+                            <td>{{'confirmation.bookingNumber'|trans}}</td>
+                            <td>{{booking.orderCode}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'confirmation.paymentDate'|trans}}</td>
+                            <td>{{booking.orderDate|date('d/m/Y')}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{'confirmation.amount'|trans}}</td>
+                            <td>{{total}} €</td>
+                        </tr>
+                        <tr>
+                            <td>{{'confirmation.paymentNumber'|trans}}</td>
+                            <td>{{stripeToken}}</td>
+                    </table>  
+                    <br><br>
+                    <table width="50%" align="center" border="1" cellpadding="2" cellspacing="0"> 
+                        <thead>
+                            <tr>
+                                <th class="text-right">{{'recap.lastname'|trans}}</th>
+                                <th class="text-right">{{'recap.firstname'|trans}}</th>
+                                <th class="text-right">{{'recap.dateOfBirth'|trans}}</th>
+                                <th class="text-right">{{'recap.fareType'|trans}}</th>
+                                <th class="text-right">{{'recap.ticketFare'|trans}}</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th class="text-right" colspan="4" id="totalBooking">{{'recap.totalBooking'|trans}}</th>
+                                <th class="text-right"> {{total}} €</th>
+                            </tr>
+                        </tfoot>
+                        {% for ticket in tickets %}
+                            <tbody>
+                                <tr>
+                                    <td align="center">{{ticket.lastname}}</td>
+                                    <td align="center">{{ticket.firstname}}</td>
+                                    <td align="center">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                                    <td align="center">
+                                        {%if ticket.fareType == 'normal'%}
+                                            {{'detailsForm.fare.full'|trans}}
+                                        {%elseif ticket.fareType == 'reduct' %}
+                                            {{'detailsForm.fare.reduct'|trans}}
+                                        {%elseif ticket.fareType == 'child' %}
+                                            {{'detailsForm.fare.child'|trans}}
+                                        {%elseif ticket.fareType == 'senior' %}
+                                            {{'detailsForm.fare.senior'|trans}}
+                                        {%endif%}
+                                    </td>
+                                    <td align="center">
+                                        {% if ticket.fareType == 'normal' %}
+                                            {{booking.fullDay?16:8}} €
+                                        {% elseif ticket.fareType == 'reduct' %}
+                                            {{booking.fullDay?10:5}} €
+                                        {% elseif ticket.fareType == 'child' %}
+                                            {{booking.fullDay?8:4}} €
+                                        {% elseif ticket.fareType == 'senior' %}
+                                            {{booking.fullDay?12:6}} €
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <div style="text-align: center;">
+                      <td>
+                          <p> Consulter votre commande en ligne 
+                              <a href="http://localhost/Projet4/web/app_dev.php/paymentConfirmed/{{booking.orderCode}}" alt="lien">ici</a>
+                      </td>
+                    </div>  
+                    <br><br>
+                    <div style="background-color: #73021b; padding: 1%; text-align: center; color: #fff">
+                        <td>
+                            <p> Openclassrooms - Alexandra Picard <p>
+                        </td>
+                    </div>
+                </div>
             </div>
-        </div>
+                     
     </body>
 </html>
