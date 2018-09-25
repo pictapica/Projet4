@@ -5,6 +5,7 @@ namespace APProjet4\BookingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Ticket
  *
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Ticket {
 
+    const FARETYPE_CHILD = 1;
+    //TO DO A terminer
 
     /**
      * @var int
@@ -250,7 +253,7 @@ class Ticket {
     /**
      * Set fareType
      *
-     * @param integer $fareType
+     * @param string $fareType
      *
      * @return Ticket
      */
@@ -264,7 +267,7 @@ class Ticket {
     /**
      * Get fareType
      *
-     * @return integer
+     * @return string
      */
     public function getFareType()
     {
