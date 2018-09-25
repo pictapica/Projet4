@@ -16,51 +16,52 @@ approjet4_booking_setLocale:
 ## Page 1 - Date de visite et type de billet (Journée/Demi-journée)    
 approjet4_booking_selectDate:
     path:    /purchase/{id}
-    defaults: { _controller: APProjet4BookingBundle:Booking:showSelectDate , format: html}
+    defaults: { _controller: APProjet4BookingBundle:SelectDate:showSelectDate , format: html}
     requirements:
         id: \d+
     
 ## Vérification max 1000 tickets ( Ajax )
 approjet4_booking_max_booking_ajax:
     path : /max-booking
-    defaults: { _controller: APProjet4BookingBundle:Booking:max}
+    defaults: { _controller: APProjet4BookingBundle:SelectDate:max}
     methods: [GET]
 
 ## Submit ( Ajax )
 approjet4_booking_pick_a_date:
     path:    /save_date
-    defaults: {_controller: APProjet4BookingBundle:Booking:saveDate}
+    defaults: {_controller: APProjet4BookingBundle:SelectDate:saveDate}
     methods: [POST]
 
  ## Page 2 - Nombre de billets et renseignements  
 approjet4_booking_showContactDetails:
     path:    /details
-    defaults: { _controller: APProjet4BookingBundle:Booking:showContactDetails}
+    defaults: { _controller: APProjet4BookingBundle:ContactDetails:showContactDetails}
     
 approjet4_booking_postContactDetails:
     path:   /details/postAction
-    defaults: {_controller: APProjet4BookingBundle:Booking:postContactDetails}
+    defaults: {_controller: APProjet4BookingBundle:ContactDetails:postContactDetails}
     methods: [POST]
     
 ## Page3 - Récapitulatif et Adresse Email
 approjet4_booking_showRecap:
     path:   /recapitulative
-    defaults: {_controller: APProjet4BookingBundle:Booking:showRecap}
+    defaults: {_controller: APProjet4BookingBundle:RecapAndBooking:showRecap}
     methods: [POST, GET]
 
 approjet4_booking_postEmailAndBooking:
     path:   /recapitulative/postAction
-    defaults: {_controller: APProjet4BookingBundle:Booking:postEmailAndBooking}
-    methods: [POST, GET]
-
-approjet4_booking_payment:
-    path: /payment
-    defaults: {_controller: APProjet4BookingBundle:Booking:ValidatePayment}
+    defaults: {_controller: APProjet4BookingBundle:RecapAndBooking:postEmailAndBooking}
     methods: [POST, GET]
     
-##Ajouter/ {orderCode}
+## Page 4 - Payment 
+approjet4_booking_payment:
+    path: /payment
+    defaults: {_controller: APProjet4BookingBundle:Payment:ValidatePayment}
+    methods: [POST, GET]
+    
+## Page 5 - Payment confirmation
 approjet4_booking_showPayment:
     path: /paymentConfirmed/{orderCode}
-    defaults: {_controller: APProjet4BookingBundle:Booking:showPayment , format: html  }
+    defaults: {_controller: APProjet4BookingBundle:Payment:showPayment , format: html  }
     methods: [GET]
     

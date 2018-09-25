@@ -6,4 +6,5 @@ services:
        class: APProjet4\BookingBundle\EventSubscriber\LocaleSubscriber
        arguments: ["%kernel.default_locale%"]
        tags:
-            - {name: kernel.event_subscriber}
+            - { name: kernel.event_subscriber }
+  
