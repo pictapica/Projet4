@@ -46,6 +46,7 @@ selectDate:
         halfDay : Demi-journée
         warning1: Vous devez renseigner une date !
         warning2: Merci de renseigner une date et de choisir un type de visite.
+        warning3: Le maximum de billets vendus pour cette date a été atteint, veuillez choisir une autre date.
         14h: Il est plus de 14h ! Vous ne pouvez donc plus commander de billets JOURNEE.
         18h: Le musée est maintenant fermé. Merci de commander un billet pour un autre jour.
         

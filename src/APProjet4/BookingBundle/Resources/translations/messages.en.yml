@@ -46,6 +46,7 @@ selectDate:
         halfDay: Half-Day
         warning1: You must enter a date!
         warning2: Please enter a date and choose a type of visit.
+        warning3: The maximum number of tickets sold for this date has been reached, please choose another date.
         14h: It's after 2:00! You can therefore no longer order DAY tickets.
         18h: The museum is now closed. Please order a pure ticket another day.
     info:
