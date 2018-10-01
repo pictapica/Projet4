@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 //src/APProjet4/BookingBundle/Controller/SessionController.php
 
@@ -10,24 +10,27 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SessionController extends Controller {
 
-////////////////////////////////////////////////////////////////////////////////
-///////////////////Choix de la langue //////////////////////////////////////////
-    
-public function setLocaleAction(Request $request)
-{
-    $session = $request->getSession();
-    
-    //On récupère la locale
-    $locale = $request->get('locale');
-        
-    //On enregistre la locale en session
-    $session->set('_locale', $locale);
-            
-    //on redirige vers la page d'origine
-    $url = $request->headers->get('referer');
+    /**
+     * Choix de la langue
+     * 
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function setLocaleAction(Request $request) {
+        $session = $request->getSession();
+
+        //On récupère la locale
+        $locale = $request->get('locale');
+
+        //On enregistre la locale en session
+        $session->set('_locale', $locale);
+
+        //on redirige vers la page d'origine
+        $url = $request->headers->get('referer');
 //    if (empty($url)) {
 //        $url = $this->container->get('router')->generate('index');
 //    }
-     return new RedirectResponse($url);
-}
+        return new RedirectResponse($url);
+    }
+
 }

@@ -87,13 +87,14 @@
 
 {% block javascript %}
     <script>
-
+                
         var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
         var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
         var now = moment();
         var dateFormat = "Y-M-D";
         var time = moment().hour(14).minute(0).second(0);
         var closeTime = moment().hour(18).minute(0).second(0);
+        
         
         
         function submitData(fullDay) {
@@ -148,11 +149,11 @@
         };
         /**
          * Renvoie true si le jour de visite choisi  n'est pas un mardi ou un dimanche
-         * @param {type} visitDate
+         * @param {date} visitDate
          * @returns {Boolean}         
          */
         function checkDisableDays(visitDate){
-            var day = moment(visitDate).day();
+            var day = moment(visitDate, dateFormat).day();
             if (day === 0) {
                 displayWarningToast('{{'opening2'|trans}}');
                 return false;
@@ -162,12 +163,26 @@
             }
             return true;
         };
-
+        
+        /**
+        * Renvoie true si le jour de visite choisi n'est pas dans le tableau des jours indisponibles à la commande
+        * @param {date} visitDate
+         * @returns {Boolean}     
+         */
+        function checkArrayDatesDisabled(visitDate){
+            var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+            if (arrayDatesDisabled.includes(visitDate)){
+                displayWarningToast('{{'opening4'|trans}}');
+                return false;
+            }
+            return true;
+        }
+        
         $(document).ready(function () {
             $('#daySelect').click(function () {
                 var visitDate = $('#pick_a_date').val();
                //On vérifie la date et l'heure si visite aujourdhui et heure > 14h on ne peux plus commander de billets journée 
-                if(!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) ){
+                if(!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
                     return;
                 }
                 submitData(true);
@@ -176,79 +191,18 @@
             $('#halfDaySelect').click(function () {
                 //on vérifie la date et l'heure. Si visite aujourdhui et heure >18h, le musée est fermé
                  var visitDate = $('#pick_a_date').val();
-                if( !checkDisableDays(visitDate) || !checkClosingHour(visitDate)){
+                if( !checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
                     return;
                 }
                 submitData(false);
             });
         });
-
-        function getVisitYear(){
-            var startDate = ("{{event.startDateReservable}}", new Date());
-            var endDate ="{{event.endDateReservable}}";
-            var yearStartDate = moment(startDate).year();
-            var yearEndDate = moment(endDate).year();
-            
-            console.log(startDate);
-            console.log(endDate);
-            console.log(yearStartDate);
-            console.log(yearEndDate);
-            
-            var year = [yearStartDate,yearEndDate];
-            return year;
-        };
-    
-                //Ne peut pas être antérieur à l'année startDate
-                //Ne peut pas être postérieur à endDate
-                //startDate < visitYear < endDate 
-  
-        function formatDate (yyyy, month, day){
-            return yyyy + "-" + month + "-" + day;
-         };
-             
-        function getDisabledDates(year){
-             var startDate = ("{{event.startDateReservable}}", new Date());
-            var endDate ="{{event.endDateReservable}}";
-            var yearStartDate = moment(startDate).year();
-            var yearEndDate = moment(endDate).year();
-            
-            console.log(startDate);
-            console.log(endDate);
-            console.log(yearStartDate);
-            console.log(yearEndDate);
-            
-            
-        //Pour toutes les dates du array "year"
-      
-        var year = [yearStartDate,yearEndDate]; 
-    
-        year.forEach(function(element){
-            var nouvelAn = formatDate(year,"01","01");
-            var feteDuTravail = formatDate(year, "05","01");
-            var victoire = formatDate(year, "05","08");
-            var feteNationale = formatDate(year, "07","14");
-            var assomption = formatDate(year, "08", "15");
-            var toussaint = formatDate(year, "11", "1");
-            var armistice = formatDate(year, "11", "11");
-            var noel = formatDate(year, "12", "25");
-
-            var dates = [];
-            dates.push(
-                nouvelAn,
-                feteDuTravail,
-                victoire,
-                feteNationale,
-                assomption,
-                toussaint,
-                armistice,
-                noel
-            );
-
-            console.log(dates);
-            return dates;
-            });
-            };
+         
         
+        /**
+        * Affichage du datepicker selon la locale
+        * 
+         */
         {% if app.request.locale == 'fr' %} 
         $.fn.datepicker.dates['fr'] = {
             days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
@@ -273,20 +227,25 @@
             today: "Today"
         };
         {% endif %}
-            //// on doit récupérer les dates pour lesquelles 
-            //on a déjà dépassé 1000 tickets donc pour lesquelles availability = false
-            //ex: var datesDisabledthousand = [On a pls dates],
-            var maxBooking = {{ datesList}};
-            var datesDisabledthousand = $('#datesList').value;
+
+            
+         /**
+          * Infos datepicker 
+          * 
+          */   
+
+        var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+{#        var goodDate = {{goodDate|raw}};#}
+        
         $(".form_datetime").datepicker({
             input:"date",
             format: "yyyy/mm/dd",
             language: '{{app.request.locale}}',
             todayBtn: "linked",
             daysOfWeekDisabled: [0, 2],
-            datesDisabled: getDisabledDates(), maxBooking, 
+            datesDisabled: arrayDatesDisabled,
             startDate: ("{{event.startDateReservable}}", new Date()),
-            endDate: "{{event.endDateReservable}}"
+            endDate: ("{{event.endDateReservable}}")
         });
         </script>
 {% endblock %}

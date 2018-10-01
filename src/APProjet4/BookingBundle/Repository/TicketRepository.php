@@ -21,17 +21,6 @@ class TicketRepository extends EntityRepository {
         // On retourne les résultats
         return $nbtickets = $qb
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
-    
 }
-//select count(*) as "nbTickets" 
-//from tickets 
-//group by visitDate
-//having "nbTickets" >=1000
-
-//on compte le nombre d'id de tickets vendus pour la même date de visite
-////si pour une date, le nb de ticket est > à 1000 on retourne la date (un tableau)
-//select('COUNT(t.id)')

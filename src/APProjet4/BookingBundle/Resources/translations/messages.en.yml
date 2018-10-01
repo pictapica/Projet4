@@ -16,6 +16,7 @@ opening1: The museum is open every day, from 9am to 6pm, except Tuesday, May 1st
 
 opening2: To order for Sundays and public holidays, please go directly to the counter.
 opening3: The museum is closed on Tuesdays.
+opening4: La date demandée n'est pas disponible. Veuillez choisir une autre date. 
 
 halfDay: The half-day ticket allows you to enter the museum from 2pm.
 
@@ -131,3 +132,5 @@ confirmation:
 mail:
     title: Booking confirmation
     thanks: Thank you for your order at the Louvre ticket office! 
+    commandLink: Check your order online
+    link: here

@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.datepicker table tr td.disabled,.datepicker table tr td.disabled:hover{
+    background:0 0;
+    color:#000;
+    cursor:default}
 
 .datepicker .datepicker-switch:hover,
 .datepicker .prev:hover,
@@ -25,5 +29,12 @@
     color: #000;
 }
 
-
-
+.datepicker table tr td, .datepicker table tr th {
+    color: #fff;
+}
+.datepicker table tr td.old{
+    color: #000;
+}
+.datepicker .datepicker-switch,.datepicker .next, .datepicker .prev, .datepicker tfoot tr th {
+    color: #fff;
+}

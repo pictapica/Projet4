@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller {
 
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////// Affichage de la page d'accueil////////////////////////////////
+
+    //////////      Affichage de la page d'accueil      ////////////////////////
 
     public function homeAction() {
         
@@ -21,8 +21,8 @@ class HomeController extends Controller {
         return new Response($content);
     }
     
-    ////////////////////////////////////////////////////////////////////////////
-    /////////// Affichage de la liste des évènements////////////////////////////
+    
+    //////////     Affichage de la liste des évènements     ////////////////////
 
     public function indexAction() {
         $EventRepository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');

@@ -10,9 +10,27 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaymentController extends Controller {
 
+    private function getTotal($nbPerType, $isFullDay) {
+        return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
+    }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////////////// Enregistrement Paiement //////////////////////////////
+    //////////      Nombre de tickets par tarif     //////////////////////////// 
+
+    private function getNbPerType($tickets) {
+        $ret = [
+            'normal' => 0,
+            'reduct' => 0,
+            'child' => 0,
+            'senior' => 0,
+        ];
+
+        foreach ($tickets as $ticket) {
+            $ret[$ticket->getFaretype()] ++;
+        }
+        return $ret;
+    }
+    
+    /////////////       Enregistrement Paiement     ////////////////////////////
 
     public function validatePaymentAction(Request $request) {
         //TO do toto
@@ -61,8 +79,7 @@ class PaymentController extends Controller {
         return $this->redirectToRoute('approjet4_booking_showPayment', ['orderCode' => $orderCode]);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////////// Affichage page de confirmation paiement //////////////////
+    ///////////     Affichage page de confirmation paiement     ////////////////
 
     public function showPaymentAction($orderCode) {
 
@@ -90,10 +107,9 @@ class PaymentController extends Controller {
         ]);
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////Email et Billet///////////////////////////////////   
+    //////////////////      Email et Billet     ////////////////////////////////
 
-    public function sendBookingEmail(Request $request) {
+    private function sendBookingEmail(Request $request) {
 
         $session = $request->getSession();
 

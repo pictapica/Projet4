@@ -7,9 +7,9 @@ namespace APProjet4\BookingBundle\Controller;
 use APProjet4\BookingBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 class ContactDetailsController extends Controller {
 
@@ -18,10 +18,14 @@ class ContactDetailsController extends Controller {
     const MAXADULT = 59;
     const MINSENIOR = 60;
     const MAXSENIOR = 120;
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////Affichage de la page de saisie des informations visiteur/////////
 
+    /**
+     * Affichage de la page de saisie des informations visiteur
+     * 
+     * @param Request $request
+     * @return type
+     * @throws NotFoundHttpException
+     */
     public function showContactDetailsAction(Request $request) {
         // Récupération de la session
         $session = $request->getSession();
@@ -45,19 +49,24 @@ class ContactDetailsController extends Controller {
                     'event' => $event,
         ]);
     }
-    ////////////////////////////////////////////////////////////////////////////
-    /////////////////Enregistrement des informations visiteur///////////////////////
 
+
+    /**
+     * Enregistrement des informations visiteur
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * @throws NotFoundHttpException
+     */
     public function postContactDetailsAction(Request $request) {
         // Récupération de la session
         $session = $request->getSession();
-
+        
         $visit = $session->get('visitDate');
-
         $visitDate = date_create($visit);
         $booking = $session->get('booking');
         $ticket = new Ticket();
-        
+
         $tickets = $request->get('tickets');
         foreach ($tickets as $ticket) {
             $t = new Ticket();
@@ -68,11 +77,10 @@ class ContactDetailsController extends Controller {
             $t->setCountry($ticket['country']);
             $t->setBooking($booking);
             $t->setVisitDate($visitDate);
-                if (($this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType'])))){
-                  throw new NotFoundHttpException("Attention, votre date de naissance ne correspond pas au tarif choisi");  
-                }
+            if (($this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType'])))) {
+                throw new Exception("Attention, votre date de naissance ne correspond pas au tarif choisi");
+            }
             $booking->addTicket($t);
-                
         }
 
         //On compte le nombre total de billets
@@ -90,60 +98,70 @@ class ContactDetailsController extends Controller {
             'success' => true
         ];
         return new JsonResponse($response);
-        }
-        
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////Vérification du tarif choisi/////////////////////
-    private function getAge($visitDate, $dateOfBirth){
+    }
+
+
+    /**
+     * Vérification du tarif choisi 
+     * 
+     * @param type $visitDate
+     * @param type $dateOfBirth
+     * @return type
+     */
+    private function getAge($visitDate, $dateOfBirth) {
         $datediff = $visitDate->diff($dateOfBirth);
         $age = $datediff->format('%y');
         return $age;
     }
-    
-    private function IsChild($age){
-        if (($age >= self::MINCHILD) && ($age < self::MAXCHILD)){
-            return false;
-        }
-        return true;
+
+    /**
+     * 
+     * @param string $age
+     * @return booleen
+     */
+    private function IsChild($age) {
+        return (($age >= self::MINCHILD) && ($age < self::MAXCHILD));
     }
-    
-    private function IsNormal($age){
-        if (($age >= self::MAXCHILD) && ($age <= self::MAXADULT)){
-            return false;
-        }
-        return true;
+
+    private function IsNormal($age) {
+        return (($age >= self::MAXCHILD) && ($age <= self::MAXADULT));
     }
-    
-    private function isSenior($age){
-        if (($age >= self::MINSENIOR) && ($age <= self::MAXSENIOR)){
-            return false;
-        }
-        return true;
+
+    private function isSenior($age) {
+        return (($age >= self::MINSENIOR) && ($age <= self::MAXSENIOR));
     }
-        
+    /**
+     * 
+     * @param date $visitDate
+     * @param date $dateOfBirth
+     * @param string $fareType
+     * @return boolean
+     * @throws Exception
+     * @throws NotFoundHttpException
+     */
     private function checkAgeAndFare($visitDate, $dateOfBirth, $fareType) {
-        $age = $this->getAge($visitDate, $dateOfBirth);   
+        $age = $this->getAge($visitDate, $dateOfBirth);
         switch ($fareType) {
-            case 'child': 
-                if (($this->isChild($age))){
-                    throw new NotFoundHttpException("Le tarif enfant s'applique "
-                            . "entre 4 et 12 ans. Les enfants de moins de 4 ans n'ont pas besoin de billet d'entrée");//Verifie age entre 4 et 12
-                }return false;
-                
+            case 'child':
+                if (!$this->isChild($age)) {
+                    throw new Exception("Le tarif enfant s'applique entre 4 et 12 ans. Les enfants de moins de 4 ans n'ont pas besoin de billet d'entrée"); //Verifie age entre 4 et 12
+                }
+                break;
             case 'normal':
-                if(($this->isNormal($age))){
-                    throw new NotFoundHttpException("Le tarif normal s'applique entre 12 et 59 ans");//Vérifie age entre 12 et <60
-                }return false;
-                
+                if (!$this->isNormal($age)) {
+                    throw new Exception("Le tarif normal s'applique entre 12 et 59 ans"); //Vérifie age entre 12 et <60
+                }
+                break;
             case 'senior':
-                if(($this->isSenior($age))){
-                    throw new NotFoundHttpException("Le tarif sénior s'applique dès 60 ans");// Vérifie age >60
-                }return false;
-                
+                if (!$this->isSenior($age)) {
+                    throw new Exception("Le tarif sénior s'applique dès 60 ans"); // Vérifie age >60
+                }
+                break;
             case 'reduct':
-                return false;
+                return true;
             default:
-               throw new NotFoundHttpException("Il semble qu'il y ait eu un problème. Merci de vérifier les informations saisies.");
+                throw new Exception("Il semble qu'il y ait eu un problème. Merci de vérifier les informations saisies.");
         }
     }
+
 }

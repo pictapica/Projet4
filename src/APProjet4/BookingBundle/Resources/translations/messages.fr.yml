@@ -16,7 +16,8 @@ opening1: Le musée est ouvert tout les jours, de 9h à 18h, sauf le mardi, les 
             
 opening2: Pour commander pour les dimanches et jours fériés, merci de vous rendre directement au guichet.
 opening3: Le musée est fermé le mardi. 
-             
+opening4: La date demandée n'est pas disponible. Veuillez choisir une autre date. 
+
 halfDay: Le billet demi-journée vous permet d'entrer au musée à partir de 14h.
 
 navbar:
@@ -132,6 +133,5 @@ confirmation:
     on: du
  
 mail:
-    title: Confirmation de commande
-    thanks: Merci d'avoir effectué votre commande sur la billetterie du Louvre! 
-    
+    commandLink : Consulter votre commande en ligne 
+    link: ici

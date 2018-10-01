@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RecapAndBookingController extends Controller {
 
-
-    ////////////////////////////////////////////////////////////////////////////
-    //////////////Nombre de tickets par tarif///////////////////////////////////  
-
+    /**
+     * Nombre de tickets par tarif
+     * 
+     * @param type $tickets
+     * @return int
+     */
     private function getNbPerType($tickets) {
         $ret = [
             'normal' => 0,
@@ -30,13 +32,24 @@ class RecapAndBookingController extends Controller {
         return $ret;
     }
 
+    /**
+     * Montant total
+     * 
+     * @param type $nbPerType
+     * @param type $isFullDay
+     * @return type
+     */
     private function getTotal($nbPerType, $isFullDay) {
         return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    //////////////Affichage page récapitulative et saisie de l'adresse mail////////////////
-
+    /**
+     * Affichage page récapitulative et saisie de l'adresse mail 
+     * 
+     * @param Request $request
+     * @return type
+     * @throws NotFoundHttpException
+     */
     public function showRecapAction(Request $request) {
         $session = $request->getSession();
 
@@ -65,9 +78,13 @@ class RecapAndBookingController extends Controller {
         ]);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /////////////Enregistrement email et enregistrement booking et tickets en base de données/////////////////
-
+    /**
+     * Enregistrement email, booking et tickets en base de données
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * @throws NotFoundHttpException
+     */
     public function postEmailAndBookingAction(Request $request) {
 
         //Récupération de la session
@@ -92,7 +109,7 @@ class RecapAndBookingController extends Controller {
         $booking->setEmail($email);
         $booking->setOrderCode(bin2hex($bytes));
         $user->setEmail($email);
-
+        
         if (null === $booking) {
             throw new NotFoundHttpException("La commande demandée n'existe pas.");
         }
@@ -119,4 +136,5 @@ class RecapAndBookingController extends Controller {
         ];
         return new JsonResponse($response);
     }
+
 }
