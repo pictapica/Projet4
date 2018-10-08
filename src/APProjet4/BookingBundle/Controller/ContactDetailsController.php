@@ -7,7 +7,7 @@ namespace APProjet4\BookingBundle\Controller;
 use APProjet4\BookingBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\Exception;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -50,25 +50,24 @@ class ContactDetailsController extends Controller {
         ]);
     }
 
-
     /**
      * Enregistrement des informations visiteur
      * 
      * @param Request $request
      * @return JsonResponse
-     * @throws NotFoundHttpException
      */
     public function postContactDetailsAction(Request $request) {
         // Récupération de la session
         $session = $request->getSession();
-        
+
         $visit = $session->get('visitDate');
         $visitDate = date_create($visit);
         $booking = $session->get('booking');
         $ticket = new Ticket();
+        $errors = [];
 
         $tickets = $request->get('tickets');
-        foreach ($tickets as $ticket) {
+        foreach ($tickets as $index => $ticket) {
             $t = new Ticket();
             $t->setFareType($ticket['fareType']);
             $t->setFirstname($ticket['firstname']);
@@ -77,10 +76,20 @@ class ContactDetailsController extends Controller {
             $t->setCountry($ticket['country']);
             $t->setBooking($booking);
             $t->setVisitDate($visitDate);
-            if (($this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType'])))) {
-                throw new Exception("Attention, votre date de naissance ne correspond pas au tarif choisi");
+            try {
+                $this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType']));
+            } catch (Exception $ex) {
+                $errors[$index] = $ex->getMessage();
             }
             $booking->addTicket($t);
+        }
+
+        if (count($errors) > 0) {
+            $response = [
+                'success' => false,
+                'errors' => $errors
+            ];
+            return new JsonResponse($response);
         }
 
         //On compte le nombre total de billets
@@ -100,9 +109,8 @@ class ContactDetailsController extends Controller {
         return new JsonResponse($response);
     }
 
-
     /**
-     * Vérification du tarif choisi 
+     * Retourne l'age en fonction de la date de naissance
      * 
      * @param type $visitDate
      * @param type $dateOfBirth
@@ -115,29 +123,39 @@ class ContactDetailsController extends Controller {
     }
 
     /**
-     * 
+     * Retourne true si dans le bon interval
      * @param string $age
-     * @return booleen
+     * @return boolean
      */
     private function IsChild($age) {
         return (($age >= self::MINCHILD) && ($age < self::MAXCHILD));
     }
 
+    /**
+     * Retourne true si dans le bon interval
+     * @param string $age
+     * @return boolean
+     */
     private function IsNormal($age) {
         return (($age >= self::MAXCHILD) && ($age <= self::MAXADULT));
     }
 
+    /**
+     * Retourne true si dans le bon interval
+     * @param string $age
+     * @return boolean
+     */
     private function isSenior($age) {
         return (($age >= self::MINSENIOR) && ($age <= self::MAXSENIOR));
     }
+
     /**
-     * 
+     * Retourne true si le tarif choisi correspond à la date de naissance sinon Exception
      * @param date $visitDate
      * @param date $dateOfBirth
      * @param string $fareType
      * @return boolean
      * @throws Exception
-     * @throws NotFoundHttpException
      */
     private function checkAgeAndFare($visitDate, $dateOfBirth, $fareType) {
         $age = $this->getAge($visitDate, $dateOfBirth);
@@ -163,5 +181,4 @@ class ContactDetailsController extends Controller {
                 throw new Exception("Il semble qu'il y ait eu un problème. Merci de vérifier les informations saisies.");
         }
     }
-
 }
