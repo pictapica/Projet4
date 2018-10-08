@@ -9,13 +9,24 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaymentController extends Controller {
-
+    
+    /**
+     * Retourne le montant total en euro
+     * 
+     * @param type $nbPerType
+     * @param type $isFullDay
+     * @return int
+     */
     private function getTotal($nbPerType, $isFullDay) {
         return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
     }
 
-    //////////      Nombre de tickets par tarif     //////////////////////////// 
-
+    /**
+     * Retourne le ombre de tickets par tarif  
+     * 
+     * @param type $tickets
+     * @return int
+     */
     private function getNbPerType($tickets) {
         $ret = [
             'normal' => 0,
@@ -30,8 +41,13 @@ class PaymentController extends Controller {
         return $ret;
     }
     
-    /////////////       Enregistrement Paiement     ////////////////////////////
-
+    /**
+     * Enregistrement Paiement
+     * 
+     * @param Request $request
+     * @return type
+     * @throws NotFoundHttpException
+     */
     public function validatePaymentAction(Request $request) {
         //TO do toto
         $session = $request->getSession();
@@ -79,8 +95,14 @@ class PaymentController extends Controller {
         return $this->redirectToRoute('approjet4_booking_showPayment', ['orderCode' => $orderCode]);
     }
 
-    ///////////     Affichage page de confirmation paiement     ////////////////
 
+    /**
+     * Affichage page de confirmation paiement
+     * 
+     * @param type $orderCode
+     * @return type
+     * @throws NotFoundHttpException
+     */
     public function showPaymentAction($orderCode) {
 
         //Récupération des variables de commande en Bdd pour afficher la page de confirmation
@@ -107,8 +129,14 @@ class PaymentController extends Controller {
         ]);
     }
 
-    //////////////////      Email et Billet     ////////////////////////////////
 
+    /**
+     * Envoie d'un e-mail
+     * @param Request $request
+     * @return type
+     * @throws NotFoundHttpException
+     * 
+     */
     private function sendBookingEmail(Request $request) {
 
         $session = $request->getSession();

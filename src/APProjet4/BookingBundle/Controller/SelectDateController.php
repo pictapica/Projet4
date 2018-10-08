@@ -7,7 +7,7 @@ namespace APProjet4\BookingBundle\Controller;
 use APProjet4\BookingBundle\Entity\Booking;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\Exception;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -166,25 +166,6 @@ class SelectDateController extends Controller {
         return $arrayDatesDisabled;
     }
 
-//    private function eliminateOutOfRangeDates($id) {
-//        $arrayDatesDisabled = $this->mergeDatesDisabled($id);
-//        $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
-//        $event = $repository->findOneById($id);
-//
-//        if (null === $event) {
-//            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
-//        }
-//        $startDate = $event->getStartDate();
-//        $endDate = $event->getEndDate();
-//        $period = [$startDate, $endDate];
-//        foreach ($period as $date){
-//            $range = [$date];
-//        }
-//        
-//        $goodDate = array_intersect($range, $arrayDatesDisabled);
-//        return $goodDate;
-//    }
-
     /**
      * Affichage choix Date & type de billet
      * @param type $id
@@ -201,12 +182,10 @@ class SelectDateController extends Controller {
         }
         //Tableau des dates à griser dans le datepicker
         $arrayDatesDisabled = $this->mergeDatesDisabled($id);
-//        $goodDate = $this->eliminateOutOfRangeDates($id);
         
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
                     'event' => $event,
                     'arrayDatesDisabled' => json_encode($arrayDatesDisabled),
-//                    'goodDate' => json_encode($goodDate),
         ]);
     }
 

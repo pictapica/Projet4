@@ -33,11 +33,11 @@ class RecapAndBookingController extends Controller {
     }
 
     /**
-     * Montant total
+     * Retourne le montant total en euro
      * 
      * @param type $nbPerType
      * @param type $isFullDay
-     * @return type
+     * @return int
      */
     private function getTotal($nbPerType, $isFullDay) {
         return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
@@ -64,6 +64,9 @@ class RecapAndBookingController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
+//        // On récupère le service
+//        $total = $this->container->get('total.amount.system');
+//        $nbPerType = $this->container->get('nb.per.type.system');
 
         $nbPerType = $this->getNbPerType($booking->getTickets());
 
@@ -109,7 +112,7 @@ class RecapAndBookingController extends Controller {
         $booking->setEmail($email);
         $booking->setOrderCode(bin2hex($bytes));
         $user->setEmail($email);
-        
+
         if (null === $booking) {
             throw new NotFoundHttpException("La commande demandée n'existe pas.");
         }
