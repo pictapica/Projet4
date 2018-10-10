@@ -13,37 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class RecapAndBookingController extends Controller {
 
     /**
-     * Nombre de tickets par tarif
-     * 
-     * @param type $tickets
-     * @return int
-     */
-    private function getNbPerType($tickets) {
-        $ret = [
-            'normal' => 0,
-            'reduct' => 0,
-            'child' => 0,
-            'senior' => 0,
-        ];
-
-        foreach ($tickets as $ticket) {
-            $ret[$ticket->getFaretype()] ++;
-        }
-        return $ret;
-    }
-
-    /**
-     * Retourne le montant total en euro
-     * 
-     * @param type $nbPerType
-     * @param type $isFullDay
-     * @return int
-     */
-    private function getTotal($nbPerType, $isFullDay) {
-        return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
-    }
-
-    /**
      * Affichage page récapitulative et saisie de l'adresse mail 
      * 
      * @param Request $request
@@ -64,11 +33,9 @@ class RecapAndBookingController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-//        // On récupère le service
-//        $total = $this->container->get('total.amount.system');
-//        $nbPerType = $this->container->get('nb.per.type.system');
 
-        $nbPerType = $this->getNbPerType($booking->getTickets());
+        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
 
         return $this->render('APProjet4BookingBundle:Booking:recap.html.twig', [
                     'id' => $id,
@@ -77,7 +44,7 @@ class RecapAndBookingController extends Controller {
                     'booking' => $booking,
                     'nbType' => $nbPerType,
                     'tickets' => $booking->getTickets(),
-                    'total' => $this->getTotal($nbPerType, $booking->getFullDay()),
+                    'total' => $total
         ]);
     }
 

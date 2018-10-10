@@ -9,38 +9,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaymentController extends Controller {
-    
-    /**
-     * Retourne le montant total en euro
-     * 
-     * @param type $nbPerType
-     * @param type $isFullDay
-     * @return int
-     */
-    private function getTotal($nbPerType, $isFullDay) {
-        return $nbPerType['normal'] * ($isFullDay ? 16 : 8) + $nbPerType['reduct'] * ($isFullDay ? 10 : 5) + $nbPerType['child'] * ($isFullDay ? 8 : 4) + $nbPerType['senior'] * ($isFullDay ? 12 : 6);
-    }
 
-    /**
-     * Retourne le ombre de tickets par tarif  
-     * 
-     * @param type $tickets
-     * @return int
-     */
-    private function getNbPerType($tickets) {
-        $ret = [
-            'normal' => 0,
-            'reduct' => 0,
-            'child' => 0,
-            'senior' => 0,
-        ];
-
-        foreach ($tickets as $ticket) {
-            $ret[$ticket->getFaretype()] ++;
-        }
-        return $ret;
-    }
-    
     /**
      * Enregistrement Paiement
      * 
@@ -95,7 +64,6 @@ class PaymentController extends Controller {
         return $this->redirectToRoute('approjet4_booking_showPayment', ['orderCode' => $orderCode]);
     }
 
-
     /**
      * Affichage page de confirmation paiement
      * 
@@ -114,7 +82,10 @@ class PaymentController extends Controller {
         }
 
         //Récupération du nombre de tickets
-        $nbPerType = $this->getNbPerType($booking->getTickets());
+        //   $nbPerType = $this->getNbPerType($booking->getTickets());
+
+        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
 
         return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig', [
                     'event' => $booking->getEvent(),
@@ -125,10 +96,9 @@ class PaymentController extends Controller {
                     'email' => $booking->getEmail(),
                     'nbType' => $nbPerType,
                     'tickets' => $booking->getTickets(),
-                    'total' => $this->getTotal($nbPerType, $booking->getFullDay())
+                    'total' => $total
         ]);
     }
-
 
     /**
      * Envoie d'un e-mail
@@ -165,6 +135,10 @@ class PaymentController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'événement demandé n'existe pas.");
         }
+
+        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
+
         //Envoie du mail avec SwiftMailer
         $message = \Swift_Message::newInstance()
                 ->setSubject('Votre visite au Louvre')
@@ -178,7 +152,7 @@ class PaymentController extends Controller {
                     'event' => $event,
                     'bookingEmail' => $booking->getEmail(),
                     'stripeToken' => $booking->getStripeToken(),
-                    'total' => $this->getTotal($this->getNbPerType($booking->getTickets()), $booking->getFullDay()),
+                    'total' => $total,
                     'bookingOrderCode' => $orderCode,
                     'tickets' => $booking->getTickets()->getValues(),
                         ]
