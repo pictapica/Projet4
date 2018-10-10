@@ -79,7 +79,7 @@ class ContactDetailsController extends Controller {
             try {
                 $this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType']));
             } catch (Exception $ex) {
-                $errors[$index] = $ex->getMessage();
+                $errors[] = [$index,$ex->getMessage()];
             }
             $booking->addTicket($t);
         }

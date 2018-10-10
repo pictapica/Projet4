@@ -1159,3 +1159,10 @@ table tfoot tr {
     width: 80%;
     
 }
+
+.errorMessage {
+   background-color: red;
+   width: auto;
+   max-width: 500px;
+   padding: 5px;
+}

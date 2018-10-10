@@ -6,7 +6,7 @@
     <section class="banner">
         <div class="container">
             <div class="row">
-                <div class="cold-lg-12">
+                <div class="col-lg-12">
                     <h1>{{'banner.title'|trans}}</h1>
                 </div>
             </div>
@@ -168,14 +168,22 @@
                     if (response.success){
                         document.location = url_recap;
                     } else {
+                        //Afficher les erreurs sur les tickets non validés par le controleur
+                        if (response.errors) {
+                            response.errors.forEach(function(value){
+                                var index = value[0];
+                                var message = value[1];
+                                $('#myForm .ticket').eq(index).find('.errorMessage').text(message).show();
+                            });
+                        }
                         displayWarningToast('{{'contactDetails.fields'|trans}}');
                     }
                     });
                } 
 
-            $(document).ready(function (e) {
+            $(document).ready(function () {
                 //Si on clique sur le bouton "Finaliser votre commande"
-                if ($('#envoi').click(function () {
+                if ($('#envoi').click (function () {
                     //On vérifie chaque ticket
                         $('#myForm .ticket').each(function(check){
                             //Si un des champs est vide: message d'erreur
@@ -184,8 +192,9 @@
                                     || !$("#country").val()){
                                 displayWarningToast('{{'contactDetails.fields'|trans}}');
                             }
+                            //Si l'age ne correspond pas au tarif choisi : message d'erreur
                             if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
-                               preventDefault(); 
+                               preventDefault();
                             }
                         });
                         

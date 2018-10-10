@@ -1,10 +1,10 @@
 {# src/OC/PlatformBundle/Resources/views/Advert/form1.html.twig #}
 
 <form id="myForm">
-    <div class="pull-right"
+    <div class="pull-right">
     <span>
-        <a href="#" data-toggle="popover" data-placement="auto right"
-                           type="button" data-container="body"data-html="true" id="fareInfo"
+        <a href="#" data-toggle="popover" data-placement="auto right" type="button" 
+           data-container="body"data-html="true" id="fareInfo"
            data-placement="left">
             <i alt="info_icon" class="material-icons info">&#xe88f;</i>
         </a>
@@ -21,7 +21,7 @@
     </span>
     </div>
     <div class="ticket" name="billet">
-        
+        <div class="errorMessage" hidden></span></div>
         <h3 id="ticketTitle">{{'ticketMaj'|trans}} n°1</h3>
         
         <div class="ticket-type col-lg-12">
