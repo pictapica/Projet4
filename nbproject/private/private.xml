@@ -3,27 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/RecapAndBookingController.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Resources/views/Booking/contactDetails.html.twig</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/ContactDetailsController.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Services/TotalAmountSystem.php</file>
+            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/ContactDetailsController.php</file>
             <file>file:/C:/wamp64/www/Projet4/tests/APProjet4/BookingBundle/Controller/SelectDateControllerTest.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/HomeController.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Repository/ImageRepository.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Repository/TicketRepository.php</file>
-            <file>file:/C:/wamp64/www/Projet4/web/test.html</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Entity/Image.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Repository/BookingRepository.php</file>
+            <file>file:/C:/wamp64/www/Projet4/phpunit.xml.dist</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Repository/EventRepository.php</file>
             <file>file:/C:/wamp64/www/Projet4/tests/APProjet4/BookingBundle/Controller/ContactDetailsControllerTest.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Resources/views/Booking/detailsForm.html.twig</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Entity/Event.php</file>
             <file>file:/C:/wamp64/www/Projet4/tests/APProjet4/BookingBundle/Controller/HomeControllerTest.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/SelectDateController.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Entity/Booking.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Services/NbPerTypeSystem.php</file>
             <file>file:/C:/wamp64/www/Projet4/tests/APProjet4/BookingBundle/Entity/TicketTest.php</file>
-            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Entity/Ticket.php</file>
-            <file>file:/C:/wamp64/www/Projet4/web/resultTest.html</file>
+            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Services/NbPerTypeSystem.php</file>
+            <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Entity/Booking.php</file>
             <file>file:/C:/wamp64/www/Projet4/src/APProjet4/BookingBundle/Controller/PaymentController.php</file>
         </group>
     </open-files>
