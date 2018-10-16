@@ -12,6 +12,11 @@
             <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
             <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
             <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
+            <link rel="shortcut icon" href="../../../../favicon.ico" type="image/x-icon">
+            <link rel="icon" href="../../../../favicon.png" type="image/png">
+            <link rel="icon" sizes="32x32" href="../../../../favicon-32.png" type="image/png">
+            <link rel="icon" sizes="64x64" href="../../../../favicon-64.png" type="image/png">
+            <link rel="icon" sizes="96x96" href="../../../../favicon-96.png" type="image/png">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
             <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" />
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -29,56 +34,42 @@
             <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
                 <div class="container">
                     {% block navbar_header %}
-                    <div class="navbar-header">
-                        <button type="button"
-                                class="navbar-toggle"
-                                data-toggle="collapse" 
-                                data-target="#navMain">
-                            <span class="glyphicon glyphicon-menu-hamburger" 
-                                style="color:white;">
-                            </span>
-                        </button>
-                        <a class="navbar-brand" href="http://localhost/Projet4/web/app_dev.php">
-                            <img src="{{asset('images/louvre_w.png')}}" alt="logo">
-                        </a>
-                        <div class="col-lg-offset-1 col-lg-7">
-                        {# On affiche tous les messages flash dont le nom est « info » #}
-                        {% for message in app.session.flashbag.get('info') %}
-                            <p  class="alert message-alert">{{ message }}</p>
-                        {% endfor %}
+                        <div class="navbar-header">
+                            <button type="button"
+                                    class="navbar-toggle"
+                                    data-toggle="collapse" 
+                                    data-target="#navMain">
+                                <span class="glyphicon glyphicon-menu-hamburger" 
+                                      style="color:white;">
+                                </span>
+                            </button>
+                            <a class="navbar-brand" href="http://projet4.pictapica.fr/web/">
+                                <img src="{{asset('images/louvre_w.png')}}" alt="logo">
+                            </a>
+                            <div class="col-lg-offset-1 col-lg-7">
+                                {# On affiche tous les messages flash dont le nom est « info » #}
+                                {% for message in app.session.flashbag.get('info') %}
+                                    <p  class="alert message-alert">{{ message }}</p>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    
                     {% endblock navbar_header %}
-                    <div class="collapse navbar-collapse" id="navMain">
-                        <ul class="nav navbar-nav pull-right">
-                            {% block cart %}
-                            <li><a href="#">
-                                    <div class="dropdown">
-                                        <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
-                                                            alt="image_ticket" style="height: 30px;"
-                                                            class="ticket">
-                                            <span id="in-cart-tickets-num">0</span> {{'navbar.cart.ticket'|trans}}
-                                        </div>
-                                        <ul id="cart-dropdown" hidden>
-                                            <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
-                                            <li class="go-to-cart hidden"><a href="#" id="myCart">{{'navbar.cart.see'|trans}}</a></li>
-                                        </ul>
-                                    </div>
-                                </a>  
-                            </li>
-                            {% endblock cart %}
-                            {% block locale %}
-                            <li>{% if app.request.locale == 'fr' %}
-                                <a href="{{path('approjet4_booking_setLocale', {'locale': 'en'})}}" class="language"><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a> 
-                            {% endif %}
-                                {% if app.request.locale == 'en' %}
-                            <a href="{{path('approjet4_booking_setLocale', {'locale': 'fr'})}}" class="language"><img src="{{asset('images/fr_flag.png')}}" alt="français" style="margin-left: 35px;"></a>
-                            {% endif %}
-                            </li> 
-                            {% endblock locale %}
-                        </ul>
-                    </div>
+                        <div class="collapse navbar-collapse" id="navMain">
+                            <ul class="nav navbar-nav pull-right">
+                                {% block cart %}
+                                {% endblock cart %}
+                                {% block locale %}
+                                    <li>{% if app.request.locale == 'fr' %}
+                                            <a href="{{path('approjet4_booking_setLocale', {'locale': 'en'})}}" class="language"><img src="{{asset('images/en_flag.png')}}" alt="english" style="margin-left: 35px;"></a> 
+                                        {% endif %}
+                                        {% if app.request.locale == 'en' %}
+                                            <a href="{{path('approjet4_booking_setLocale', {'locale': 'fr'})}}" class="language"><img src="{{asset('images/fr_flag.png')}}" alt="français" style="margin-left: 35px;"></a>
+                                        {% endif %}
+                                    </li> 
+                                {% endblock locale %}
+                            </ul>
+                        </div>
+                    
                 </div>
             </div>
         {% endblock navbar%}
@@ -93,7 +84,6 @@
                 </div>
             </section>
         {% endblock title_section%}
-        
         <div class="container">
             <div class="row" style="height:800px;">
                 <div class="col-lg-12">
@@ -101,6 +91,7 @@
                         {% block APProjet4Booking_body %}
                         {% endblock %}
                         {% block Footer %}
+                            <section class="footer"></section>
                             <footer>Pictapica - Openclassrooms - {{'now'|date('Y')}}</footer>
                             {% endblock Footer %}
                     </div>
@@ -112,7 +103,7 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
             <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-            
+
 
             <script>/////////Navbar/////////////
                 $(window).scroll(function () {
@@ -129,60 +120,15 @@
                     $(this).removeClass("hover");
                 });
             </script>
-            <script>////////Panier/////////////
-                var timeout;
-
-                $('#cart').on({
-                    mouseenter: function () {
-                        $('#cart-dropdown').show();
-                    },
-                    mouseleave: function () {
-                        timeout = setTimeout(function () {
-                            $('#cart-dropdown').hide();
-                        }, 200);
-                    }
-                });
-
-                // laisse le contenu ouvert à son survol et le cache quand la souris sort
-                $('#cart-dropdown').on({
-                    mouseenter: function () {
-                        clearTimeout(timeout);
-                    },
-                    mouseleave: function () {
-                        $('#cart-dropdown').hide();
-                    }
-                });
-            </script>
             <script>
-                var inCartTicketsNum;
-                // affiche/cache les éléments du panier selon s'il contient des produits
-                function cartEmptyToggle() {
-                    if (inCartTicketsNum > 0) {
-                        $('#cart-dropdown .hidden').removeClass('hidden');
-                        $('#empty-cart-msg').hide();
-                    } else {
-                        $('#cart-dropdown .go-to-cart').addClass('hidden');
-                        $('#empty-cart-msg').show();
-                    }
-                }
-
-                // récupère les informations stockées en session
-                inCartTicketsNum = {{ app.session.get('nbTickets')?:0}};
-                        cartEmptyToggle();
-
-                // affiche le nombre d'article du panier 
-                $('#in-cart-tickets-num').html(inCartTicketsNum);
-            </script>
-
-            <script>
-                $(document).ready(function(){
-                    $('[data-toggle="popover"]').each(function(i, obj) {
+                $(document).ready(function () {
+                    $('[data-toggle="popover"]').each(function (i, obj) {
 
                         $(this).popover({
                             html: true,
-                            content: function() {
-                            var id = $(this).attr('id');
-                            return $('#popover-content-' + id).html();
+                            content: function () {
+                                var id = $(this).attr('id');
+                                return $('#popover-content-' + id).html();
                             }
                         });
 

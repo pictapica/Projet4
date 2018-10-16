@@ -21,7 +21,7 @@
     </span>
     </div>
     <div class="ticket" name="billet">
-        <div class="errorMessage" hidden></span></div>
+        <div class="errorMessage" hidden></div>
         <h3 id="ticketTitle">{{'ticketMaj'|trans}} n°1</h3>
         
         <div class="ticket-type col-lg-12">
@@ -86,8 +86,6 @@
                        id="lastname"
                        name="lastname"/>
                 <span class="label" data-label="{{'detailsForm.contact.labelLastname'|trans}}" aria-role="label">{{'detailsForm.contact.lastname'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner le nom du visiteur" aria-role="label">{{'detailsForm.contact.lastname'|trans}}</span>
-                {# span id="helpLastname#}
             </label>
             <label class="input js-input">
                 <input type="text" 
@@ -95,29 +93,24 @@
                        placeholder="{{'detailsForm.contact.firstname'|trans}}"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
-                       data-validation-error-msg="Merci de renseigner le prénom du visiteur"
                        value=""
                        id="firstname"
                        name="firstname"/>
                 <span class="label" data-label="{{'detailsForm.contact.labelFirstname'|trans}}" aria-role="label">{{'detailsForm.contact.firstname'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner le prénom du visiteur" aria-role="label">{{'detailsForm.contact.firstname'|trans}}</span>
             </label>
             <label class="input js-input">
                 <input type="date" 
                        class="native champ" 
                        data-validation="length alphanumeric" 
-                       data-validation-error-msg="Merci de renseigner la date de naissance du visiteur"
                        min="1920-01-01"
                        max="{{ "now"|date("Y-m-d") }}"
                        value=""
                        id="dateOfBirth"
                        name="dateOfBirth"/>
                 <span class="label" data-label="{{'detailsForm.contact.dateOfBirth'|trans}}" aria-role="label">{{'detailsForm.contact.dateOfBirth'|trans}}</span>
-                <span class="message" data-label="Merci de renseigner la date de naissance du visiteur" aria-role="label">{{'detailsForm.contact.dateOfBirth'|trans}}</span>
             </label>
             <label for="country" class="input js-input">	
                 <span class="label" data-label="{{'detailsForm.contact.country'|trans}}" aria-role="label">{{'detailsForm.contact.country'|trans}}</span>
-                <span class="message" aria-role="label">{{'detailsForm.contact.country'|trans}}</span>
                 <select class="native js-native" name="country" id="country">
                     <option class="form__option" value="">{{'detailsForm.contact.country'|trans}}</option>
                     <option class="form__option" value="AR">Argentina</option>

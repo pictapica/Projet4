@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12" >
-                {{include("APProjet4BookingBundle:Booking:DetailsForm.html.twig")}}
+                {% include("APProjet4BookingBundle:Booking:detailsForm.html.twig") %}
             </div>
         </div>
         <div class ="row">
@@ -143,7 +143,6 @@
             }
             
             /**
-             * 
              * @param {type} details
              * @returns {undefined}             
              */
@@ -176,14 +175,13 @@
                                 $('#myForm .ticket').eq(index).find('.errorMessage').text(message).show();
                             });
                         }
-                        displayWarningToast('{{'contactDetails.fields'|trans}}');
                     }
                     });
                } 
 
             $(document).ready(function () {
                 //Si on clique sur le bouton "Finaliser votre commande"
-                if ($('#envoi').click (function () {
+                if ($('#envoi').click (function (e) {
                     //On vérifie chaque ticket
                         $('#myForm .ticket').each(function(check){
                             //Si un des champs est vide: message d'erreur
@@ -192,7 +190,7 @@
                                     || !$("#country").val()){
                                 displayWarningToast('{{'contactDetails.fields'|trans}}');
                             }
-                            //Si l'age ne correspond pas au tarif choisi : message d'erreur
+                            //Si l'age ne correspond pas au tarif choisi : on bloque l'envoi 
                             if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
                                preventDefault();
                             }

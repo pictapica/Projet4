@@ -1,103 +1,99 @@
 {#src/APProjet4/BookingBundle/Resources/views/Booking/recap.html.twig #}
 
 {% extends "APProjet4BookingBundle::layout.html.twig" %}
-{% block navbar %}
-    <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
-        <div class="container">
-            
-            {% block navbar_header %}
-                {{ parent() }}
-            {% endblock navbar_header %}
-            
-            <div class="collapse navbar-collapse" id="navMain">
-                <ul class="nav navbar-nav pull-right">
-                    
-                    {% block cart %}
-                        {{ parent() }}
-                        <!-- Modal Cart -->
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
-                                {% if app.request.locale == 'fr' %}
-                                    <h2>{{event.title}}</h2> 
-                                {% endif %}
-                                {% if app.request.locale == 'en' %}
-                                    <h2>{{event.titleEn}}</h2>
-                                {% endif %}
-                                <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
-                                    <span>
-                                        {% if app.request.locale == 'fr' %}
-                                            {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
-                                        {% endif %}
-                                        {% if app.request.locale == 'en' %}
-                                            {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
-                                        {% endif %}
-                                    </span>
-                                </p>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
-                                            <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
-                                            <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
-                                            <th class="text-right" style="color: white;">{{'recap.fareType'|trans}}</th>
-                                            <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="text-right" colspan="4" id="totalBooking" style="color: white;">{{'recap.totalBooking'|trans}}</th>
-                                            <th class="text-right"> {{total}} €</th>
-                                        </tr>
-                                    </tfoot>
-                                    {%for ticket in tickets%}
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-right">{{ticket.lastname|upper}}</td>
-                                                <td class="text-right">{{ticket.firstname|upper}}</td>
-                                                <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
-                                                <td class="text-right">
-                                                    {%if ticket.fareType == 'normal'%}
-                                                    {{'detailsForm.fare.full'|trans}}
-                                                    {%elseif ticket.fareType == 'reduct' %}
-                                                    {{'detailsForm.fare.reduct'|trans}}
-                                                    {%elseif ticket.fareType == 'child' %}
-                                                    {{'detailsForm.fare.child'|trans}}
-                                                    {%elseif ticket.fareType == 'senior' %}
-                                                    {{'detailsForm.fare.senior'|trans}}
-                                                    {%endif%}
-                                                </td>
-                                                <td class="text-right">
-                                                    {%if ticket.fareType == 'normal' %}
-                                                        {{booking.fullDay?16:8}} €
-                                                    {%endif%}
-                                                    {%if ticket.fareType == 'reduct' %}
-                                                        {{booking.fullDay?10:5}} €
-                                                    {%endif%}
-                                                    {%if ticket.fareType == 'child' %}
-                                                        {{booking.fullDay?8:4}} €
-                                                    {%endif%}
-                                                    {%if ticket.fareType == 'senior' %}
-                                                        {{booking.fullDay?12:6}} €
-                                                    {%endif%}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    {%endfor%}
-                                </table>
-                            </div>
-                        </div>
-                    {% endblock cart%}
-                    {% block locale %}
-                        {{ parent() }}
-                    {% endblock locale %}
+
+{% block cart %}
+    <li><a href="#">
+            <div class="dropdown">
+                <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
+                                    alt="image_ticket" style="height: 30px;"
+                                    class="ticket">
+                    <span id="in-cart-tickets-num">0</span> {{'navbar.cart.ticket'|trans}}
+                </div>
+                <ul id="cart-dropdown" hidden>
+                    <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
+                    <li class="go-to-cart hidden"><a href="#" id="myCart">{{'navbar.cart.see'|trans}}</a></li>
                 </ul>
             </div>
+        </a>  
+    </li>
+    <!-- Modal Cart -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>{{booking.nbTickets}} {{'recap.inCart'|trans}}</p>
+            {% if app.request.locale == 'fr' %}
+                <h2>{{event.title}}</h2> 
+            {% endif %}
+            {% if app.request.locale == 'en' %}
+                <h2>{{event.titleEn}}</h2>
+            {% endif %}
+            <p style="text-align:center">{{'recap.visitDate'|trans}} : {{ app.session.get('visitDate')|date('d-m-Y')}} - 
+                <span>
+                    {% if app.request.locale == 'fr' %}
+                        {{booking.fullDay?'BILLET JOURNEE':'BILLET DEMI-JOURNEE'}}
+                    {% endif %}
+                    {% if app.request.locale == 'en' %}
+                        {{booking.fullDay?'DAY TICKET':'HALF-DAY TICKET'}}
+                    {% endif %}
+                </span>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-right" style="color: white;">{{'recap.lastname'|trans}}</th>
+                        <th class="text-right" style="color: white;">{{'recap.firstname'|trans}}</th>
+                        <th class="text-right" style="color: white;">{{'recap.dateOfBirth'|trans}}</th>
+                        <th class="text-right" style="color: white;">{{'recap.fareType'|trans}}</th>
+                        <th class="text-right" style="color: white;">{{'recap.ticketFare'|trans}}</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="text-right" colspan="4" id="totalBooking" style="color: white;">{{'recap.totalBooking'|trans}}</th>
+                        <th class="text-right"> {{total}} €</th>
+                    </tr>
+                </tfoot>
+                {%for ticket in tickets%}
+                    <tbody>
+                        <tr>
+                            <td class="text-right">{{ticket.lastname|upper}}</td>
+                            <td class="text-right">{{ticket.firstname|upper}}</td>
+                            <td class="text-right">{{ticket.dateOfBirth|date('d/m/Y')}}</td>
+                            <td class="text-right">
+                                {%if ticket.fareType == 'normal'%}
+                                    {{'detailsForm.fare.full'|trans}}
+                                {%elseif ticket.fareType == 'reduct' %}
+                                    {{'detailsForm.fare.reduct'|trans}}
+                                {%elseif ticket.fareType == 'child' %}
+                                    {{'detailsForm.fare.child'|trans}}
+                                {%elseif ticket.fareType == 'senior' %}
+                                    {{'detailsForm.fare.senior'|trans}}
+                                {%endif%}
+                            </td>
+                            <td class="text-right">
+                                {%if ticket.fareType == 'normal' %}
+                                    {{booking.fullDay?16:8}} €
+                                {%endif%}
+                                {%if ticket.fareType == 'reduct' %}
+                                    {{booking.fullDay?10:5}} €
+                                {%endif%}
+                                {%if ticket.fareType == 'child' %}
+                                    {{booking.fullDay?8:4}} €
+                                {%endif%}
+                                {%if ticket.fareType == 'senior' %}
+                                    {{booking.fullDay?12:6}} €
+                                {%endif%}
+                            </td>
+                        </tr>
+                    </tbody>
+                {%endfor%}
+            </table>
         </div>
     </div>
-{% endblock %}
+{% endblock cart %}
+
 {% block title_section %}
     <section class="banner">
         <div class="container">
@@ -118,7 +114,7 @@
             <li><span class="bubble"></span><a href="#0">{{'nav.progress.step4'|trans}}</a></li>
         </ul>
     </nav>
-    
+
     <div class="container form">
         <div class="row recap">
             <div class="col-lg-12 col-md-12 col-xs-12">
@@ -253,20 +249,20 @@
                         data-email="welcome@the.Louvre">
                     </script>
                     <script>
-        // Hide default stripe button
-        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
-    </script>
-    <button type="submit" class="button2">Payer</button>
+                        // Hide default stripe button
+                        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                    </script>
+                    <button type="submit" class="button2">Payer</button>
                 </form>
             </div>
         </div><br>
     </div>
-
-
+    <br><br><br><br>
 
     {% block javascript %}
         <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+        
         <script>
             // Contrôle de l'email en fin de saisie
             document.getElementById("email").addEventListener("blur", function (e) {
@@ -290,7 +286,7 @@
         </script>
 
         <script>//Enregistrement de l'email 
-           
+
             var url_recap = "{{path('approjet4_booking_postEmailAndBooking')}}";
 
             function displayPaymentButton() {
@@ -307,7 +303,7 @@
                     displayWarningToast('{{'recap.mail.identical'|trans}}');
                     return;
                 }
-                //Si tout est ok : on cache le bouton de confirmation ainsi que le formaulaire de saisie d'email
+                //Si tout est ok : on cache le bouton de confirmation ainsi que le formulaire de saisie d'email
                 $('#confirm').hide(200);
                 $('.mail').hide(200);
 
@@ -315,12 +311,13 @@
                 $.post(url_recap, {
                     email: email
                 });
-                
+
                 //On affiche le bouton de paiement
                 $('#payment-button').removeClass('hidden', 200);
                 //Message de confirmation
                 displayWarningToast('{{'recap.mail.registered'|trans}}');
-            };
+            }
+            ;
             //Au click sur le bouton de confirmation on appelle la fonction displayPaymentButton
             $(document).ready(function () {
                 $('#confirm').click(displayPaymentButton);
@@ -332,36 +329,80 @@
              * @returns {url}
              * 
              */
-            function response(){
-                if(response.success){
+            function response() {
+                if (response.success) {
                     document.location = url_paymentValid;
                 }
             }
         </script>
-        
+
         <script>//Affichage des informations tickets
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
+        <script>
+            var inCartTicketsNum;
+            // affiche/cache les éléments du panier selon s'il contient des produits
+            function cartEmptyToggle() {
+                if (inCartTicketsNum > 0) {
+                    $('#cart-dropdown .hidden').removeClass('hidden');
+                    $('#empty-cart-msg').hide();
+                } else {
+                    $('#cart-dropdown .go-to-cart').addClass('hidden');
+                    $('#empty-cart-msg').show();
+                }
+            }
+
+            // récupère les informations stockées en session
+            inCartTicketsNum = {{ app.session.get('nbTickets')?:0}};
+                    cartEmptyToggle();
+
+            // affiche le nombre d'article du panier 
+            $('#in-cart-tickets-num').html(inCartTicketsNum);
+        </script>
+        <script>////////Panier/////////////
+            var timeout;
+
+            $('#cart').on({
+                mouseenter: function () {
+                    $('#cart-dropdown').show();
+                },
+                mouseleave: function () {
+                    timeout = setTimeout(function () {
+                        $('#cart-dropdown').hide();
+                    }, 200);
+                }
+            });
+
+            // laisse le contenu ouvert à son survol et le cache quand la souris sort
+            $('#cart-dropdown').on({
+                mouseenter: function () {
+                    clearTimeout(timeout);
+                },
+                mouseleave: function () {
+                    $('#cart-dropdown').hide();
+                }
+            });
+        </script>
         
         <script>
             // When the user clicks on the button, open the modal 
-            $(function() {
+            $(function () {
                 $("#myCart").on('click', function () {
                     $('#myModal').show();
                 });
             });
 
             // When the user clicks on <span> (x), close the modal
-            $(function() {
+            $(function () {
                 $(".close").on('click', function () {
                     $('#myModal').hide();
                 });
             });
 
             // When the user clicks on the modal, close it
-            $(function() {
+            $(function () {
                 $('#myModal').on('click', function () {
                     $('#myModal').hide();
                 });

@@ -15,9 +15,9 @@
     <div class="container">
         <div class="row" style="height: 200px"></div>
         <div class="row">
-                <div class="col-lg-12">
-                    <a href="{{path('approjet4_booking_index')}}" class="btn draw-border" role="button">{{'home.container'|trans}}</a>
-                </div>
+            <div class="col-lg-12">
+                <a href="{{path('approjet4_booking_index')}}" class="btn draw-border" role="button">{{'home.container'|trans}}</a>
+            </div>
         </div>
     </div>          
 {% endblock %}
@@ -34,37 +34,11 @@
             }
         });
     </script>
-    <script> 
-    $(".hover").mouseleave(
-        function () {
-            $(this).removeClass("hover");
-        }
-    );
-    </script>
     <script>
-        var timeout;
-
-        $('#cart').on({
-            mouseenter: function() {
-                $('#cart-dropdown').show();
-        },
-            mouseleave: function() {
-                timeout = setTimeout(function() {
-                    $('#cart-dropdown').hide();
-            }, 200);
-          }
-        });
-
-        // laisse le contenu ouvert à son survol
-        // le cache quand la souris sort
-        $('#cart-dropdown').on({
-            mouseenter: function() {
-                clearTimeout(timeout);
-        },
-            mouseleave: function() {
-                $('#cart-dropdown').hide();
-            }
-        });
+        $(".hover").mouseleave(
+                function () {
+                    $(this).removeClass("hover");
+                }
+        );
     </script>
-    {% endblock %}
-           
+{% endblock %}
