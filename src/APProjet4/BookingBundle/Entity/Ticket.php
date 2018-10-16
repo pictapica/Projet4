@@ -14,11 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Ticket {
 
-    const FARETYPE_CHILD = 1;
-    const FARETYPE_NORMAL = 2;
-    const FARETYPE_SENIOR = 3;
-    //TO DO A terminer
-
     /**
      * @var int
      *

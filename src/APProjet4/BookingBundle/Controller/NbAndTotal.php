@@ -5,7 +5,7 @@ namespace APProjet4\BookingBundle\Controller;
 class NbAndTotal {
     
     /**
-     * Retourne le ombre de tickets par tarif  
+     * Retourne le nombre de tickets par tarif  
      * 
      * @param type $tickets
      * @return int
