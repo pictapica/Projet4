@@ -5,6 +5,7 @@
 namespace APProjet4\BookingBundle\Controller;
 
 use APProjet4\BookingBundle\Entity\User;
+use APProjet4\BookingBundle\Utils\NbAndTotal;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;

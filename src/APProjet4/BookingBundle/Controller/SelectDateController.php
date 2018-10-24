@@ -23,7 +23,7 @@ class SelectDateController extends Controller {
      * @return boolean
      */
 
-    private function isADisabledDay($visitDate) {
+    public function isADisabledDay($visitDate) {
 
         $visitDay = new \DateTime($visitDate);
         $day = $visitDay->format('l');

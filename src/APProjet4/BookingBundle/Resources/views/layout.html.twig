@@ -12,11 +12,11 @@
             <link rel="stylesheet" href="{{asset('css/booking.css')}}" type="text/css" />
             <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker3.min.css')}}">
             <link rel="stylesheet" href="{{asset('datepicker/css/custom.css')}}">
-            <link rel="shortcut icon" href="../../../../favicon.ico" type="image/x-icon">
-            <link rel="icon" href="../../../../favicon.png" type="image/png">
-            <link rel="icon" sizes="32x32" href="../../../../favicon-32.png" type="image/png">
-            <link rel="icon" sizes="64x64" href="../../../../favicon-64.png" type="image/png">
-            <link rel="icon" sizes="96x96" href="../../../../favicon-96.png" type="image/png">
+            <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon">
+            <link rel="icon" href="{{asset('images/favicon.png')}}" type="image/png">
+            <link rel="icon" sizes="32x32" href="{{asset('images/favicon-32.png')}}" type="image/png">
+            <link rel="icon" sizes="64x64" href="{{asset('images/favicon-64.png')}}" type="image/png">
+            <link rel="icon" sizes="96x96" href="{{asset('images/favicon-96.png')}}" type="image/png">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
             <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" />
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -43,7 +43,7 @@
                                       style="color:white;">
                                 </span>
                             </button>
-                            <a class="navbar-brand" href="http://projet4.pictapica.fr/web/">
+                            <a class="navbar-brand" href="{{path('approjet4_booking_home')}}">
                                 <img src="{{asset('images/louvre_w.png')}}" alt="logo">
                             </a>
                             <div class="col-lg-offset-1 col-lg-7">

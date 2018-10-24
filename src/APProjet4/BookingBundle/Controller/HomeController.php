@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller {
 
-
-
-    //////////      Affichage de la page d'accueil      ////////////////////////
-
+    /**
+     * Affichage de la page d'accueil
+     * @return Response
+     */
     public function homeAction() {
         
         $content = $this->get('templating')->render('APProjet4BookingBundle:Booking:home.html.twig');
@@ -21,9 +21,10 @@ class HomeController extends Controller {
         return new Response($content);
     }
     
-    
-    //////////     Affichage de la liste des évènements     ////////////////////
-
+    /**
+     * Affichage de la liste des évènements
+     * @return render
+     */
     public function indexAction() {
         $EventRepository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $listEvents = $EventRepository->findAll();

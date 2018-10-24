@@ -172,7 +172,7 @@ class ContactDetailsController extends Controller {
                 break;
             case 'senior':
                 if (!$this->isSenior($age)) {
-                    throw new Exception("Le tarif sénior s'applique dès 60 ans"); // Vérifie age >60
+                    throw new Exception("Le tarif senior s'applique dès 60 ans"); // Vérifie age >60
                 }
                 break;
             case 'reduct':
