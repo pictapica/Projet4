@@ -53,11 +53,11 @@ selectDate:
         
     info:
         free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
-        child: Tarif enfant de 4 à 11 ans(inclus).
+        child: Tarif enfant de 4 à 11 ans (inclus).
         normal: Tarif normal de 12 à 59 ans.
         reduct: Tarif réduit sous certaines conditions. 
            (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…).
-        senior:  Tarif sénior dès 60 ans.
+        senior:  Tarif senior dès 60 ans.
         warning: Un justificatif pourra vous être demandé à l'entrée du musée.   
         
 button:
@@ -105,6 +105,7 @@ recap:
     mail:
         title: Pour recevoir vos billets, merci de renseigner votre adresse e-mail.
         confirm: Confirmation de votre adresse e-mail.
+        adress: Adresse e-mail
         confirmMail: Confirmation e-mail
         identical: Les adresses mail ne sont pas identiques !
         registered: Votre adresse e-mail a bien été enregistrée.

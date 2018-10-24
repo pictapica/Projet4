@@ -103,7 +103,8 @@ recap:
     mail:
         title: To receive your tickets, please enter your e-mail address.
         confirm: Confirmation of your e-mail address.
-        confirmMail: Confirmation e-mail
+        adress: E-mail address
+        confirmMail: E-mail confirmation
         identical: Email addresses are not identical!
         registered: Your e-mail address has been registered. 
     submit: Confirm your order
