@@ -10,8 +10,8 @@
         <div class="container"> 
             <div class="row">
                 <div class="story-card--recirc">
-                    <div class="story-card--recirc__media">
-                        <div class="col-lg-12 col-md-12 col-xs-6 ">
+                    <div class="story-card--recirc__media hidden-xs">
+                        <div class="col-lg-12 col-md-12 hidden-xs">
                             <figure class="expo">
                                 {% if event.image is not null %}
                                     <img src="{{ event.image.url }}" alt="{{ event.image.alt }}">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="story-card--recirc__body">
-                        <div class="col-lg-12 col-md-12 col-xs-6 ">
+                        <div class="col-lg-12 col-md-12 col-xs-11 ">
                             <a href="{{path('approjet4_booking_selectDate',{'id': event.id})}}">
                                 {% if app.request.locale == 'fr' %}
                                     <h1>{{event.title}}</h1>

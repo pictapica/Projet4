@@ -7,6 +7,12 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+
+framework:
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: false
+
 monolog:
     handlers:
         main:
@@ -20,3 +26,26 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
+        # To follow logs in real time, execute the following command:
+        # `bin/console server:log -vv`
+        server_log:
+            type: server_log
+            process_psr_3_messages: false
+            host: db714791558.db.1and1.com
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type: firephp
+        #    level: info
+        #chromephp:
+        #    type: chromephp
+        #    level: info
+
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    port:      2525
+    auth_mode: cram-md5
+    spool:     { type: memory }

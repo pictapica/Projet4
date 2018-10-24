@@ -23,7 +23,7 @@ section
 }
 
 .ticket{
-   margin-right: 10px;
+    margin-right: 10px;
 }
 
 .language{
@@ -85,7 +85,7 @@ ul.dropdown-menu {
 {
     .opaque-navbar
     {
-        
+
         font-size: 12px;
     }
     .banner{
@@ -304,6 +304,12 @@ body {
     letter-spacing: 1px;
     font-size: 13px;
     color: #7c8a8a;
+}
+
+@media handheld,screen and (max-width:400px){
+       .story-card--recirc {
+           width: 300px;
+       }
 }
 /**********************************************
 *Buttons entourés
@@ -1038,9 +1044,9 @@ btn2::hover {
 *************************************/
 
 .table{
-   font-size: 12px;
-   border:2px;
- border-color: #55d7dc;
+    font-size: 12px;
+    border:2px;
+    border-color: #55d7dc;
 }
 
 table.index  {border : 1px solid black;}
@@ -1054,12 +1060,12 @@ table.index  {border : 1px solid black;}
 }
 
 .recapTable ul{
-   text-align: left;
-   list-style:none;
+    text-align: left;
+    list-style:none;
 }
 .infoTable ul {
     text-align: left;
-   list-style:none;
+    list-style:none;
 }
 table tbody tr{
     border: 1px solid #fff; 
@@ -1086,28 +1092,33 @@ table tfoot tr {
 /**********************************************************
 *Panier
 *********************************************************/
+#myCart{
+    margin-top: 12px;
+    margin-right: - 5px;
+}
+
 .dropdown:hover > #cart-dropdown{
-  display: block;
+    display: block;
 }
 
 /**********************************************************
 *Tooltip
 *********************************************************/
 
- /*Tooltip */
- .tooltip .tooltip-inner {
-      background-color: #ffffff; 
-      color: #000000; 
-      border: 1px solid black; 
-      padding: 5px;
-      margin-left: -300px;
-      margin-top: -20px;
-      width: auto;
-      height: auto;
-      font-size: 13px;
+/*Tooltip */
+.tooltip .tooltip-inner {
+    background-color: #ffffff; 
+    color: #000000; 
+    border: 1px solid black; 
+    padding: 5px;
+    margin-left: -300px;
+    margin-top: -20px;
+    width: auto;
+    height: auto;
+    font-size: 13px;
 }
 
- /*Tooltip on right */
+/*Tooltip on right */
 .tooltip-arrow {
     border-right: 5px solid black;
     margin-left: -300px;
@@ -1164,12 +1175,12 @@ table tfoot tr {
     margin-top: 0px;
     margin-left: 210px;
     width: 80%;
-    
+
 }
 
 .errorMessage {
-   color: red;
-   width: auto;
-   max-width: 500px;
-   padding: 5px;
+    color: red;
+    width: auto;
+    max-width: 500px;
+    padding: 5px;
 }

@@ -3,17 +3,12 @@
 {% extends "APProjet4BookingBundle::layout.html.twig" %}
 
 {% block cart %}
-    <li><a href="#">
-            <div class="dropdown">
-                <div id="cart"><img src="{{asset('images/ticket_w.png')}}" 
-                                    alt="image_ticket" style="height: 30px;"
-                                    class="ticket">
-                    <span id="in-cart-tickets-num">0</span> {{'navbar.cart.ticket'|trans}}
-                </div>
-                <ul id="cart-dropdown" hidden>
-                    <li id="empty-cart-msg"><a>{{'navbar.cart.empty'|trans}}</a></li>
-                    <li class="go-to-cart hidden"><a href="#" id="myCart">{{'navbar.cart.see'|trans}}</a></li>
-                </ul>
+    <li>
+        <a href="#">
+            <div id="myCart"><img src="{{asset('images/ticket_w.png')}}" 
+                                alt="image_ticket" style="height: 30px;"
+                                class="ticket">
+                <span id="in-cart-tickets-num" >0</span> {{'navbar.cart.ticket'|trans}}
             </div>
         </a>  
     </li>
@@ -208,13 +203,12 @@
                 <h4>{{'recap.mail.title'|trans}} </h4>
                 <label class="input js-input">
                     <input type="email" class="native js-native required email" 
-                           placeholder="Adresse e-mail"
+                           placeholder="{{'recap.mail.adress'|trans}}"
                            data-validation="length alphanumeric" 
                            data-validation-length="2-12" 
                            data-validation-error-msg="Merci de renseigner votre adresse e-mail"
                            id="email">
-                    <span class="label" data-label="Adresse email" aria-role="label">E-mail</span>
-                    <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">E-mail</span>
+                    <span class="label" data-label="email adress" aria-role="label">E-mail</span>
                 </label>
                 <span id="helpEmail" style="color:red;"></span><br><br>
             </div>
@@ -222,13 +216,12 @@
                 <h4>{{'recap.mail.confirm'|trans}}</h4>
                 <label class="input js-input">
                     <input type="email" class="native js-native required email" 
-                           placeholder="Confirmation e-mail"
+                           placeholder="{{'recap.mail.confirmMail'|trans}}"
                            data-validation="length alphanumeric" 
                            data-validation-length="2-12" 
                            data-validation-error-msg="Merci de renseigner votre adresse email"
                            id="verifyEmail">
                     <span class="label" data-label="Confirmation e-mail" aria-role="label">{{'recap.mail.confirmMail'|trans}}</span>
-                    <span class="message" data-label="Merci de renseigner votre adresse email" aria-role="label">{{'recap.mail.confirmMail'|trans}}</span>
                 </label>
                 <span id="helpVerifyEmail" style="color:red;"></span>
             </div>
@@ -342,7 +335,7 @@
             });
         </script>
         <script>
-            var inCartTicketsNum;
+            {#var inCartTicketsNum;
             // affiche/cache les éléments du panier selon s'il contient des produits
             function cartEmptyToggle() {
                 if (inCartTicketsNum > 0) {
@@ -352,17 +345,17 @@
                     $('#cart-dropdown .go-to-cart').addClass('hidden');
                     $('#empty-cart-msg').show();
                 }
-            }
+            }#}
 
             // récupère les informations stockées en session
             inCartTicketsNum = {{ app.session.get('nbTickets')?:0}};
-                    cartEmptyToggle();
+{#                    cartEmptyToggle();#}
 
             // affiche le nombre d'article du panier 
             $('#in-cart-tickets-num').html(inCartTicketsNum);
         </script>
         <script>////////Panier/////////////
-            var timeout;
+            {#var timeout;
 
             $('#cart').on({
                 mouseenter: function () {
@@ -383,7 +376,7 @@
                 mouseleave: function () {
                     $('#cart-dropdown').hide();
                 }
-            });
+            });#}
         </script>
         
         <script>
