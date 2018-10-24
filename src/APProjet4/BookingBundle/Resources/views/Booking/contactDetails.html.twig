@@ -181,23 +181,27 @@
 
             $(document).ready(function () {
                 //Si on clique sur le bouton "Finaliser votre commande"
-                if ($('#envoi').click (function (e) {
+                $('#envoi').click (function (e) {
+                    var errorForm = false;
                     //On vérifie chaque ticket
                         $('#myForm .ticket').each(function(check){
                             //Si un des champs est vide: message d'erreur
-                            if (!$(".form-check-input").val() || !$("#lastname").val() 
-                                    || !$("#firstname").val() || !$("#dateOfBirth").val() 
-                                    || !$("#country").val()){
+                            if (!$(".form-check-input").val() || $("#lastname").val() === "" 
+                                    || $("#firstname").val() === ""  || $("#dateOfBirth").val() === ""
+                                    || $("#country").val() === ""){
                                 displayWarningToast('{{'contactDetails.fields'|trans}}');
+                                errorForm = true;
                             }
                             //Si l'age ne correspond pas au tarif choisi : on bloque l'envoi 
                             if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
                                preventDefault();
+                               errorForm = true;
                             }
                         });
-                        
+                        if (!errorForm){
                         submitForm(true);
-                }));
+                        }
+                });
             });
         </script>
     {% endblock %}

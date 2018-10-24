@@ -14,7 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Ticket {
 
-    /**
+    function __construct($fareType = null) {
+        $this->fareType = $fareType;
+    }
+
+        /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
