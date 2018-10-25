@@ -257,28 +257,28 @@
 
         
         <script>
-            // Contrôle de l'email en fin de saisie
+            // Checking the email at the end of the input process
             document.getElementById("email").addEventListener("blur", function (e) {
-                // Correspond à une chaîne de la forme xxx@yyy.zzz
+                // Corresponds to a string of the form xxx@yyy.zzz
                 var regexEmail = /.+@.+\..+/;
                 var validityEmail = "";
                 if (!regexEmail.test(e.target.value)) {
-                    validityEmail = "Adresse invalide";
+                    validityEmail = "{{'detailsForm.invalid'|trans}}";
                 }
                 document.getElementById("helpEmail").textContent = validityEmail;
             });
             document.getElementById("verifyEmail").addEventListener("blur", function (e) {
-                // Correspond à une chaîne de la forme xxx@yyy.zzz
+                // Corresponds to a string of the form xxx@yyy.zzz
                 var regexEmail = /.+@.+\..+/;
                 var validityEmail = "";
                 if (!regexEmail.test(e.target.value)) {
-                    validityEmail = "Adresse invalide";
+                    validityEmail = "{{'detailsForm.invalid'|trans}}";
                 }
                 document.getElementById("helpVerifyEmail").textContent = validityEmail;
             });
         </script>
 
-        <script>//Enregistrement de l'email 
+        <script>//Email registration 
 
             var url_recap = "{{path('approjet4_booking_postEmailAndBooking')}}";
 
@@ -286,39 +286,39 @@
                 var email = (String($('#email').val()).toLowerCase());
                 var verifyEmail = (String($('#verifyEmail').val()).toLowerCase());
 
-                //Si on n'a pas d'email ou pas d'email de vérification : message d'erreur et retour
+                //If we don't have an email or no verification email: error message and return
                 if (email === '' || verifyEmail === '') {
                     displayWarningToast('{{'contactDetails.fields'|trans}}');
                     return;
                 }
-                //si les 2 mails saisis sont différents : message d'erreur et retour
+                //if the 2 emails entered are different: error message and return
                 if (email !== verifyEmail) {
                     displayWarningToast('{{'recap.mail.identical'|trans}}');
                     return;
                 }
-                //Si tout est ok : on cache le bouton de confirmation ainsi que le formulaire de saisie d'email
+                //If everything is ok: we hide the confirmation button and the email entry form
                 $('#confirm').hide(200);
                 $('.mail').hide(200);
 
-                //On enregistre l'email
+                //We record the email
                 $.post(url_recap, {
                     email: email
                 });
 
-                //On affiche le bouton de paiement
+                //The payment button is displayed
                 $('#payment-button').removeClass('hidden', 200);
                 //Message de confirmation
                 displayWarningToast('{{'recap.mail.registered'|trans}}');
             }
             ;
-            //Au click sur le bouton de confirmation on appelle la fonction displayPaymentButton
+            //When you click on the confirmation button, you call the displayPaymentButton function
             $(document).ready(function () {
                 $('#confirm').click(displayPaymentButton);
             });
         </script>
         <script>
             /**
-             * Redirection vers la page du récapitulatif de la commande
+             * Redirection to the order summary page
              * @returns {url}
              * 
              */
@@ -329,56 +329,17 @@
             }
         </script>
 
-        <script>//Affichage des informations tickets
+        <script>//Display of ticket information
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
         <script>
-            {#var inCartTicketsNum;
-            // affiche/cache les éléments du panier selon s'il contient des produits
-            function cartEmptyToggle() {
-                if (inCartTicketsNum > 0) {
-                    $('#cart-dropdown .hidden').removeClass('hidden');
-                    $('#empty-cart-msg').hide();
-                } else {
-                    $('#cart-dropdown .go-to-cart').addClass('hidden');
-                    $('#empty-cart-msg').show();
-                }
-            }#}
-
-            // récupère les informations stockées en session
             inCartTicketsNum = {{ app.session.get('nbTickets')?:0}};
-{#                    cartEmptyToggle();#}
-
-            // affiche le nombre d'article du panier 
+                  
+            // displays the number of items in the shopping cart 
             $('#in-cart-tickets-num').html(inCartTicketsNum);
         </script>
-        <script>////////Panier/////////////
-            {#var timeout;
-
-            $('#cart').on({
-                mouseenter: function () {
-                    $('#cart-dropdown').show();
-                },
-                mouseleave: function () {
-                    timeout = setTimeout(function () {
-                        $('#cart-dropdown').hide();
-                    }, 200);
-                }
-            });
-
-            // laisse le contenu ouvert à son survol et le cache quand la souris sort
-            $('#cart-dropdown').on({
-                mouseenter: function () {
-                    clearTimeout(timeout);
-                },
-                mouseleave: function () {
-                    $('#cart-dropdown').hide();
-                }
-            });#}
-        </script>
-        
         <script>
             // When the user clicks on the button, open the modal 
             $(function () {

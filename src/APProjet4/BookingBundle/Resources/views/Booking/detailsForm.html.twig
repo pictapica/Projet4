@@ -224,40 +224,39 @@
 </form>
 
 {% block javascript %}
-    <script>/////////Ajout et suppression de ticket////////
+    <script>/////////Adding and deleting tickets////////
 
         $(document).ready(function () {
-            //On cache l'icone "Supprimer"
+            //We hide the "Delete" icon
             $(".deleteTicket").hide();
-            //Au clic sur "Ajouter un ticket"
+            //When you click on "Add a ticket"
             $('.addTicket').click(function (e) {
-                //To do : Il faut empêcher l'ajout d'un second ticket si le premier n'est pas rempli 
                 e.preventDefault();
                 
                 var form = $('#myForm');
                 var ticketList = form.find('.ticket');
                 
-                //Un ticket cloné
+                //A cloned ticket
                 var clonedTicket = form.find('.ticket:first').clone();
-                //On efface les données renseignées
+                //The data entered is deleted
                 clonedTicket.find('.clientsDetails input', 'select').val('');
-                //On cible le label des type de ticket et on supprime la classe active
+                //We target the ticket type label and delete the active class
                 clonedTicket.find('.fareLabel label').removeClass('active');
-                //On récupère le 1er label
+                //We get the first label back
                 clonedTicket.find('.fareLabel label:first').addClass('active');
-                //On met à jour le titre
+                //We update the title
                 clonedTicket.find('h3').text('Billet n°'+ ( ticketList.length +1));
-                //On ajoute après les autres tickets
+                //We add after the other tickets
                 clonedTicket.insertAfter(form.find('.ticket:last')).hide().fadeIn('slow');
-                //on ajoute le lien de suppression
+                //we add the deletion link
                 $(".deleteTicket").fadeIn("fast");
             });
-            //On peut supprimer le dernier ticket
+            //We can delete the last ticket
             $(".deleteTicket").click(function () {
                 $(".ticket:last").remove();
                 displayWarningToast('{{'detailsForm.deleteForm'|trans}}');
             });
-            //S'il y a 1 seul article, on cache le bouton supprimer
+            //If there is only 1 item, hide the delete button
             if ($(".ticket").length === 1) {
                 $(".deleteTicket").hide();
             }

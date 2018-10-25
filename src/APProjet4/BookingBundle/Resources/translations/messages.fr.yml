@@ -90,6 +90,7 @@ detailsForm:
         country: Pays de résidence
     addTicket: Ajouter un ticket
     deleteForm : Le dernier formulaire a bien été supprimé.
+    invalid : Adresse invalide
     
 recap:
     inCart: billet(s) dans votre panier.

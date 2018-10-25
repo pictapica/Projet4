@@ -61,7 +61,7 @@
     </div>
 
     {% block javascript %}
-        <script>//Affichage des tarifs journée ou demi-journée
+        <script>//Display of day or half-day rates
             {{booking.fullDay?'$(".full").show();$(".half").hide();':'$(".full").hide();$(".half").show();'}}
         </script>
         <script>//Messages info
@@ -69,7 +69,7 @@
             toastr["info"]("");
             });
         </script>
-        <script>//Validation du formulaire
+        <script>//Form validation
             
             var url_post_type = "{{path('approjet4_booking_postContactDetails')}}";
             var url_recap = "{{path('approjet4_booking_showRecap')}}";
@@ -77,7 +77,7 @@
             var dateFormat = "Y-M-D";
             
             /**
-             * on vérifie la correspondance entre le tarif choisi et la date de naissance
+             * We check the correspondence between the chosen tariff and the date of birth
              * @param {string} fareType
              * @param {string} dateOfBirth
              * @returns {Boolean}             
@@ -85,18 +85,18 @@
              function checkAgeAndFare(fareType, dateOfBirth){
                  switch (fareType) {
                      case 'child': 
-                         return isChild(dateOfBirth);//Verifie age entre 4 et 12
+                         return isChild(dateOfBirth);//Check age between 4 and 12
                      case 'normal':
-                         return isNormal(dateOfBirth);//Vérifie age entre 12 et <60
+                         return isNormal(dateOfBirth);//Checks age between 12 and <60
                      case 'senior':
-                         return isSenior(dateOfBirth);// Vérifie age >59
+                         return isSenior(dateOfBirth);// Check age >59
                      case 'reduct':
                          return true;
                  }
              }
              
             /**
-            * Renvoie true si la date correspond à un enfant
+            * Returns true if it is a child
             * @param {string} dateOfBirth
             * @returns {Boolean}             
             */ 
@@ -113,7 +113,7 @@
             }
             
             /**
-            * Renvoie true si la date correspond à un adulte entre 12 et 60 ans
+            * Returns true if the date corresponds to an adult between 12 and 60 years old
             * @param {string} dateOfBirth
             * @returns {Boolean}             
             */
@@ -130,7 +130,7 @@
             }
             
             /**
-            * Renvoie true si la date correspond à un adulte de plus de 60 ans
+            * Returns true if the date is an adult over 60 years of age
             * @param {string} dateOfBirth
             * @returns {Boolean}             
             */
@@ -147,7 +147,7 @@
              * @returns {undefined}             
              */
             function submitForm(details) {
-            //on détermine des variables
+            //Variables are determined
                 var tickets = [];
         
                 $('#myForm .ticket').each(function(index){
@@ -167,7 +167,7 @@
                     if (response.success){
                         document.location = url_recap;
                     } else {
-                        //Afficher les erreurs sur les tickets non validés par le controleur
+                        //Display errors on tickets not validated by the controller
                         if (response.errors) {
                             response.errors.forEach(function(value){
                                 var index = value[0];
@@ -180,19 +180,19 @@
                } 
 
             $(document).ready(function () {
-                //Si on clique sur le bouton "Finaliser votre commande"
+                //If we click on the "Finalize your order" button
                 $('#envoi').click (function (e) {
                     var errorForm = false;
-                    //On vérifie chaque ticket
+                    //We check each ticket
                         $('#myForm .ticket').each(function(check){
-                            //Si un des champs est vide: message d'erreur
+                            //If one of the fields is empty: error message
                             if (!$(".form-check-input").val() || $("#lastname").val() === "" 
                                     || $("#firstname").val() === ""  || $("#dateOfBirth").val() === ""
                                     || $("#country").val() === ""){
                                 displayWarningToast('{{'contactDetails.fields'|trans}}');
                                 errorForm = true;
                             }
-                            //Si l'age ne correspond pas au tarif choisi : on bloque l'envoi 
+                            //If the age does not correspond to the chosen rate: the sending is blocked 
                             if (!checkAgeAndFare($(this).find('.active input').val(), $(this).find('#dateOfBirth').val())){
                                preventDefault();
                                errorForm = true;

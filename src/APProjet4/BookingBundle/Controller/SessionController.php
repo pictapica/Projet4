@@ -27,9 +27,7 @@ class SessionController extends Controller {
 
         //on redirige vers la page d'origine
         $url = $request->headers->get('referer');
-//    if (empty($url)) {
-//        $url = $this->container->get('router')->generate('index');
-//    }
+
         return new RedirectResponse($url);
     }
 

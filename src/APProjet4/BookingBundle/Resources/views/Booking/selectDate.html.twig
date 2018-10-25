@@ -122,7 +122,7 @@
         };
  
         /**
-         * Renvoie true s'il est moins de 14h
+         * Returns true if it is less than 2pm
          * @param {string} visitDate
          * @returns {Boolean}         
          */
@@ -135,7 +135,7 @@
             return true;
         };
         /**
-         * Renvoie true s'il est moins de 18h
+         * Returns true if it is less than 6pm
          * @param {string} visitDate
          * @returns {Boolean}         
          */
@@ -148,7 +148,7 @@
             return true;
         };
         /**
-         * Renvoie true si le jour de visite choisi  n'est pas un mardi ou un dimanche
+         * Returns true if the day of visit chosen is not a Tuesday or Sunday
          * @param {date} visitDate
          * @returns {Boolean}         
          */
@@ -165,7 +165,7 @@
         };
         
         /**
-        * Renvoie true si le jour de visite choisi n'est pas dans le tableau des jours indisponibles à la commande
+        * Returns true if the chosen visit day is not in the table of days unavailable for order
         * @param {date} visitDate
          * @returns {Boolean}     
          */
@@ -181,7 +181,7 @@
         $(document).ready(function () {
             $('#daySelect').click(function () {
                 var visitDate = $('#pick_a_date').val();
-               //On vérifie la date et l'heure si visite aujourdhui et heure > 14h on ne peux plus commander de billets journée 
+               //We check the date and time if visit today and time > 14h we can no longer order day tickets 
                 if(!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
                     return;
                 }
@@ -189,7 +189,7 @@
             });
 
             $('#halfDaySelect').click(function () {
-                //on vérifie la date et l'heure. Si visite aujourdhui et heure >18h, le musée est fermé
+                //we check the date and time. If visit today and time >18h, the museum is closed
                  var visitDate = $('#pick_a_date').val();
                 if( !checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
                     return;
@@ -200,7 +200,7 @@
          
         
         /**
-        * Affichage du datepicker selon la locale
+        * Displaying the datepicker according to the locale
         * 
          */
         {% if app.request.locale == 'fr' %} 
@@ -230,7 +230,7 @@
 
             
          /**
-          * Infos datepicker 
+          * Datepicker info 
           * 
           */   
         var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
