@@ -16,7 +16,6 @@ class HomeControllerTest extends WebTestCase {
     public function testHomePageIsUp() {
 
         $this->client->request('GET', '/');
-
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
     }
 
@@ -29,4 +28,5 @@ class HomeControllerTest extends WebTestCase {
                 0, $crawler->filter('html:contains("Louvre")')->count()
         );
     }
+
 }

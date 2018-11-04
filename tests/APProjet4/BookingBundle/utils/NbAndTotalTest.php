@@ -81,10 +81,6 @@ class NbAndTotalTest extends WebTestCase {
         $this->assertEquals(46, NbAndTotal::getTotalAmount($this->nbTicketArray, true));
     }
 
-//    public function testNbEntryInArray() {
-//        $this->assertCount(4, $this->nbTicketArray);
-//    }
-
     /**
      * Test de la présence des clés dans le tableau
      */

@@ -7,8 +7,10 @@ use Doctrine\ORM\EntityRepository;
 
 class TicketRepository extends EntityRepository {
     
-    //To do : ecrire la fonction permettant de récuperer le nombre de tickets vendu par date de visite
-
+    /**
+     * récuperer le nombre de tickets vendu par date de visite
+     * 
+     */
     public function countTicketsPerDay() 
     {
         $qb = $this->createQueryBuilder('t')

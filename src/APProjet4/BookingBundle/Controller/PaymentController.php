@@ -83,7 +83,6 @@ class PaymentController extends Controller {
         }
 
         //Récupération du nombre de tickets
-        //   $nbPerType = $this->getNbPerType($booking->getTickets());
 
         $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
         $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());

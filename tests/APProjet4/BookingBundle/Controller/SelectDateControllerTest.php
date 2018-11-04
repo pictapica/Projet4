@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SelectDateControllerTest extends WebTestCase {
 
-
     public function setUp() {
         $this->client = static::createClient();
     }
@@ -18,5 +17,4 @@ class SelectDateControllerTest extends WebTestCase {
         $this->client->request('GET', '/purchase');
         $this->assertFalse($this->client->getResponse()->isSuccessful());
     }
-
 }
