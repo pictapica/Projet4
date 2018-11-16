@@ -95,8 +95,6 @@
         var time = moment().hour(14).minute(0).second(0);
         var closeTime = moment().hour(18).minute(0).second(0);
         
-        
-        
         function submitData(fullDay) {
             var visitDate = $('#pick_a_date').val();
 
@@ -115,10 +113,10 @@
                             displayWarningToast('{{'selectDate.container.warning2'|trans}}');
                         }else {
                             displayWarningToast('{{'selectDate.container.warning3'|trans}}');
-                    }
-                    }
+                    };
+                    };
                 });
-            }
+            };
         };
  
         /**
