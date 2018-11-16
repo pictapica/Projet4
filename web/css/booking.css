@@ -307,9 +307,9 @@ body {
 }
 
 @media handheld,screen and (max-width:400px){
-       .story-card--recirc {
-           width: 300px;
-       }
+    .story-card--recirc {
+        width: 300px;
+    }
 }
 /**********************************************
 *Buttons entourés
@@ -730,6 +730,21 @@ input:invalid {
 
 }
 
+/*Legend*/
+.legend {
+    max-width: 850px;
+    background-color:#003d50;
+    color: #ec971f;
+    border-color: #ec971f;
+    border: 1px solid;
+    padding-top: 6px;
+    padding-bottom: 1px;
+    padding: 8px 2px 1px 2px;
+    display: none;
+    margin-top: 12px;
+
+    
+}
 
 /*Button*/
 
@@ -915,6 +930,76 @@ a:hover{
 .cross:hover::after {
     background: #fff;
     box-shadow: 0px 0px 8px -1px #555;
+}
+
+/**********************************************
+*checkbox
+**********************************************/
+@keyframes click-wave {
+  0% {
+    height: 20px;
+    width: 20px;
+    opacity: 0.35;
+    position: relative;
+  }
+  100% {
+    height: 200px;
+    width: 200px;
+    margin-left: -80px;
+    margin-top: -80px;
+    opacity: 0;
+  }
+}
+
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  top: 5.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  transition: all 0.15s ease-out 0s;
+  background: #003d50;
+  border: 1px solid;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 2.5em;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #fec500;
+}
+.option-input:checked {
+  background: #27627f;
+}
+.option-input:checked::before {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  content: "✔";
+  display: inline-block;
+  font-size: 26.66667px;
+  text-align: center;
+  line-height: 20px;
+}
+.option-input:checked::after {
+   background: #fec500;
+   content: "";
+   display: block;
+   position: relative;
+  z-index: 100;
+}
+
+.check {
+    margin-bottom: 15px;
 }
 /**********************************************
 *page récapitulatif 

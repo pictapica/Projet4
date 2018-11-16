@@ -2,78 +2,28 @@
 
 <form id="myForm">
     <div class="pull-right">
-    <span>
-        <a href="#" data-toggle="popover" data-placement="auto right" type="button" 
-           data-container="body"data-html="true" id="fareInfo"
-           data-placement="left">
-            <i alt="info_icon" class="material-icons info">&#xe88f;</i>
-        </a>
-        <div id="popover-content-fareInfo" class="hide">
-                        <ul class="list-group">
-                            <li class="list-group-item">{{ 'selectDate.info.free' | trans}}</li>
-                            <li class="list-group-item">{{ 'selectDate.info.child' | trans}}</li>
-                            <li class="list-group-item">{{ 'selectDate.info.normal' | trans}}</li>
-                            <li class="list-group-item">{{ 'selectDate.info.reduct' | trans}}</li>
-                            <li class="list-group-item">{{ 'selectDate.info.senior' | trans}}</li>
-                        </ul>
-                            <p style="padding: 12px;">{{ 'selectDate.info.warning' | trans}}</p>
-        </div>
-    </span>
+        <span>
+            <a href="#" data-toggle="popover" data-placement="auto right" type="button" 
+               data-container="body"data-html="true" id="fareInfo"
+               data-placement="left">
+                <i alt="info_icon" class="material-icons info">&#xe88f;</i>
+            </a>
+            <div id="popover-content-fareInfo" class="hide">
+                <ul class="list-group">
+                    <li class="list-group-item">{{ 'selectDate.info.free' | trans}}</li>
+                    <li class="list-group-item">{{ 'selectDate.info.child' | trans}}</li>
+                    <li class="list-group-item">{{ 'selectDate.info.normal' | trans}}</li>
+                    <li class="list-group-item">{{ 'selectDate.info.reduct' | trans}}</li>
+                    <li class="list-group-item">{{ 'selectDate.info.senior' | trans}}</li>
+                </ul>
+                <p style="padding: 12px;">{{ 'selectDate.info.warning' | trans}}</p>
+            </div>
+        </span>
     </div>
     <div class="ticket" name="billet">
         <div class="errorMessage" hidden></div>
         <h3 id="ticketTitle">{{'ticketMaj'|trans}} n°1</h3>
         
-        <div class="ticket-type col-lg-12">
-            <div class="row">{{'detailsForm.choice'|trans}} : 
-                    <br><br> 
-                <div class="row">
-                    <div class="btn-group btn-group-toggle fareLabel" data-toggle="buttons">
-                        <label for="normal" class="btn btn-warning form-check-label col-xs-6 col-md-3 active">
-                            <input class="form-check-input" 
-                                   type="radio"
-                                   autocomplete="off"
-                                   value="normal"
-                                   name="ticketFare"
-                                   id="normal"
-                                   />{{'detailsForm.fare.full'|trans}}<br><br>
-                            <span style="padding-left: 20px" id="normalFull" class="full"  value="16">16€</span>
-                            <span style="padding-left: 20px" id="normalHalf"  class="half" value="8">8€</span>
-                        </label>
-                        <label for="reduct" class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                            <input class="form-check-input"  
-                                   type="radio" 
-                                   autocomplete="off"
-                                   value="reduct"
-                                   name="ticketFare"
-                                   id="reduct"/>{{'detailsForm.fare.reduct'|trans}}<br><br>
-                            <span style="padding-left: 20px" id="reductFull" class="full"value="8">10€</span>
-                            <span style="padding-left: 20px" id="reductHalf" class="half" value="4">5€</span>
-                        </label>
-                        <label for="child" class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                            <input class="form-check-input" 
-                                   type="radio" 
-                                   autocomplete="off"
-                                   value="child"
-                                   name="ticketFare"
-                                   id="child"/>{{'detailsForm.fare.child'|trans}}<br><br>
-                            <span class="full" id="childFull" value="6">8€</span>
-                            <span class="half"  id="childHalf" value="3">4€</span>
-                        </label>
-                        <label for="senior" class="btn btn-warning form-check-label col-xs-6 col-md-3">
-                            <input class="form-check-input" 
-                                   type="radio" 
-                                   autocomplete="off"
-                                   value="senior"
-                                   name="ticketFare"
-                                   id="senior"/>{{'detailsForm.fare.senior'|trans}}<br><br>
-                            <span class="full" id="seniorFull" value="10">12€</span>
-                            <span class="half" id="seniorHalf" value="5">6€</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-lg-12 clientsDetails">
 
             <label class="input js-input">
@@ -82,6 +32,7 @@
                        placeholder="{{'detailsForm.contact.lastname'|trans}}" 
                        data-validation="length alphanumeric" 
                        data-validation-length="2-15"
+                       pattern ="[a-zA-Z][a-zA-Z' -]+$"
                        value=""
                        id="lastname"
                        name="lastname"/>
@@ -93,6 +44,7 @@
                        placeholder="{{'detailsForm.contact.firstname'|trans}}"
                        data-validation="length alphanumeric" 
                        data-validation-length="2-12" 
+                       pattern ="[a-zA-Z][a-zA-Z' -]+$"
                        value=""
                        id="firstname"
                        name="firstname"/>
@@ -102,7 +54,7 @@
                 <input type="date" 
                        class="native champ" 
                        data-validation="length alphanumeric" 
-                       min="1920-01-01"
+                       min="1905-01-01"
                        max="{{ "now"|date("Y-m-d") }}"
                        value=""
                        id="dateOfBirth"
@@ -206,8 +158,17 @@
                     <option class="form__option" value="VN">Vietnam</option>
                 </select>
             </label>
+            <div class="check fareLabel">
+                <label for="reduct"class="input js-input" id="">
+                    <input type="checkbox" class="option-input" id= "fareType" value="reduct"/>
+                    {{'detailsForm.reduct'|trans}}
+                </label>
+            </div>
+            
         </div>
+
     </div>
+
 
     <div id="AddDeleteTicket">
         <button href="javascript:;"  title="{{'detailsForm.addTicket'|trans}}" class="addTicket"
@@ -219,6 +180,7 @@
             <span class="glyphicon glyphicon-trash"></span>
         </a>
     </div>
+    
 
 
 </form>
@@ -228,37 +190,41 @@
 
         $(document).ready(function () {
             //We hide the "Delete" icon
-            $(".deleteTicket").hide();
+            $('.deleteTicket').hide();
             //When you click on "Add a ticket"
             $('.addTicket').click(function (e) {
                 e.preventDefault();
-                
+                //Si tous les champs ne sont pas remplis : 
+                if ($("#lastname").val() === "" || $("#firstname").val() === "" || $("#dateOfBirth").val() === ""
+                        || !$("#country").val() === "") {
+                    displayWarningToast('{{'detailsForm.fill'|trans}}');
+                    return false;
+                };
+
                 var form = $('#myForm');
                 var ticketList = form.find('.ticket');
-                
+
                 //A cloned ticket
                 var clonedTicket = form.find('.ticket:first').clone();
                 //The data entered is deleted
                 clonedTicket.find('.clientsDetails input', 'select').val('');
-                //We target the ticket type label and delete the active class
-                clonedTicket.find('.fareLabel label').removeClass('active');
-                //We get the first label back
-                clonedTicket.find('.fareLabel label:first').addClass('active');
+                //We target the ticket and delete the checked
+                clonedTicket.find('.option-input').attr('checked', false);
                 //We update the title
-                clonedTicket.find('h3').text('Billet n°'+ ( ticketList.length +1));
+                clonedTicket.find('h3').text('Billet n°' + (ticketList.length + 1));
                 //We add after the other tickets
                 clonedTicket.insertAfter(form.find('.ticket:last')).hide().fadeIn('slow');
                 //we add the deletion link
                 $(".deleteTicket").fadeIn("fast");
             });
             //We can delete the last ticket
-            $(".deleteTicket").click(function () {
+            $('.deleteTicket').click(function () {
                 $(".ticket:last").remove();
                 displayWarningToast('{{'detailsForm.deleteForm'|trans}}');
             });
             //If there is only 1 item, hide the delete button
-            if ($(".ticket").length === 1) {
-                $(".deleteTicket").hide();
+            if ($('.ticket').length === 1) {
+                $('.deleteTicket').hide();
             }
         });
     </script>
