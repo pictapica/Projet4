@@ -4,8 +4,20 @@ parameters:
     #parameter_name: value
 
 services:
-    
+    #    service_name:
+    #        class: AppBundle\Directory\ClassName
+    #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     stripe.payment.system:
         class : APProjet4\BookingBundle\Services\StripePaymentSystem
     
+    ticket.fare.system:
+        class : APProjet4\BookingBundle\Services\TicketFareSystem
+    
+    disabled.dates.system:
+        class :  APProjet4\BookingBundle\Services\DisabledDatesSystem
+        arguments: ["@doctrine.orm.entity_manager"]
 
+    control.visitdate.system:
+        class : APProjet4\BookingBundle\Services\ControlVisitDateSystem
+        arguments: 
+            - "@disabled.dates.system"
