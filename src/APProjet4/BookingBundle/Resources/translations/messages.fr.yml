@@ -50,6 +50,7 @@ selectDate:
         warning3: Le maximum de billets vendus pour cette date a été atteint, veuillez choisir une autre date.
         14h: Il est plus de 14h ! Vous ne pouvez donc plus commander de billets JOURNEE.
         18h: Le musée est maintenant fermé. Merci de commander un billet pour un autre jour.
+        birth: Merci de vérifier la date de naissance saisie.
         
     info:
         free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
@@ -72,7 +73,8 @@ contactDetails:
     normalAfter: A partir de 60 ans, le visiteur peut profiter du tarif SENIOR.
     normalBefore: Pour les enfants de 4 à 11 ans, le tarif ENFANT s'applique.
     seniorBefore: Attention ! Le tarif sénior ne s'applique qu'à partir de 60 ans.
-    
+    legend: Un justificatif en cours de validité vous sera demandé à l'entrée du musée. (Carte d’étudiant, militaire, demandeur d'emploi...)
+
     
 detailsForm:
     choice: CHOISISSEZ VOTRE TARIF
@@ -81,6 +83,8 @@ detailsForm:
         reduct: TARIF REDUIT
         child: ENFANT
         senior: SENIOR
+        baby: GRATUIT
+    fill: Merci de renseigner toutes les informations du dernier billet pour passer au billet suivant
     contact: 
         lastname: Nom du visiteur
         labelLastname: Nom
@@ -88,6 +92,7 @@ detailsForm:
         labelFirstname: Prénom
         dateOfBirth: Date de naissance
         country: Pays de résidence
+    reduct : Bénéficiaire du tarif réduit
     addTicket: Ajouter un ticket
     deleteForm : Le dernier formulaire a bien été supprimé.
     invalid : Adresse invalide

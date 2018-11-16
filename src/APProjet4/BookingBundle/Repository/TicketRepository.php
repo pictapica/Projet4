@@ -8,19 +8,19 @@ use Doctrine\ORM\EntityRepository;
 class TicketRepository extends EntityRepository {
     
     /**
-     * récuperer le nombre de tickets vendu par date de visite
+     * Collect the number of tickets sold per visit date
      * 
      */
     public function countTicketsPerDay() 
     {
         $qb = $this->createQueryBuilder('t')
         
-            ->select('COUNT(t.id) as nbTickets')// On compte le nombre d'id de tickets
+            ->select('COUNT(t.id) as nbTickets')// We count the number of ticket ids
             ->groupBy('t.visitDate')
             ->having('nbTickets >= 1000');
 
                 
-        // On retourne les résultats
+        // We return the results
         return $nbtickets = $qb
             ->getQuery()
             ->getResult();
