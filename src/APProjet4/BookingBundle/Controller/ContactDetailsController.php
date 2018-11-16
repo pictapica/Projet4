@@ -7,17 +7,10 @@ namespace APProjet4\BookingBundle\Controller;
 use APProjet4\BookingBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ContactDetailsController extends Controller {
-
-    const MINCHILD = 4;
-    const MAXCHILD = 12;
-    const MAXADULT = 59;
-    const MINSENIOR = 60;
-    const MAXSENIOR = 120;
 
     /**
      * Affichage de la page de saisie des informations visiteur
@@ -63,12 +56,17 @@ class ContactDetailsController extends Controller {
         $visit = $session->get('visitDate');
         $visitDate = date_create($visit);
         $booking = $session->get('booking');
+        // On appelle le services
+        $fare = $this->container->get('ticket.fare.system');
+        
         $ticket = new Ticket();
-        $errors = [];
 
         $tickets = $request->get('tickets');
-        foreach ($tickets as $index => $ticket) {
+        foreach ($tickets as $ticket) {   
             $t = new Ticket();
+            if ($ticket['fareType'] == ""){
+               $ticket['fareType'] = $fare->getTicketFareType($visitDate, $ticket['dateOfBirth']); 
+            }
             $t->setFareType($ticket['fareType']);
             $t->setFirstname($ticket['firstname']);
             $t->setLastname($ticket['lastname']);
@@ -76,20 +74,8 @@ class ContactDetailsController extends Controller {
             $t->setCountry($ticket['country']);
             $t->setBooking($booking);
             $t->setVisitDate($visitDate);
-            try {
-                $this->checkAgeAndFare($visitDate, (date_create($ticket['dateOfBirth'])), ($ticket['fareType']));
-            } catch (Exception $ex) {
-                $errors[] = [$index,$ex->getMessage()];
-            }
-            $booking->addTicket($t);
-        }
 
-        if (count($errors) > 0) {
-            $response = [
-                'success' => false,
-                'errors' => $errors
-            ];
-            return new JsonResponse($response);
+            $booking->addTicket($t);
         }
 
         //On compte le nombre total de billets
@@ -108,77 +94,5 @@ class ContactDetailsController extends Controller {
         ];
         return new JsonResponse($response);
     }
-
-    /**
-     * Retourne l'age en fonction de la date de naissance
-     * 
-     * @param type $visitDate
-     * @param type $dateOfBirth
-     * @return type
-     */
-    private function getAge($visitDate, $dateOfBirth) {
-        $datediff = $visitDate->diff($dateOfBirth);
-        $age = $datediff->format('%y');
-        return $age;
-    }
-
-    /**
-     * Retourne true si dans le bon interval
-     * @param string $age
-     * @return boolean
-     */
-    private function IsChild($age) {
-        return (($age >= self::MINCHILD) && ($age < self::MAXCHILD));
-    }
-
-    /**
-     * Retourne true si dans le bon interval
-     * @param string $age
-     * @return boolean
-     */
-    private function IsNormal($age) {
-        return (($age >= self::MAXCHILD) && ($age <= self::MAXADULT));
-    }
-
-    /**
-     * Retourne true si dans le bon interval
-     * @param string $age
-     * @return boolean
-     */
-    private function isSenior($age) {
-        return (($age >= self::MINSENIOR) && ($age <= self::MAXSENIOR));
-    }
-
-    /**
-     * Retourne true si le tarif choisi correspond à la date de naissance sinon Exception
-     * @param date $visitDate
-     * @param date $dateOfBirth
-     * @param string $fareType
-     * @return boolean
-     * @throws Exception
-     */
-    private function checkAgeAndFare($visitDate, $dateOfBirth, $fareType) {
-        $age = $this->getAge($visitDate, $dateOfBirth);
-        switch ($fareType) {
-            case 'child':
-                if (!$this->isChild($age)) {
-                    throw new Exception("Le tarif enfant s'applique entre 4 et 12 ans. Les enfants de moins de 4 ans n'ont pas besoin de billet d'entrée"); //Verifie age entre 4 et 12
-                }
-                break;
-            case 'normal':
-                if (!$this->isNormal($age)) {
-                    throw new Exception("Le tarif normal s'applique entre 12 et 59 ans"); //Vérifie age entre 12 et <60
-                }
-                break;
-            case 'senior':
-                if (!$this->isSenior($age)) {
-                    throw new Exception("Le tarif senior s'applique dès 60 ans"); // Vérifie age >60
-                }
-                break;
-            case 'reduct':
-                return true;
-            default:
-                throw new Exception("Il semble qu'il y ait eu un problème. Merci de vérifier les informations saisies.");
-        }
-    }
+  
 }
