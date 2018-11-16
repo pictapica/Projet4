@@ -73,12 +73,12 @@ class RecapAndBookingController extends Controller {
         //Récupération de l'adresse mail saisie      
         $email = $request->get('email');
 
-        //Génération d'un code random pour le code commande
-        $bytes = random_bytes(5);
+        //Génération d'un code random unique pour le code commande 
+        $bytes = (random_bytes(3));
 
         //Renseignement des valeurs
         $booking->setEmail($email);
-        $booking->setOrderCode(bin2hex($bytes));
+        $booking->setOrderCode(date('Hym-d').bin2hex($bytes));
         $user->setEmail($email);
 
         if (null === $booking) {
