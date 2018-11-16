@@ -19,14 +19,19 @@ class NbAndTotal {
             'reduct' => 0,
             'child' => 0,
             'senior' => 0,
+            'baby' => 0,
         ];
+        
         if (!isset($tickets)){
             throw new Exception('Attention $tickets est un tableau vide');
         }
-        //if (isset($tickets)){
-                foreach ($tickets as $ticket) {
-                    $nbPerType[$ticket->getFaretype()] ++;
-           // }
+        
+        foreach ($tickets as $ticket) {
+            if(!($ticket->getFaretype())){
+              throw new Exception('Un problème est survenu. Merci de vérifier la date de naissance');
+            }
+            $nbPerType[$ticket->getFaretype()] ++;
+        
         }
         return $nbPerType;
     }
@@ -44,7 +49,7 @@ class NbAndTotal {
             throw new Exception('oh non ! Le tableau est vide !'); 
         }   
         if (!isset($nbPerType['normal']) || !isset($nbPerType['reduct']) || 
-                !isset($nbPerType['child']) || !isset($nbPerType['senior'])) {
+                !isset($nbPerType['child']) || !isset($nbPerType['senior']) || !isset($nbPerType['baby'])) {
             throw new Exception('oh non ! Il manque un morceau de tableau !'); 
         }
 

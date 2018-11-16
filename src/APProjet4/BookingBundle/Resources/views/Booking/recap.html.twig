@@ -65,6 +65,8 @@
                                     {{'detailsForm.fare.child'|trans}}
                                 {%elseif ticket.fareType == 'senior' %}
                                     {{'detailsForm.fare.senior'|trans}}
+                                {%elseif ticket.fareType == 'baby' %}
+                                    {{'detailsForm.fare.baby'|trans}}
                                 {%endif%}
                             </td>
                             <td class="text-right">
@@ -79,6 +81,9 @@
                                 {%endif%}
                                 {%if ticket.fareType == 'senior' %}
                                     {{booking.fullDay?12:6}} €
+                                {%endif%}
+                                {%if ticket.fareType == 'baby' %}
+                                    0 €
                                 {%endif%}
                             </td>
                         </tr>
@@ -190,6 +195,20 @@
                                 {{booking.fullDay?nbType.senior*12:nbType.senior*6}} €
                             </div>
                         </div> 
+                    {% endif %}  
+                    {% if nbType.baby > 0 %}
+                        <div class="col-lg-12" id="recap-baby-fare test">
+                            <div class="col-lg-8 col-md-8 col-xs-8 recapticket test"
+                                 data-toggle="tooltip" 
+                                 data-placement="right" 
+                                 {%for ticket in tickets if ticket.fareType == 'baby'%}
+                                     title=" {{ticket.firstname|upper}} {{ticket.lastname|upper}} - {{ticket.dateOfBirth|date('d-m-Y')}}"
+                                 {%endfor%}>
+                                {{nbType.baby}} {{'ticket'|trans}}{{nbType.baby>0?'':'s'}} {{'detailsForm.fare.baby'|trans}}</div>
+                            <div class="col-lg-4 col-md-4 col-xs-4 total1 total-baby">
+                                0 €
+                            </div>
+                        </div> 
                     {% endif %}   
                 </div>
             </div>
@@ -207,6 +226,7 @@
                            data-validation="length alphanumeric" 
                            data-validation-length="2-12" 
                            data-validation-error-msg="Merci de renseigner votre adresse e-mail"
+                           pattern = ".+@.+\..+"
                            id="email">
                     <span class="label" data-label="email adress" aria-role="label">E-mail</span>
                 </label>
@@ -220,6 +240,7 @@
                            data-validation="length alphanumeric" 
                            data-validation-length="2-12" 
                            data-validation-error-msg="Merci de renseigner votre adresse email"
+                           pattern = ".+@.+\..+"
                            id="verifyEmail">
                     <span class="label" data-label="Confirmation e-mail" aria-role="label">{{'recap.mail.confirmMail'|trans}}</span>
                 </label>

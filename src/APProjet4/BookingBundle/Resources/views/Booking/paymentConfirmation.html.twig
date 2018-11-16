@@ -103,6 +103,8 @@
                                     {{'detailsForm.fare.child'|trans}}
                                 {%elseif ticket.fareType == 'senior' %}
                                     {{'detailsForm.fare.senior'|trans}}
+                                {%elseif ticket.fareType == 'baby' %}
+                                    {{'detailsForm.fare.baby'|trans}}
                                 {%endif%}
                             </td>
                             <td class="text-right">
@@ -114,6 +116,8 @@
                                     {{booking.fullDay?8:4}} €
                                 {% elseif ticket.fareType == 'senior' %}
                                     {{booking.fullDay?12:6}} €
+                                {% elseif ticket.fareType == 'baby' %}
+                                    0 €
                                 {% endif %}
                             </td>
                         </tr>
