@@ -36,7 +36,7 @@ class Booking {
      * @var string
      *
      * @ORM\Column(name="orderCode", type="string", length=12, unique=true, nullable=true)
-     * @Assert\Length(max=10)
+     * @Assert\Length(max=30)
      */
     private $orderCode = null;
 

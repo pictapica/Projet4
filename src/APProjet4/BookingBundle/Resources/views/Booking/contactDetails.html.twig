@@ -106,7 +106,7 @@
 
                 $('#myForm .ticket').each(function () {
                     tickets.push({
-                        fareType: $(this).find('.option-input').prop('checked') ? 'reduct' : '',
+                        fareType: $(this).find('#fareType').prop('checked')? 'reduct' : '',
                         lastname: $(this).find('#lastname').val(),
                         firstname: $(this).find('#firstname').val(),
                         dateOfBirth: $(this).find('#dateOfBirth').val(),
@@ -135,10 +135,10 @@
 
             $(document).ready(function () {
                 //If we click on the "Finalize your order" button
-                $('#envoi').click(function (e) {
+                $('#envoi').click(function () {
                     var errorForm = false;
                     //We check each ticket
-                    $('#myForm .ticket').each(function (check) {
+                    $('.ticket').each(function () {
                         //If one of the fields is empty: error message
                         if ($("#lastname").val() === ""
                                 || $("#firstname").val() === "" || $("#dateOfBirth").val() === ""
@@ -148,13 +148,15 @@
                         }
                         if (checkDateOfBirth()) {
                             displayWarningToast('{{'selectDate.container.birth'|trans}}');
+                            preventDefault();
                             errorForm = true;
                         }
-
+                        
+                        });
                         if (!errorForm) {
                             submitForm(true);
                         }
-                    });
+                    
                 });
             });
         </script>

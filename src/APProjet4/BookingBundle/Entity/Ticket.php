@@ -67,7 +67,7 @@ class Ticket {
      * @ORM\Column(name="dateOfBirth", type="date")
      * @Assert\NotBlank()
      * @Assert\Range(
-     *      min = "1920-01-01",
+     *      min = "1905-01-01",
      *      max = "now")
      */
     private $dateOfBirth;
