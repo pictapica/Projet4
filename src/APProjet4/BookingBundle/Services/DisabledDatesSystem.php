@@ -13,6 +13,7 @@ class DisabledDatesSystem {
     }
     /**
      * Retourne un tableau contenant les dates fériées + les dates où + de 1000 billets ont été vendus
+     * pendant les dates de l'événement
      * @param int $id
      * @return array
      */
@@ -22,8 +23,10 @@ class DisabledDatesSystem {
         $datesList = $this->getDatesWithMaxBooking();
 
         $arrayDatesDisabled = array_merge($datesList, $holidays);
-        return $arrayDatesDisabled;
+
+       return $arrayDatesDisabled;
     }
+    
     
     /**
      * Retourne un tableau contenant les dates des jours où plus de 1000 billets ont été vendus
@@ -96,10 +99,19 @@ class DisabledDatesSystem {
         }
         return $yearEvent;
     }
-
     
+    public function GetEventDates($id) {
+        $repository = $this->em->getRepository('APProjet4BookingBundle:Event');
+        $event = $repository->findOneById($id);
 
-    
-
-    
+        if (null === $event) {
+            throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
+        }
+        $startDate = $event->getStartDate();
+        $endDate = $event->getEndDate();
+        
+        $eventDates = [$startDate,$endDate]; 
+        
+        return $eventDates;
+    }
 }

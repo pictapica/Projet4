@@ -5,6 +5,7 @@ namespace APProjet4\BookingBundle\Services;
 use APProjet4\BookingBundle\Services\DisabledDatesSystem;
 use Exception;
 
+
 //Return true si le control est valide
 class ControlVisitDateSystem {
 
@@ -12,8 +13,10 @@ class ControlVisitDateSystem {
 
     private $disabledDates;
 
+
     public function __construct(DisabledDatesSystem $disabledDates) {
         $this->disabledDates = $disabledDates;
+       
     }
 
     public function controlVisitDate($visitDate, $event_id, $fullDay) {
@@ -31,10 +34,14 @@ class ControlVisitDateSystem {
             throw new Exception("Il est impossible d'acheter un billet pour la journée après 14h");
         }
         //Si le jour est un jour férié ou que 1000 billets ont déjà été vendus
-        if ($this->IsAHolidayDate($visitDate, $event_id)) {
+        if ($this->isAHolidayDate($visitDate, $event_id)) {
             throw new Exception("Le musée est fermé les 1er mai, 1er novembre et 25 décembre. "
             . "Pour commander pour les autres jours fériés de l'année, "
             . "merci de vous rendre aux guichets du musée");
+        }
+        //Si le jour n'est pas dans la période de l'événement
+        if($this->isNotAnEventDate($visitDate, $event_id)) {
+            throw new Exception("Il est impossible de réserver un billet en dehors de la période de l'événement");
         }
         return true;
     }
@@ -77,10 +84,21 @@ class ControlVisitDateSystem {
      * @param int $id
      * @return boolean
      */
-    private function IsAHolidayDate($visitDate, $id) {
+    private function isAHolidayDate($visitDate, $id) {
         $visit = new \DateTime($visitDate);
         $arrayDatesDisabled = $this->disabledDates->mergeDatesDisabled($id);
         if (in_array($visit, $arrayDatesDisabled)) {
+            return true;
+        }
+        return false;
+    }
+    
+    private function isNotAnEventDate($visitDate, $id) {
+        $visit = new \DateTime($visitDate);
+        $eventDates = $this->disabledDates->GetEventDates($id);
+        $startDate = $eventDates[0];
+        $endDate = $eventDates[1];
+        if ($visit < $startDate || $visit > $endDate) {
             return true;
         }
         return false;
@@ -91,7 +109,7 @@ class ControlVisitDateSystem {
      * @param type $visitDate
      * @return boolean
      */
-    public function isHourPast($visitDate) {
+    private function isHourPast($visitDate) {
         $now = new \DateTime();
         //Si la date de visite est aujourd'hui et qu'il est plus de 14h 
         if ($visitDate == $now && $now->format('H') >= self::HEURE_MAX) {
