@@ -53,7 +53,7 @@ selectDate:
         birth: Merci de vérifier la date de naissance saisie.
         
     info:
-        free: "Gratuit pour les moins de 4 ans : Un billet n'est pas necessaire."
+        free: Gratuit pour les moins de 4 ans.
         child: Tarif enfant de 4 à 11 ans (inclus).
         normal: Tarif normal de 12 à 59 ans.
         reduct: Tarif réduit sous certaines conditions. 

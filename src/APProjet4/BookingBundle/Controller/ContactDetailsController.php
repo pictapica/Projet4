@@ -65,7 +65,7 @@ class ContactDetailsController extends Controller {
         foreach ($tickets as $ticket) {   
             $t = new Ticket();
             if ($ticket['fareType'] == ""){
-               $ticket['fareType'] = $fare->getTicketFareType($visitDate, $ticket['dateOfBirth']); 
+               $ticket['fareType'] = $fare->getTicketFareType($visitDate, $ticket['dateOfBirth']);
             }
             $t->setFareType($ticket['fareType']);
             $t->setFirstname($ticket['firstname']);

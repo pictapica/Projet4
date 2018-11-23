@@ -730,13 +730,13 @@ input:invalid {
 
 }
 
-/*Legend*/
+/*Legende*/
 .legend {
     max-width: 850px;
     background-color:#003d50;
     color: #ec971f;
     border-color: #ec971f;
-    border: 1px solid;
+    border: 2px solid;
     padding-top: 6px;
     padding-bottom: 1px;
     padding: 8px 2px 1px 2px;

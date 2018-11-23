@@ -53,7 +53,7 @@ selectDate:
         birth: Please check the date of birth entered.
         
     info:
-        free: "Free for children under 4: A ticket is not required."
+        free: Free for children under 4
         child: Rates for children from 4 to 11 years old (included).
         normal: Normal rate from 12 to 59 years old.
         reduct: Reduced rate under certain conditions. 

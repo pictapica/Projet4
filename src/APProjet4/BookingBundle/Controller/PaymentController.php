@@ -19,7 +19,6 @@ class PaymentController extends Controller {
      * @throws NotFoundHttpException
      */
     public function validatePaymentAction(Request $request) {
-        //TO do toto
         $session = $request->getSession();
         $order = $session->get('booking');
 
@@ -36,9 +35,7 @@ class PaymentController extends Controller {
         }
         //Si tout s'est bien passé,
         //Récupération de la commande déjà créée
-        $BookingRepo = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('APProjet4BookingBundle:Booking');
+        $BookingRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Booking');
         $booking = $BookingRepo->findOneByOrderCode($orderCode);
 
         if (null === $booking) {
@@ -126,9 +123,9 @@ class PaymentController extends Controller {
         $id = $booking->getEvent();
 
         //Récupération de la date de visite 
-        $visitDate = $booking->getTickets()->get('visitDate');
+        $visitDate = $booking->getTickets()->first()->getVisitDate();
 
-        //Récupération de lévénement
+        //Récupération de l'événement
         $EventRepo = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $event = $EventRepo->find($id);
 

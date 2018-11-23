@@ -14,22 +14,32 @@ class NbAndTotalTest extends WebTestCase {
             'normal' => 1,
             'reduct' => 0,
             'child' => 0,
-            'senior' => 0], NbAndTotal::getNbPerType([new Ticket('normal')]));
+            'senior' => 0,
+            'baby'=>0], NbAndTotal::getNbPerType([new Ticket('normal')]));
         $this->assertSame([
             'normal' => 0,
             'reduct' => 1,
             'child' => 0,
-            'senior' => 0], NbAndTotal::getNbPerType([new Ticket('reduct')]));
+            'senior' => 0,
+            'baby'=>0], NbAndTotal::getNbPerType([new Ticket('reduct')]));
         $this->assertSame([
             'normal' => 0,
             'reduct' => 0,
             'child' => 1,
-            'senior' => 0], NbAndTotal::getNbPerType([new Ticket('child')]));
+            'senior' => 0,
+            'baby'=>0], NbAndTotal::getNbPerType([new Ticket('child')]));
         $this->assertSame([
             'normal' => 0,
             'reduct' => 0,
             'child' => 0,
-            'senior' => 1], NbAndTotal::getNbPerType([new Ticket('senior')]));
+            'senior' => 1,
+            'baby'=>0], NbAndTotal::getNbPerType([new Ticket('senior')]));
+        $this->assertSame([
+            'normal' => 0,
+            'reduct' => 0,
+            'child' => 0,
+            'senior' => 0,
+            'baby'=>1], NbAndTotal::getNbPerType([new Ticket('baby')]));
     }
 
     //Test if array is empty
@@ -65,6 +75,7 @@ class NbAndTotalTest extends WebTestCase {
         $this->assertEquals(12, NbAndTotal::getTotalAmount(['senior' => 1], true));
         $this->assertEquals(6, NbAndTotal::getTotalAmount(['senior' => 1], false));
     }
+    
 
     protected $nbTicketArray;
 
@@ -73,7 +84,8 @@ class NbAndTotalTest extends WebTestCase {
             'normal' => 1,
             'reduct' => 1,
             'child' => 1,
-            'senior' => 1
+            'senior' => 1,
+            'baby' =>1,
         ];
     }
 
@@ -85,7 +97,7 @@ class NbAndTotalTest extends WebTestCase {
      * Test de la présence des clés dans le tableau
      */
     public function getNbPerTypeTest() {
-        $this->assertArrayHasKey('normal', NbAndTotal::getTotalAmount(['normal' => 1, 'reduct' => 0, 'child' => 0, 'senior' => 0], true));
+        $this->assertArrayHasKey('normal', NbAndTotal::getTotalAmount(['normal' => 1, 'reduct' => 0, 'child' => 0, 'senior' => 0, 'baby' =>0], true));
     }
 
 }

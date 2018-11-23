@@ -34,7 +34,7 @@
                     <h2>{{event.titleEn}}</h2>
                     <p style="text-align:center; font-size: 18px;">{{event.contentEn}}</p>
                 {% endif %}
-                        <hr>
+                <hr>
             </div>
         </div>
         <div class="row"> 
@@ -85,165 +85,186 @@
     </div>
 
 
-{% block javascript %}
-    <script>
-                
-        var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
-        var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
-        var now = moment();
-        var dateFormat = "Y-M-D";
-        var time = moment().hour(14).minute(0).second(0);
-        var closeTime = moment().hour(18).minute(0).second(0);
-        
-        function submitData(fullDay) {
-            var visitDate = $('#pick_a_date').val();
+    {% block javascript %}
+        <script>
 
-            if (!$('#pick_a_date').val()) {
-                displayWarningToast('{{'selectDate.container.warning1'|trans}}');
-            } else {
-                $.post(url_post_date, {
-                    visitDate: visitDate,
-                    fullDay: fullDay,
-                    event_id: {{event.id}}
-                }, function (response) {
-                    if (response.success) {
-                        document.location = url_contact_details;
-                    } else {
-                        if(!$('#pick_a_date').val()){
-                            displayWarningToast('{{'selectDate.container.warning2'|trans}}');
-                        }else {
-                            displayWarningToast('{{'selectDate.container.warning3'|trans}}');
-                    };
-                    };
-                });
-            };
-        };
- 
-        /**
-         * Returns true if it is less than 2pm
-         * @param {string} visitDate
-         * @returns {Boolean}         
-         */
-        function checkHour(visitDate){
-            if ((((moment(visitDate, dateFormat)).isSame(moment(), 'day'))) 
-                    && (moment().isAfter(time))){
-                displayWarningToast('{{'selectDate.container.14h'|trans}}');
-                    return false;
-            }
-            return true;
-        };
-        /**
-         * Returns true if it is less than 6pm
-         * @param {string} visitDate
-         * @returns {Boolean}         
-         */
-        function checkClosingHour(visitDate){
-            if((((moment(visitDate, dateFormat)).isSame(moment(), 'day'))) 
-                    && (moment().isAfter(closeTime))){
-                displayWarningToast('{{'selectDate.container.18h'|trans}}');
-                return false;
-            }
-            return true;
-        };
-        /**
-         * Returns true if the day of visit chosen is not a Tuesday or Sunday
-         * @param {date} visitDate
-         * @returns {Boolean}         
-         */
-        function checkDisableDays(visitDate){
-            var day = moment(visitDate, dateFormat).day();
-            if (day === 0) {
-                displayWarningToast('{{'opening2'|trans}}');
-                return false;
-            } else if(day === 2){
-                displayWarningToast('{{'opening3'|trans}}');
-                return false;
-            }
-            return true;
-        };
-        
-        /**
-        * Returns true if the chosen visit day is not in the table of days unavailable for order
-        * @param {date} visitDate
-         * @returns {Boolean}     
-         */
-        function checkArrayDatesDisabled(visitDate){
-            var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
-            if (arrayDatesDisabled.includes(visitDate)){
-                displayWarningToast('{{'opening4'|trans}}');
-                return false;
-            }
-            return true;
-        }
-        
-        $(document).ready(function () {
-            $('#daySelect').click(function () {
+            var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
+            var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
+            var now = moment();
+            var dateFormat = "Y-M-D";
+            var time = moment().hour(14).minute(0).second(0);
+            var closeTime = moment().hour(18).minute(0).second(0);
+
+
+            function submitData(fullDay) {
                 var visitDate = $('#pick_a_date').val();
-               //We check the date and time if visit today and time > 14h we can no longer order day tickets 
-                if(!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
-                    return;
+
+                if (!$('#pick_a_date').val()) {
+                    displayWarningToast('{{'selectDate.container.warning1'|trans}}');
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: url_post_date,
+                        data: {
+                            visitDate: visitDate,
+                            fullDay: fullDay,
+                            event_id:{{event.id}}
+                        },
+                        success: function(response) {
+                             document.location = url_contact_details;
+                        },
+                        error: function (response, responseText, thrownError) {
+                            displayWarningToast(thrownError);
+                        }
+                    
+                    {#$.post(url_post_date, {
+                        visitDate: visitDate,
+                        fullDay: fullDay,
+                        event_id:{{event.id}}
+                    }, function (response) {
+                        if (response.success) {
+                            document.location = url_contact_details;
+                        } else {
+                            if (!$('#pick_a_date').val()) {
+                                displayWarningToast('{{'selectDate.container.warning2'|trans}}');
+                            } else {
+                                displayWarningToast('{{'selectDate.container.warning3'|trans}}');
+                            }
+                        };
+                    });#}
+
+                });
+            }
+            }
+
+            /**
+             * Returns true if it is less than 2pm
+             * @param {string} visitDate
+             * @returns {Boolean}         
+             */
+            function checkHour(visitDate) {
+                if ((((moment(visitDate, dateFormat)).isSame(moment(), 'day')))
+                        && (moment().isAfter(time))) {
+                    displayWarningToast('{{'selectDate.container.14h'|trans}}');
+                    return false;
                 }
-                submitData(true);
+                return true;
+            }
+            ;
+            /**
+             * Returns true if it is less than 6pm
+             * @param {string} visitDate
+             * @returns {Boolean}         
+             */
+            function checkClosingHour(visitDate) {
+                if ((((moment(visitDate, dateFormat)).isSame(moment(), 'day')))
+                        && (moment().isAfter(closeTime))) {
+                    displayWarningToast('{{'selectDate.container.18h'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+            ;
+            /**
+             * Returns true if the day of visit chosen is not a Tuesday or Sunday
+             * @param {date} visitDate
+             * @returns {Boolean}         
+             */
+            function checkDisableDays(visitDate) {
+                var day = moment(visitDate, dateFormat).day();
+                if (day === 0) {
+                    displayWarningToast('{{'opening2'|trans}}');
+                    return false;
+                } else if (day === 2) {
+                    displayWarningToast('{{'opening3'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+            ;
+
+            /**
+             * Returns true if the chosen visit day is not in the table of days unavailable for order
+             * @param {date} visitDate
+             * @returns {Boolean}     
+             */
+            function checkArrayDatesDisabled(visitDate) {
+                var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+                if (arrayDatesDisabled.includes(visitDate)) {
+                    displayWarningToast('{{'opening4'|trans}}');
+                    return false;
+                }
+                return true;
+            }
+
+            $(document).ready(function () {
+                $('#daySelect').click(function () {
+                    var visitDate = $('#pick_a_date').val();
+                    //We check the date and time if visit today and time > 14h we can no longer order day tickets 
+                    if (!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
+                        return;
+                    }
+                    submitData(true);
+                });
+
+                $('#halfDaySelect').click(function () {
+                    //we check the date and time. If visit today and time >18h, the museum is closed
+                    var visitDate = $('#pick_a_date').val();
+                    if (!checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
+                        return;
+                    }
+                    submitData(false);
+                });
             });
 
-            $('#halfDaySelect').click(function () {
-                //we check the date and time. If visit today and time >18h, the museum is closed
-                 var visitDate = $('#pick_a_date').val();
-                if( !checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)){
-                    return;
-                }
-                submitData(false);
-            });
-        });
-         
-        
-        /**
-        * Displaying the datepicker according to the locale
-        * 
-         */
-        {% if app.request.locale == 'fr' %} 
-        $.fn.datepicker.dates['fr'] = {
-            days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-            daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-            daysMin: ["D", "L", "M", "M", "J", "V", "S"],
-            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
-            monthsShort: ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Dec."],
-            titleFormat: "MM yyyy",
-            weekStart: 1,
-            today: "Aujourd'hui"
-        };
-        {% endif %}
-        {% if app.request.locale == 'en' %} 
-        $.fn.datepicker.dates['en'] = {
-            days: ["Sunday", "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday"],
-            daysShort: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"],
-            daysMin: ["S", "M", "T", "W", "T", "F", "S"],
-            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            monthsShort: ["Jan", "Feb", "Mar", "Abr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-            titleFormat: "MM yyyy",
-            weekStart: 7,
-            today: "Today"
-        };
-        {% endif %}
 
-            
-         /**
-          * Datepicker info 
-          * 
-          */   
-        var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
-        
-        $(".form_datetime").datepicker({
-            input:"date",
-            format: "yyyy/mm/dd",
-            language: '{{app.request.locale}}',
-            todayBtn: "linked",
-            daysOfWeekDisabled: [0, 2],
-            datesDisabled: arrayDatesDisabled,
-            startDate: ("{{event.startDateReservable}}", new Date()),
-            endDate: ("{{event.endDateReservable}}")
-        });
+            /**
+             * Displaying the datepicker according to the locale
+             * 
+             */
+            {% if app.request.locale == 'fr' %} 
+            $.fn.datepicker.dates['fr'] = {
+                days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+                daysMin: ["D", "L", "M", "M", "J", "V", "S"],
+                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
+                monthsShort: ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Dec."],
+                titleFormat: "MM yyyy",
+                weekStart: 1,
+                today: "Aujourd'hui"
+            };
+            {% endif %}
+            {% if app.request.locale == 'en' %} 
+                $.fn.datepicker.dates['en'] = {
+                    days: ["Sunday", "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday"],
+                    daysShort: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"],
+                    daysMin: ["S", "M", "T", "W", "T", "F", "S"],
+                    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    monthsShort: ["Jan", "Feb", "Mar", "Abr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+                    titleFormat: "MM yyyy",
+                    weekStart: 7,
+                    today: "Today"
+                };
+            {% endif %}
+
+
+                /**
+                 * Datepicker info 
+                 * 
+                 */
+                var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+
+                $(".form_datetime").datepicker({
+                    input: "date",
+                    format: "yyyy/mm/dd",
+                    language: '{{app.request.locale}}',
+                    todayBtn: "linked",
+                    daysOfWeekDisabled: [0, 2],
+                    datesDisabled: arrayDatesDisabled,
+                    startDate: ("{{event.startDateReservable}}", new Date()),
+                    endDate: ("{{event.endDateReservable}}")
+                });
         </script>
-{% endblock %}
+    {% endblock %}
 {% endblock %}
 
