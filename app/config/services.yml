@@ -21,3 +21,6 @@ services:
         class : APProjet4\BookingBundle\Services\ControlVisitDateSystem
         arguments: 
             - "@disabled.dates.system"
+           
+    nb.and.total.system:
+        class : APProjet4\BookingBundle\Services\NbAndTotalSystem

@@ -1,18 +1,17 @@
 <?php
 
-namespace APProjet4\BookingBundle\Utils;
+namespace APProjet4\BookingBundle\Services;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Exception;
 
-class NbAndTotal {
-
+class NbAndTotalSystem {
     /**
      * Retourne le nombre de tickets par tarif  
      * 
      * @param type $tickets
      * @return int
      */
-    public static function getNbPerType($tickets) {
+    public function getNbPerType($tickets) {
 
         $nbPerType = [
             'normal' => 0,
@@ -43,7 +42,7 @@ class NbAndTotal {
      * @param type $isFullDay
      * @return int
      */
-    public static function getTotalAmountOld($nbPerType, $isFullDay) {
+    public function getTotalAmountOld($nbPerType, $isFullDay) {
         
         if (!isset($nbPerType)){
             throw new Exception('oh non ! Le tableau est vide !'); 
@@ -61,7 +60,7 @@ class NbAndTotal {
         }
     }
     
-    public static function getTotalAmount($nbPerType, $isFullDay) {
+    public function getTotalAmount($nbPerType, $isFullDay) {
         if (!is_array($nbPerType)){
             throw new Exception(' An array is excepted !'); 
         }
@@ -86,4 +85,4 @@ class NbAndTotal {
         return $ret;
     }
 }
-            
+

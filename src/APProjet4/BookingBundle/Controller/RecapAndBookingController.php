@@ -5,7 +5,7 @@
 namespace APProjet4\BookingBundle\Controller;
 
 use APProjet4\BookingBundle\Entity\User;
-use APProjet4\BookingBundle\Utils\NbAndTotal;
+/*use APProjet4\BookingBundle\Utils\NbAndTotal;*/
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +35,13 @@ class RecapAndBookingController extends Controller {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
 
-        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
-        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
+        // On récupère le service
+        $nb = $this->container->get('nb.and.total.system');
+        $nbPerType = $nb->getNbPerType($booking->getTickets());
+        $total = $nb->getTotalAmount($nbPerType, $booking->getFullDay());
+        
+        /*$nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());*/
 
         return $this->render('APProjet4BookingBundle:Booking:recap.html.twig', [
                     'id' => $id,

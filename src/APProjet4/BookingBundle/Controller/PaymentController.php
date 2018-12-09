@@ -5,7 +5,7 @@
 namespace APProjet4\BookingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use APProjet4\BookingBundle\Utils\NbAndTotal;
+//use APProjet4\BookingBundle\Utils\NbAndTotal;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -81,8 +81,12 @@ class PaymentController extends Controller {
 
         //Récupération du nombre de tickets
 
-        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
-        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
+        $nb = $this->container->get('nb.and.total.system');
+        $nbPerType = $nb->getNbPerType($booking->getTickets());
+        $total = $nb->getTotalAmount($nbPerType, $booking->getFullDay());
+        
+        /*$nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());*/
 
         return $this->render('@APProjet4Booking/Booking/paymentConfirmation.html.twig', [
                     'event' => $booking->getEvent(),
@@ -133,8 +137,12 @@ class PaymentController extends Controller {
             throw new NotFoundHttpException("L'événement demandé n'existe pas.");
         }
 
-        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
-        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
+        // On récupère le service
+        $nb = $this->container->get('nb.and.total.system');
+        $nbPerType = $nb->getNbPerType($booking->getTickets());
+        $total = $nb->getTotalAmount($nbPerType, $booking->getFullDay());
+//        $nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
+//        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());
 
         //Envoie du mail avec SwiftMailer
         $message = \Swift_Message::newInstance()
