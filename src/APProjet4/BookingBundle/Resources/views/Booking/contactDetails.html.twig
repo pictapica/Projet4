@@ -64,13 +64,10 @@
     </div>
 
     {% block javascript %}
-        <script>//Display of day or half-day rates
-            {#{{booking.fullDay?'$(".full").show();$(".half").hide();':'$(".full").hide();$(".half").show();'}}#}
-        </script>
-        <script>//Messages info
+        <script>{#//Messages info
             $("#alert-target").click(function () {
                 toastr["info"]("");
-            });
+            });#}
         </script>
         <script>//Form validation
 

@@ -7,9 +7,9 @@ namespace APProjet4\BookingBundle\Controller;
 use APProjet4\BookingBundle\Entity\Booking;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Exception;
 
 class SelectDateController extends Controller {
 
@@ -27,11 +27,11 @@ class SelectDateController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-        
+
         $validDate = $this->container->get('disabled.dates.system');
         //Tableau des dates à griser dans le datepicker
         $arrayDatesDisabled = $validDate->mergeDatesDisabled($id);
-        
+
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
                     'event' => $event,
                     'arrayDatesDisabled' => json_encode($arrayDatesDisabled),
@@ -53,7 +53,8 @@ class SelectDateController extends Controller {
         if (!('visitDate') || !('fullDay') || !('event_id')) {
 
             $response = [
-                'success' => false
+                'success' => false,
+                'message' => 'Merci de sélectionner une date valide !'
             ];
             return new JsonResponse($response);
         }
@@ -70,16 +71,27 @@ class SelectDateController extends Controller {
         $event = $repository->find($event_id);
 
         if (null === $event) {
-            throw new Exception("L'évènement d'id " . $event_id . " n'existe pas.");
+            $response = [
+                'success' => false,
+                'message' => "L'évènement d'id " . $event_id . " n'existe pas."
+            ];
+            return new JsonResponse($response);
         }
         //On vérifie que ce n'est pas un jour où il est impossible de commander avec le service controlVisitDateSystem
         // On récupère le service
         $control = $this->container->get('control.visitdate.system');
-        
-        if (!($control->controlVisitDate($visitDate, $event_id, $fullDay))){
-            throw new Exception("Une erreur dans le choix de la date est survenue");
+
+        try {
+            $control->controlVisitDate($visitDate, $event_id, $fullDay);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+            return new JsonResponse($response);
         }
-        
+
+
         //On renseigne les valeurs 
         $booking->setFullDay($fullDay);
 

@@ -275,8 +275,6 @@
 
     {% block javascript %}
         <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
-        
         <script>
             // Checking the email at the end of the input process
             document.getElementById("email").addEventListener("blur", function (e) {
@@ -337,7 +335,7 @@
                 $('#confirm').click(displayPaymentButton);
             });
         </script>
-        <script>
+{#        <script>
             /**
              * Redirection to the order summary page
              * @returns {url}
@@ -348,20 +346,20 @@
                     document.location = url_paymentValid;
                 }
             }
-        </script>
+        </script>#}
 
-        <script>//Display of ticket information
+        {#<script>//Display of ticket information
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
-        </script>
+        </script>#}
         <script>
             inCartTicketsNum = {{ app.session.get('nbTickets')?:0}};
                   
             // displays the number of items in the shopping cart 
             $('#in-cart-tickets-num').html(inCartTicketsNum);
         </script>
-        <script>
+        {#<script>
             // When the user clicks on the button, open the modal 
             $(function () {
                 $("#myCart").on('click', function () {
@@ -382,7 +380,7 @@
                     $('#myModal').hide();
                 });
             });
-        </script>
+        </script>#}
     {% endblock %}
 {% endblock %}
 

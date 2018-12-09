@@ -94,30 +94,15 @@
             var dateFormat = "Y-M-D";
             var time = moment().hour(14).minute(0).second(0);
             var closeTime = moment().hour(18).minute(0).second(0);
-
+            
 
             function submitData(fullDay) {
                 var visitDate = $('#pick_a_date').val();
-
+                
                 if (!$('#pick_a_date').val()) {
                     displayWarningToast('{{'selectDate.container.warning1'|trans}}');
                 } else {
-                    $.ajax({
-                        type: "POST",
-                        url: url_post_date,
-                        data: {
-                            visitDate: visitDate,
-                            fullDay: fullDay,
-                            event_id:{{event.id}}
-                        },
-                        success: function(response) {
-                             document.location = url_contact_details;
-                        },
-                        error: function (response, responseText, thrownError) {
-                            displayWarningToast(thrownError);
-                        }
-                    
-                    {#$.post(url_post_date, {
+                    $.post(url_post_date, {
                         visitDate: visitDate,
                         fullDay: fullDay,
                         event_id:{{event.id}}
@@ -125,17 +110,19 @@
                         if (response.success) {
                             document.location = url_contact_details;
                         } else {
-                            if (!$('#pick_a_date').val()) {
+                            if (response.message) {
+                            displayWarningToast(response.message);
+                            }
+                            else if (!$('#pick_a_date').val()) {
                                 displayWarningToast('{{'selectDate.container.warning2'|trans}}');
                             } else {
                                 displayWarningToast('{{'selectDate.container.warning3'|trans}}');
                             }
                         };
-                    });#}
-
-                });
-            }
-            }
+                    });
+                };
+            };
+            
 
             /**
              * Returns true if it is less than 2pm
@@ -197,7 +184,7 @@
                 return true;
             }
 
-            $(document).ready(function () {
+{#            $(document).ready(function () {
                 $('#daySelect').click(function () {
                     var visitDate = $('#pick_a_date').val();
                     //We check the date and time if visit today and time > 14h we can no longer order day tickets 
@@ -215,7 +202,7 @@
                     }
                     submitData(false);
                 });
-            });
+            });#}
 
 
             /**
