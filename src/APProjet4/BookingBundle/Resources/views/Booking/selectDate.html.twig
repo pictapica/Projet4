@@ -84,47 +84,21 @@
 
     </div>
 
-
+{% endblock %}
     {% block javascript %}
+        
         <script>
-
-            var url_post_date = "{{path('approjet4_booking_pick_a_date')}}";
-            var url_contact_details = "{{path('approjet4_booking_showContactDetails')}}";
+   
+{#            $(document).ready(function(){
+                var globals = $('body').data('vars');
+            var JsVars = jQuery('#js-vars').data('vars');   
+            
             var now = moment();
             var dateFormat = "Y-M-D";
             var time = moment().hour(14).minute(0).second(0);
             var closeTime = moment().hour(18).minute(0).second(0);
             
-
-            function submitData(fullDay) {
-                var visitDate = $('#pick_a_date').val();
-                
-                if (!$('#pick_a_date').val()) {
-                    displayWarningToast('{{'selectDate.container.warning1'|trans}}');
-                } else {
-                    $.post(url_post_date, {
-                        visitDate: visitDate,
-                        fullDay: fullDay,
-                        event_id:{{event.id}}
-                    }, function (response) {
-                        if (response.success) {
-                            document.location = url_contact_details;
-                        } else {
-                            if (response.message) {
-                            displayWarningToast(response.message);
-                            }
-                            else if (!$('#pick_a_date').val()) {
-                                displayWarningToast('{{'selectDate.container.warning2'|trans}}');
-                            } else {
-                                displayWarningToast('{{'selectDate.container.warning3'|trans}}');
-                            }
-                        };
-                    });
-                };
-            };
-            
-
-            /**
+             /**
              * Returns true if it is less than 2pm
              * @param {string} visitDate
              * @returns {Boolean}         
@@ -132,12 +106,13 @@
             function checkHour(visitDate) {
                 if ((((moment(visitDate, dateFormat)).isSame(moment(), 'day')))
                         && (moment().isAfter(time))) {
-                    displayWarningToast('{{'selectDate.container.14h'|trans}}');
+                    displayWarningToast(globals.trans.quatorze);
                     return false;
                 }
                 return true;
             }
             ;
+            
             /**
              * Returns true if it is less than 6pm
              * @param {string} visitDate
@@ -146,7 +121,7 @@
             function checkClosingHour(visitDate) {
                 if ((((moment(visitDate, dateFormat)).isSame(moment(), 'day')))
                         && (moment().isAfter(closeTime))) {
-                    displayWarningToast('{{'selectDate.container.18h'|trans}}');
+                    displayWarningToast(globals.trans.dixhuit);
                     return false;
                 }
                 return true;
@@ -160,15 +135,14 @@
             function checkDisableDays(visitDate) {
                 var day = moment(visitDate, dateFormat).day();
                 if (day === 0) {
-                    displayWarningToast('{{'opening2'|trans}}');
+                    displayWarningToast(globals.trans.opening2);
                     return false;
                 } else if (day === 2) {
-                    displayWarningToast('{{'opening3'|trans}}');
+                    displayWarningToast(globals.trans.opening3);
                     return false;
                 }
                 return true;
             }
-            ;
 
             /**
              * Returns true if the chosen visit day is not in the table of days unavailable for order
@@ -176,35 +150,60 @@
              * @returns {Boolean}     
              */
             function checkArrayDatesDisabled(visitDate) {
-                var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+                var arrayDatesDisabled = globals.viewData.disabledDates;
                 if (arrayDatesDisabled.includes(visitDate)) {
-                    displayWarningToast('{{'opening4'|trans}}');
+                    displayWarningToast(globals.trans.opening4);
                     return false;
                 }
                 return true;
             }
+            
+            $('#daySelect').click(function () {
+                var visitDate = $('#pick_a_date').val();
+                //We check the date and time if visit today and time > 14h we can no longer order day tickets 
+                if (!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
+                 return;
+            }
+                submitData(true);
+             });
 
-{#            $(document).ready(function () {
-                $('#daySelect').click(function () {
-                    var visitDate = $('#pick_a_date').val();
-                    //We check the date and time if visit today and time > 14h we can no longer order day tickets 
-                    if (!checkDisableDays(visitDate) || !checkHour(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
-                        return;
-                    }
-                    submitData(true);
-                });
+            $('#halfDaySelect').click(function () {
+            //we check the date and time. If visit today and time >18h, the museum is closed
+                var visitDate = $('#pick_a_date').val();
+            if (!checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
+             return;
+            }
+            submitData(false);
+             });
 
-                $('#halfDaySelect').click(function () {
-                    //we check the date and time. If visit today and time >18h, the museum is closed
-                    var visitDate = $('#pick_a_date').val();
-                    if (!checkDisableDays(visitDate) || !checkClosingHour(visitDate) || !checkArrayDatesDisabled(visitDate)) {
-                        return;
-                    }
-                    submitData(false);
-                });
-            });#}
-
-
+            
+            function submitData(fullDay) {
+                var visitDate = $('#pick_a_date').val();
+                
+                if (!$('#pick_a_date').val()) {
+                    displayWarningToast(globals.trans.warning1);
+                } else {
+                    $.post(globals.routes.post_date, {
+                        visitDate: visitDate,
+                        fullDay: fullDay,
+                        event_id: globals.viewData.eventId
+                    }, function (response) {
+                        if (response.success) {
+                            document.location = globals.routes.contact_details;
+                        } else {
+                            if (response.message) {
+                            displayWarningToast(response.message);
+                            }
+                            else if (!$('#pick_a_date').val()) {
+                                displayWarningToast(globals.trans.warning2);
+                            } else {
+                                displayWarningToast(globals.trans.warning3);
+                            }
+                        };
+                    });
+                };
+            };#}
+            
             /**
              * Displaying the datepicker according to the locale
              * 
@@ -239,7 +238,7 @@
                  * Datepicker info 
                  * 
                  */
-                var arrayDatesDisabled = {{arrayDatesDisabled|raw}};
+                var arrayDatesDisabled = globals.viewData.disabledDates;
 
                 $(".form_datetime").datepicker({
                     input: "date",
@@ -251,7 +250,9 @@
                     startDate: ("{{event.startDateReservable}}", new Date()),
                     endDate: ("{{event.endDateReservable}}")
                 });
+                
+                
         </script>
     {% endblock %}
-{% endblock %}
+
 

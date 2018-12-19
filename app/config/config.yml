@@ -39,6 +39,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'bootstrap_3_layout.html.twig'
+    globals:
+        js_vars: "@js.vars"    
   
 # Doctrine Configuration
 doctrine:
@@ -71,3 +73,4 @@ swiftmailer:
   password:  950608ae04694e
   auth_mode: cram-md5
   port: 2525
+

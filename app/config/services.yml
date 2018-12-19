@@ -24,3 +24,8 @@ services:
            
     nb.and.total.system:
         class : APProjet4\BookingBundle\Services\NbAndTotalSystem
+        
+    js.vars:
+        class : stdClass
+        
+        

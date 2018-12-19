@@ -16,7 +16,7 @@ class ContactDetailsController extends Controller {
      * Affichage de la page de saisie des informations visiteur
      * 
      * @param Request $request
-     * @return type
+     * @return type 
      * @throws NotFoundHttpException
      */
     public function showContactDetailsAction(Request $request) {
@@ -34,6 +34,11 @@ class ContactDetailsController extends Controller {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
 
+        $this->container->get('js.vars')->trans = [
+            'fill' =>$this->get('translator')->trans('detailsForm.fill'),
+            'deleteForm' =>$this->get('translator')->trans('detailsForm.deleteForm'),
+        ];
+        
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', [
                     'id' => $id,
                     'visitDate' => $visitDate,

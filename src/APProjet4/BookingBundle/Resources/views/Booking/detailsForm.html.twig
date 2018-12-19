@@ -196,7 +196,7 @@
                 //Si tous les champs ne sont pas remplis : 
                 if ($("#lastname").val() === "" || $("#firstname").val() === "" || $("#dateOfBirth").val() === ""
                         || !$("#country").val() === "") {
-                    displayWarningToast('{{'detailsForm.fill'|trans}}');
+                    displayWarningToast(globals.trans.fill);
                     return false;
                 };
 
@@ -219,7 +219,7 @@
             //We can delete the last ticket
             $('.deleteTicket').click(function () {
                 $(".ticket:last").remove();
-                displayWarningToast('{{'detailsForm.deleteForm'|trans}}');
+                displayWarningToast(globals.trans.deleteForm);
             });
             //If there is only 1 item, hide the delete button
             if ($('.ticket').length === 1) {

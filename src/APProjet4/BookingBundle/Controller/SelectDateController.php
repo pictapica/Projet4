@@ -31,10 +31,33 @@ class SelectDateController extends Controller {
         $validDate = $this->container->get('disabled.dates.system');
         //Tableau des dates à griser dans le datepicker
         $arrayDatesDisabled = $validDate->mergeDatesDisabled($id);
-
+        
+        $this->container->get('js.vars')->routes = [
+                'post_date' => $this->generateUrl('approjet4_booking_pick_a_date'),
+                'contact_details' => $this->generateUrl('approjet4_booking_showContactDetails')
+                ];
+        
+        $this->container->get('js.vars')->trans = [
+            'quatorze' =>$this->get('translator')->trans('selectDate.container.14h'),
+            'dixhuit' =>$this->get('translator')->trans('selectDate.container.18h'),
+            'opening2' => $this->get('translator')->trans('opening2'),
+            'opening3' => $this->get('translator')->trans('opening3'),
+            'opening4' => $this->get('translator')->trans('opening4'),
+            'warning1' => $this->get('translator')->trans('selectDate.container.warning1'),
+            'warning2' => $this->get('translator')->trans('selectDate.container.warning2'),
+            'warning3' => $this->get('translator')->trans('selectDate.container.warning3')
+        ];
+        $this->container->get('js.vars')->local = 'fr';
+                
+        $this->container->get('js.vars')->viewData = [
+            'disabledDates' => $arrayDatesDisabled,
+            'eventId' => $id,
+                ];
+        
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [
                     'event' => $event,
-                    'arrayDatesDisabled' => json_encode($arrayDatesDisabled),
+                    
+//                    'arrayDatesDisabled' => json_encode($arrayDatesDisabled),
         ]);
     }
 

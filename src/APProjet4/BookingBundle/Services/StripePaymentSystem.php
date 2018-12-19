@@ -20,5 +20,4 @@ class StripePaymentSystem {
         ]);
         return $charge;
     }
-
 }
