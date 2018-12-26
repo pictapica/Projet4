@@ -86,55 +86,7 @@
 
 {% endblock %}
 {% block javascript %}
-    <script>
-        /**
-         * Displaying the datepicker according to the locale
-         * 
-         */
-        if (Globals.local.locale === 'fr') {
-            $.fn.datepicker.dates['fr'] = {
-                days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-                daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-                daysMin: ["D", "L", "M", "M", "J", "V", "S"],
-                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"],
-                monthsShort: ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Dec."],
-                titleFormat: "MM yyyy",
-                weekStart: 1,
-                today: "Aujourd'hui"
-            };
-        }
-        ;
-
-        if (Globals.local.locale === 'en') {
-            $.fn.datepicker.dates['en'] = {
-                days: ["Sunday", "Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday"],
-                daysShort: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"],
-                daysMin: ["S", "M", "T", "W", "T", "F", "S"],
-                months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                monthsShort: ["Jan", "Feb", "Mar", "Abr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-                titleFormat: "MM yyyy",
-                weekStart: 7,
-                today: "Today"
-            };
-        };
-
-        /**
-         * Datepicker info 
-         * 
-         */
-        var arrayDatesDisabled = Globals.viewData.disabledDates;
-
-        $(".form_datetime").datepicker({
-            input: "date",
-            format: "yyyy/mm/dd",
-            language: Globals.local.locale,
-            todayBtn: "linked",
-            daysOfWeekDisabled: [0, 2],
-            datesDisabled: arrayDatesDisabled,
-            startDate: (Globals.viewData.startEvent, new Date()),
-            endDate: (Globals.viewData.endEvent)
-        });
-    </script>
+    <script src="{{asset('js/selectDate.js')}}"></script>
 {% endblock %}
 
 

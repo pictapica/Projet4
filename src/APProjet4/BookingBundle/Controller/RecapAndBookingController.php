@@ -94,7 +94,7 @@ class RecapAndBookingController extends Controller {
 
         //Renseignement des valeurs
         $booking->setEmail($email);
-        $booking->setOrderCode(date('Hym-d').bin2hex($bytes));
+        $booking->setOrderCode(date('Hisym-d').bin2hex($bytes));
         $user->setEmail($email);
 
         if (null === $booking) {
