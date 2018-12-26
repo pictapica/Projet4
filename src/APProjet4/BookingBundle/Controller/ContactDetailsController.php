@@ -20,6 +20,7 @@ class ContactDetailsController extends Controller {
      * @throws NotFoundHttpException
      */
     public function showContactDetailsAction(Request $request) {
+        
         // Récupération de la session
         $session = $request->getSession();
 
@@ -33,10 +34,21 @@ class ContactDetailsController extends Controller {
         if (null === $event) {
             throw new NotFoundHttpException("L'évènement d'id " . $id . " n'existe pas.");
         }
-
+        
+        $this->container->get('js.vars')->routes = [
+                'post_type' => $this->generateUrl('approjet4_booking_postContactDetails'),
+                'recap' => $this->generateUrl('approjet4_booking_showRecap')
+                ];
+        
         $this->container->get('js.vars')->trans = [
             'fill' =>$this->get('translator')->trans('detailsForm.fill'),
             'deleteForm' =>$this->get('translator')->trans('detailsForm.deleteForm'),
+            'fields' =>$this->get('translator')->trans('contactDetails.fields'),
+            'birth' =>$this->get('translator')->trans('selectDate.container.birth'),
+        ];
+        
+        $this->container->get('js.vars')->data = [
+            'visitDate' =>$visitDate,
         ];
         
         return $this->render('APProjet4BookingBundle:Booking:contactDetails.html.twig', [

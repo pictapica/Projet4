@@ -19,7 +19,7 @@ class SelectDateController extends Controller {
      * @return type
      * @throws NotFoundHttpException
      */
-    public function showSelectDateAction($id) {
+    public function showSelectDateAction(Request $request, $id) {
 
         $repository = $this->getDoctrine()->getManager()->getRepository('APProjet4BookingBundle:Event');
         $event = $repository->findOneById($id);
@@ -36,7 +36,6 @@ class SelectDateController extends Controller {
                 'post_date' => $this->generateUrl('approjet4_booking_pick_a_date'),
                 'contact_details' => $this->generateUrl('approjet4_booking_showContactDetails')
                 ];
-        
         $this->container->get('js.vars')->trans = [
             'quatorze' =>$this->get('translator')->trans('selectDate.container.14h'),
             'dixhuit' =>$this->get('translator')->trans('selectDate.container.18h'),
@@ -47,11 +46,15 @@ class SelectDateController extends Controller {
             'warning2' => $this->get('translator')->trans('selectDate.container.warning2'),
             'warning3' => $this->get('translator')->trans('selectDate.container.warning3')
         ];
-        $this->container->get('js.vars')->local = 'fr';
+        $this->container->get('js.vars')->local = [
+                'locale'=> $request->getLocale()
+            ];
                 
         $this->container->get('js.vars')->viewData = [
             'disabledDates' => $arrayDatesDisabled,
             'eventId' => $id,
+            'startEvent' => $event ->GetStartDateReservable(),
+            'endEvent' => $event ->GetEndDateReservable(),
                 ];
         
         return $this->render('APProjet4BookingBundle:Booking:selectDate.html.twig', [

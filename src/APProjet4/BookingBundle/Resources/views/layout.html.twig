@@ -23,7 +23,7 @@
         {% endblock %}
     {% endblock %}
 
-    <body data-vars="{{ js_vars|json_encode|e('html_attr')}}">
+    <body data-vars="{{ js_vars|json_encode|e('html_attr') }}">
         
         {% block navbar %}
             <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar">
@@ -106,7 +106,6 @@
                             <script src="{{asset('js/script.js')}}"></script>
 
                             {% block javascript %}
-                             
                             {% endblock %}
                         </body>
                     </html>

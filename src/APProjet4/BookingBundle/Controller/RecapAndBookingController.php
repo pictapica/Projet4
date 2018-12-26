@@ -40,13 +40,24 @@ class RecapAndBookingController extends Controller {
         $nbPerType = $nb->getNbPerType($booking->getTickets());
         $total = $nb->getTotalAmount($nbPerType, $booking->getFullDay());
         
-        /*$nbPerType = NbAndTotal::getNbPerType($booking->getTickets());
-        $total = NbAndTotal::getTotalAmount($nbPerType, $booking->getFullDay());*/
-
+        $this->container->get('js.vars')->routes = [
+            'url_recap' => $this->generateUrl('approjet4_booking_postEmailAndBooking'),
+            ];
+        
+        $this->container->get('js.vars')->trans = [
+            'validityEmail' =>$this->get('translator')->trans('detailsForm.invalid'),
+            'fields' =>$this->get('translator')->trans('contactDetails.fields'),
+            'identical' =>$this->get('translator')->trans('recap.mail.identical'),
+            'registered' =>$this->get('translator')->trans('recap.mail.registered'),
+            ];
+        
+        $this->container->get('js.vars')->data = [
+            'nbTickets' => $booking->getNbTickets(),
+            ];
+        
         return $this->render('APProjet4BookingBundle:Booking:recap.html.twig', [
                     'id' => $id,
                     'event' => $event,
-                    'nbTickets' => $booking->getNbTickets(),
                     'booking' => $booking,
                     'nbType' => $nbPerType,
                     'tickets' => $booking->getTickets(),

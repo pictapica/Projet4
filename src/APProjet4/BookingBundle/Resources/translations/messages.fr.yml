@@ -73,7 +73,7 @@ contactDetails:
     normalAfter: A partir de 60 ans, le visiteur peut profiter du tarif SENIOR.
     normalBefore: Pour les enfants de 4 à 11 ans, le tarif ENFANT s'applique.
     seniorBefore: Attention ! Le tarif sénior ne s'applique qu'à partir de 60 ans.
-    legend: Un justificatif en cours de validité vous sera demandé à l'entrée du musée. (Carte d’étudiant, militaire, demandeur d'emploi...)
+    legend: Un justificatif de tarif réduit en cours de validité vous sera demandé à l'entrée du musée (Carte d’étudiant, militaire, demandeur d'emploi...).
 
     
 detailsForm:

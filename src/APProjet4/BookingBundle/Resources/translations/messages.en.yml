@@ -73,7 +73,7 @@ contactDetails:
     normalAfter: From the age of 60, visitors can enjoy the SENIOR rate.
     normalBefore: For children from 4 to 11 years old, the CHILD rate applies.
     seniorBefore: Attention! The senior rate only applies from the age of 60.
-    legend: A proof will be required when entering the museum (Student card, military, job seeker...)
+    legend: A valid proof of reduced rate will be requested at the entrance of the museum (Student card, military, job seeker...).
     
 detailsForm:
     choice: CHOOSE YOUR FARE
