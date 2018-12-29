@@ -6,8 +6,8 @@
     <li>
         <a href="#">
             <div id="myCart"><img src="{{asset('images/ticket_w.png')}}" 
-                                alt="image_ticket" style="height: 30px;"
-                                class="ticket">
+                                  alt="image_ticket" style="height: 30px;"
+                                  class="ticket">
                 <span id="in-cart-tickets-num" >0</span> {{'navbar.cart.ticket'|trans}}
             </div>
         </a>  
@@ -273,8 +273,9 @@
     </div>
     <br><br><br><br>
 
-    {% block javascript %}
-        <script src="{{asset('js/recap.js')}}"></script>
-    {% endblock %}
+
+{% endblock %}
+{% block javascript %}
+    <script src="{{asset('js/recap.js')}}"></script>
 {% endblock %}
 
