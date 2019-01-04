@@ -6,8 +6,6 @@ var Globals = $('body').data('vars');
 var JsVars = jQuery('#js-vars').data('vars');
 
 
-
-
 var dateFormat = "Y-M-D";
 
 
@@ -61,11 +59,11 @@ $(document).ready(function () {
     $('#envoi').click(function () {
         var errorForm = false;
         //We check each ticket
-        $('.ticket').each(function () {
+        $('#myForm .ticket').each(function () {
             //If one of the fields is empty: error message
-            if ($("#lastname").val() === ""
-                    || $("#firstname").val() === "" || $("#dateOfBirth").val() === ""
-                    || $("#country").val() === "") {
+            if ($(this).find('#lastname').val() === ""
+                    || $(this).find('#firstname').val() === "" || $(this).find('#dateOfBirth').val() === ""
+                    || $(this).find('#country').val() === "") {
                 displayWarningToast(Globals.trans.fields);
                 errorForm = true;
             }

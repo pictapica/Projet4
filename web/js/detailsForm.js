@@ -11,8 +11,8 @@ $(document).ready(function () {
     $('.addTicket').click(function (e) {
         e.preventDefault();
         //Si tous les champs ne sont pas remplis : 
-        if ($("#lastname").val() === "" || $("#firstname").val() === "" || $("#dateOfBirth").val() === ""
-                || !$("#country").val() === "") {
+        if ($(this).find("#lastname").val() === "" || $(this).find("#firstname").val() === "" || $(this).find("#dateOfBirth").val() === ""
+                || $(this).find("#country").val() === "") {
             displayWarningToast(Globals.trans.fill);
             return false;
         };
